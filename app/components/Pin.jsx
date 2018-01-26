@@ -141,7 +141,7 @@ class Pin extends Component {
             title="Complete Authorization"
           />
           <FooterTextStyle>
-            If you need to restart the authoriation process you can click <FooterLinkStyle onClick={this.willReturnToLogin} href="#">here</FooterLinkStyle> and return to the log in page.
+            If you need to restart the authoriation process you can click <FooterLinkStyle onClick={this._willReturnToLogin} href="#">here</FooterLinkStyle> and return to the log in page.
           </FooterTextStyle>
         </InnerContent>
       </PinStyle>
