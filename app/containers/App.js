@@ -1,5 +1,6 @@
 import React, { Component, Fragment, } from 'react';
 import PropTypes from 'prop-types';
+import { withRouter, } from 'react-router-dom';
 import { ThemeProvider, } from 'styled-components';
 
 class App extends Component {
@@ -18,4 +19,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default withRouter(App);

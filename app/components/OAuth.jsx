@@ -1,10 +1,9 @@
 import React, { Component, } from 'react';
 import PropTypes from 'prop-types';
+import { withRouter, } from 'react-router-dom';
 
 import LogIn from './LogIn';
 import Pin from './Pin';
-
-const { ipcRenderer, } = window.require('electron');
 
 class OAuth extends Component {
   static propTypes = {
@@ -12,12 +11,14 @@ class OAuth extends Component {
     requestTokenPair: PropTypes.object,
     onUpdateRequestTokenPair: PropTypes.func.isRequired,
     onSetUserCredentials: PropTypes.func.isRequired,
+    history: PropTypes.shape({
+      push: PropTypes.func.isRequired,
+    }).isRequired,
   };
 
   static defaultProps = {
     requestTokenPair: null,
   };
-
 
   constructor(props) {
     super(props);
@@ -42,6 +43,7 @@ class OAuth extends Component {
       const { onUpdateAccessTokenPair, onSetUserCredentials, } = this.props;
       onUpdateAccessTokenPair(response.accessTokenPair);
       onSetUserCredentials(response.userCredentials);
+      this.props.history.push('/composer');
     });
 
     ipcRenderer.on('canceledOAuth', () => {
@@ -86,5 +88,5 @@ class OAuth extends Component {
   }
 }
 
-export default OAuth;
+export default withRouter(OAuth);
 

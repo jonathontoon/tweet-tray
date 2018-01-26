@@ -4,7 +4,7 @@ import { Provider, } from 'react-redux';
 import { ConnectedRouter, } from 'react-router-redux';
 import Routes from '../routes';
 
-const NextRootContainer = (props) => {
+const RootContainer = (props) => {
   const { store, history, } = props;
   return (
     <Provider store={store}>
@@ -15,14 +15,14 @@ const NextRootContainer = (props) => {
   );
 };
 
-NextRootContainer.propTypes = {
+RootContainer.propTypes = {
   store: PropTypes.object,
   history: PropTypes.object,
 };
 
-NextRootContainer.defaultProps = {
+RootContainer.defaultProps = {
   store: {},
   history: {},
 };
 
-export default NextRootContainer;
+export default RootContainer;

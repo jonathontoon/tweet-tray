@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component, } from 'react';
 import PropTypes from 'prop-types';
 import Styled from 'styled-components';
 import Theme from 'styled-theming';
@@ -10,7 +10,7 @@ import * as constants from '../constants';
 
 import Logo from '../../resources/twitter-logo.svg';
 
-const { shell, } = window.require('electron');
+const { ipcRenderer, shell, } = window.require('electron');
 
 const LogInStyle = Styled.section`
   overflow: hidden;
@@ -51,38 +51,61 @@ const FooterLink = Styled.a`
   color: ${constants.GREY};
 `;
 
-const LogIn = ({ initiateOAuth, }) => {
-  return (
-    <LogInStyle>
-      <InnerContent
-        style={{
-          height: 'calc(100% - 30px)',
-        }}
-      >
-        <TwitterLogoStyle src={Logo} alt="Twitter Logo" />
-        <HeaderTextStyle>
-          Tweet quickly from the desktop {process.platform === 'darwin' ? 'menu bar' : 'system tray'}, without any more distractions.
-        </HeaderTextStyle>
-        <RoundedButton
-          onClick={initiateOAuth}
-          style={{
-            position: 'relative',
-            top: '124px',
-            height: '44px',
-          }}
-          fullWidth
-          title="Sign in with Twitter"
-        />
-        <FooterTextStyle>
-          Tweet Tray is licensed under <FooterLink onClick={() => { shell.openExternal('https://opensource.org/licenses/MIT'); }} href="#">MIT</FooterLink>, and is not in any way affiliated or endorsed by Twitter, the company or any individual of the company.
-        </FooterTextStyle>
-      </InnerContent>
-    </LogInStyle>
-  );
-};
+class LogIn extends Component {
+  static propTypes = {
+    onUpdateRequestTokenPair: PropTypes.func.isRequired,
+  };
 
-LogIn.propTypes = {
-  initiateOAuth: PropTypes.func.isRequired,
-};
+  static contextTypes = {
+    router: PropTypes.object,
+  };
+
+  componentDidMount() {
+    ipcRenderer.on('receivedRequestTokenPair', (event, requestTokenPair) => {
+      const { onUpdateRequestTokenPair, } = this.props;
+      onUpdateRequestTokenPair(requestTokenPair);
+    });
+
+    ipcRenderer.on('startedCodeVerification', () => {
+      this.context.router.history.push('/verifier');
+    });
+
+    ipcRenderer.on('canceledOAuth', () => {
+      this.context.router.history.push('/');
+    });
+  }
+
+  render() {
+    return (
+      <LogInStyle>
+        <InnerContent
+          style={{
+            height: 'calc(100% - 30px)',
+          }}
+        >
+          <TwitterLogoStyle src={Logo} alt="Twitter Logo" />
+          <HeaderTextStyle>
+            Tweet quickly from the desktop {process.platform === 'darwin' ? 'menu bar' : 'system tray'}, without any more distractions.
+          </HeaderTextStyle>
+          <RoundedButton
+            onClick={() => {
+              ipcRenderer.send('startOAuth');
+            }}
+            style={{
+              position: 'relative',
+              top: '124px',
+              height: '44px',
+            }}
+            fullWidth
+            title="Sign in with Twitter"
+          />
+          <FooterTextStyle>
+            Tweet Tray is licensed under <FooterLink onClick={() => { shell.openExternal('https://opensource.org/licenses/MIT'); }} href="#">MIT</FooterLink>, and is not in any way affiliated or endorsed by Twitter, the company or any individual of the company.
+          </FooterTextStyle>
+        </InnerContent>
+      </LogInStyle>
+    );
+  }
+}
 
 export default LogIn;

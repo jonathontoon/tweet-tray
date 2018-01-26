@@ -12,7 +12,9 @@ import * as constants from '../constants';
 
 import Logo from '../../resources/twitter-logo.svg';
 
-const PinStyle = Styled.section`
+const { ipcRenderer, } = window.require('electron');
+
+const VerifierCodeStyle = Styled.section`
   overflow: hidden;
   user-select: none;
   width: ${window.innerWidth}px;
@@ -51,47 +53,68 @@ const FooterLinkStyle = Styled.a`
   color: ${constants.GREY};
 `;
 
-class Pin extends Component {
+class VerifierCode extends Component {
   static propTypes = {
-    didEnterPIN: PropTypes.func.isRequired,
-    returnToLogin: PropTypes.func.isRequired,
+    requestTokenPair: PropTypes.object,
+    onUpdateAccessTokenPair: PropTypes.func.isRequired,
+    onSetUserCredentials: PropTypes.func.isRequired,
+  };
+
+  static defaultProps = {
+    requestTokenPair: null,
+  };
+
+  static contextTypes = {
+    router: PropTypes.object,
   };
 
   constructor(props) {
     super(props);
 
     this.state = {
-      pinValue: '',
+      verifierCode: '',
     };
 
     this._onInputComplete = this._onInputComplete.bind(this);
-    this._onPinEntered = this._onPinEntered.bind(this);
-    this._willReturnToLogin = this._willReturnToLogin.bind(this);
+    this._onCodeEntered = this._onCodeEntered.bind(this);
+    this._onReturnToLogIn = this._onReturnToLogIn.bind(this);
+  }
+
+  componentDidMount() {
+    ipcRenderer.on('completedOAuth', (event, response) => {
+      console.log('completedOAuth');
+      const { onUpdateAccessTokenPair, onSetUserCredentials, } = this.props;
+      onUpdateAccessTokenPair(response.accessTokenPair);
+      onSetUserCredentials(response.userCredentials);
+      this.context.router.history.push('/composer');
+    });
   }
 
   _onInputComplete(value) {
     this.setState({
-      pinValue: value,
+      verifierCode: value,
     });
   }
 
-  _onPinEntered() {
-    const { didEnterPIN, } = this.props;
-    const { pinValue, } = this.state;
-
-    didEnterPIN(pinValue);
+  _onCodeEntered() {
+    const { verifierCode, } = this.state;
+    const { requestTokenPair, } = this.props;
+    ipcRenderer.send('sendVerifierCode', {
+      verifierCode,
+      requestTokenPair,
+    });
   }
 
-  _willReturnToLogin() {
-    const { returnToLogin, } = this.props;
-    returnToLogin();
+  _onReturnToLogIn() {
+    this.context.router.history.push('/');
+    ipcRenderer.send('returnToLogin');
   }
 
   render() {
-    const { pinValue, } = this.state;
+    const { verifierCode, } = this.state;
 
     return (
-      <PinStyle>
+      <VerifierCodeStyle>
         <InnerContent
           style={{
             height: 'calc(100% - 30px)',
@@ -99,7 +122,7 @@ class Pin extends Component {
         >
           <TwitterLogoStyle src={Logo} alt="Twitter Logo" />
           <HeaderTextStyle>
-            Finish up by entering the 7-digit authorization code shown in the pop up window.
+            Finish up by entering the 7-digit verification code shown in the pop up window.
           </HeaderTextStyle>
           <PinInput
             length={7}
@@ -130,23 +153,23 @@ class Pin extends Component {
             onComplete={this._onInputComplete}
           />
           <RoundedButton
-            onClick={this._onPinEntered}
+            onClick={this._onCodeEntered}
             style={{
               position: 'relative',
               top: '180px',
               height: '44px',
             }}
-            disabled={pinValue.length < 7}
+            disabled={verifierCode.length < 7}
             fullWidth
             title="Complete Authorization"
           />
           <FooterTextStyle>
-            If you need to restart the authoriation process you can click <FooterLinkStyle onClick={this._willReturnToLogin} href="#">here</FooterLinkStyle> and return to the log in page.
+            If you need to restart the authoriation process you can click <FooterLinkStyle onClick={this._onReturnToLogIn} href="#">here</FooterLinkStyle> and return to the log in page.
           </FooterTextStyle>
         </InnerContent>
-      </PinStyle>
+      </VerifierCodeStyle>
     );
   }
 }
 
-export default Pin;
+export default VerifierCode;

@@ -1,10 +1,12 @@
 import { connect, } from 'react-redux';
-import { updateAccessTokenPair, updateRequestTokenPair, setUserCredentials, } from '../actions';
-import OAuth from '../components/OAuth';
+import { withRouter, } from 'react-router-dom';
+import { updateAccessTokenPair, setUserCredentials, } from '../actions';
+import VerifierCode from '../components/VerifierCode';
 
 const mapStateToProps = (store) => {
   return {
     requestTokenPair: store.requestTokenPair,
+    router: store.router,
   };
 };
 
@@ -13,13 +15,10 @@ const mapDispatchToProps = (dispatch) => {
     onUpdateAccessTokenPair: (accessTokenPair) => {
       dispatch(updateAccessTokenPair(accessTokenPair));
     },
-    onUpdateRequestTokenPair: (requestTokenPair) => {
-      dispatch(updateRequestTokenPair(requestTokenPair));
-    },
     onSetUserCredentials: (userCredentials) => {
       dispatch(setUserCredentials(userCredentials));
     },
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(OAuth);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(VerifierCode));

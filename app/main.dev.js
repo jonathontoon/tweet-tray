@@ -12,7 +12,7 @@
 
 import fs from 'fs';
 import url from 'url';
-import { app, ipcMain, } from 'electron';
+import { app, ipcMain, dialog, } from 'electron';
 
 import MainWindowManager from './utils/MainWindowManager';
 
@@ -72,7 +72,7 @@ ipcMain.on('startOAuth', (startOAuthEvent) => {
       return;
     }
 
-    startOAuthEvent.sender.send('receiveRequestTokenPair', requestTokenPair);
+    startOAuthEvent.sender.send('receivedRequestTokenPair', requestTokenPair);
 
     mainWindowManager.oauthManager.window.on('close', () => {
       startOAuthEvent.sender.send('canceledOAuth');
@@ -87,11 +87,12 @@ ipcMain.on('startOAuth', (startOAuthEvent) => {
   });
 });
 
-// Get Code Verifier
-ipcMain.on('sendCodeVerifier', (sendCodeVerifierEvent, data) => {
+// Get Verifier Code
+ipcMain.on('sendVerifierCode', (sendVerifierCodeEvent, data) => {
+  console.log(data);
   mainWindowManager.oauthManager.getAccessTokenPair(
     data.requestTokenPair,
-    data.codeVerifier,
+    data.verifierCode,
     (accessTokenPairError, accessTokenPair) => {
       if (accessTokenPairError) {
         mainWindowManager.oauthManager.destroyWindow();
@@ -119,7 +120,7 @@ ipcMain.on('sendCodeVerifier', (sendCodeVerifierEvent, data) => {
             profileImageURL: credentials.profile_image_url_https,
           };
 
-          sendCodeVerifierEvent.sender.send('completedOAuth', {
+          sendVerifierCodeEvent.sender.send('completedOAuth', {
             accessTokenPair,
             userCredentials,
           });

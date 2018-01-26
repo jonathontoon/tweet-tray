@@ -1,4 +1,5 @@
 import { connect, } from 'react-redux';
+import { withRouter, } from 'react-router-dom';
 import { updateWeightedStatus, toggleSettingsVisibility, } from '../actions/index';
 import Composer from '../components/Composer';
 
@@ -20,4 +21,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Composer);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Composer));
