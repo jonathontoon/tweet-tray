@@ -21,10 +21,12 @@ import PhotoIcon from '../../resources/photo.svg';
 const { ipcRenderer, } = window.require('electron');
 
 const ComposerStyle = Styled.section`
-    overflow: hidden;
-    width: 100%;
-    height: 100%;
-    background-color: ${Theme('mode', { day: constants.WHITE, night: constants.DARK_MODE_BACKGROUND, })};
+  overflow: hidden;
+  user-select: none;
+  width: ${window.innerWidth}px;
+  height: ${window.innerHeight}px;
+  background-color: ${Theme('mode', { day: constants.WHITE, night: constants.DARK_MODE_BACKGROUND, })};
+  position: relative;
 `;
 
 class Composer extends Component {

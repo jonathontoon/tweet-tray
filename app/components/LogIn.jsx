@@ -13,30 +13,30 @@ import Logo from '../../resources/twitter-logo.svg';
 const { shell, } = window.require('electron');
 
 const LogInStyle = Styled.section`
-    overflow: hidden;
-    user-select: none;
-    width: ${window.innerWidth}px;
-    height: ${window.innerHeight}px;
-    background-color: ${Theme('mode', { day: constants.WHITE, night: constants.DARK_MODE_BACKGROUND, })};
-    position: relative;
+  overflow: hidden;
+  user-select: none;
+  width: ${window.innerWidth}px;
+  height: ${window.innerHeight}px;
+  background-color: ${Theme('mode', { day: constants.WHITE, night: constants.DARK_MODE_BACKGROUND, })};
+  position: relative;
 `;
 
 const TwitterLogoStyle = Styled.img`
-    width: 34px;
-    height: 28px;
-    position: relative;
-    top: 40px;
+  width: 34px;
+  height: 28px;
+  position: relative;
+  top: 40px;
 `;
 
 const HeaderTextStyle = Styled.h1`
-    padding: 0;
-    margin: 0;
-    color: ${Theme('mode', { day: constants.BLACK, night: constants.WHITE, })};
-    text-align: left;
-    font-size: ${constants.XTRA_LARGE_FONT_SIZE}px;
-    font-weight: bold;
-    position: relative;
-    top: 80px;
+  padding: 0;
+  margin: 0;
+  color: ${Theme('mode', { day: constants.BLACK, night: constants.WHITE, })};
+  text-align: left;
+  font-size: ${constants.XTRA_LARGE_FONT_SIZE}px;
+  font-weight: bold;
+  position: relative;
+  top: 80px;
 `;
 
 const FooterTextStyle = Styled.div`
