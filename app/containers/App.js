@@ -1,17 +1,21 @@
-import * as React from 'react';
+import React, { Component, } from 'react';
+import PropTypes from 'prop-types';
+import { ThemeProvider, } from 'styled-components';
 
-type Props = {
-  children: React.Node
-};
-
-export default class App extends React.Component<Props> {
-  props: Props;
+class App extends Component {
+  static propTypes = {
+    children: PropTypes.node.isRequired,
+  };
 
   render() {
     return (
-      <div>
-        {this.props.children}
-      </div>
+      <ThemeProvider theme={{ mode: 'day', }}>
+        <div>
+          {this.props.children}
+        </div>
+      </ThemeProvider>
     );
   }
 }
+
+export default App;

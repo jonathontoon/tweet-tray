@@ -1,43 +1,80 @@
-import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
-import styles from './Counter.css';
+import React, { Component, } from 'react';
+import PropTypes from 'prop-types';
+import Styled from 'styled-components';
+import { Link, } from 'react-router-dom';
 
-type Props = {
-  increment: () => void,
-  incrementIfOdd: () => void,
-  incrementAsync: () => void,
-  decrement: () => void,
-  counter: number
-};
+const BackButtonStyle = Styled.button`
+  position: absolute;
+`;
 
-class Counter extends Component<Props> {
-  props: Props;
+const CounterStyle = Styled.div`
+  position: absolute;
+  top: 30%;
+  left: 45%;
+  font-size: 10rem;
+  font-weight: bold;
+  letter-spacing: -0.025em;
+`;
+
+const BtnGroupStyle = Styled.div`
+  position: relative;
+  top: 500px;
+  width: 480px;
+  margin: 0 auto;
+`;
+
+const BtnStyle = Styled.div`
+  font-size: 1.6rem;
+  font-weight: bold;
+  background-color: #fff;
+  border-radius: 50%;
+  margin: 10px;
+  width: 100px;
+  height: 100px;
+  opacity: 0.7;
+  cursor: pointer;
+  font-family: Arial, Helvetica, Helvetica Neue;
+
+  &:hover {
+    color: white;
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+`;
+
+class Counter extends Component {
+  static propTypes = {
+    increment: PropTypes.func.isRequired,
+    incrementIfOdd: PropTypes.func.isRequired,
+    incrementAsync: PropTypes.func.isRequired,
+    decrement: PropTypes.func.isRequired,
+    counter: PropTypes.number.isRequired,
+  };
 
   render() {
     const {
-      increment, incrementIfOdd, incrementAsync, decrement, counter
+      increment, incrementIfOdd, incrementAsync, decrement, counter,
     } = this.props;
     return (
-      <div>
-        <div className={styles.backButton} data-tid="backButton">
+      <BtnGroupStyle>
+        <BackButtonStyle data-tid="backButton">
           <Link to="/">
             <i className="fa fa-arrow-left fa-3x" />
           </Link>
-        </div>
-        <div className={`counter ${styles.counter}`} data-tid="counter">
+        </BackButtonStyle>
+        <CounterStyle data-tid="counter">
           {counter}
-        </div>
-        <div className={styles.btnGroup}>
-          <button className={styles.btn} onClick={increment} data-tclass="btn">
+        </CounterStyle>
+        <BtnGroupStyle>
+          <BtnStyle onClick={increment} data-tclass="btn">
             <i className="fa fa-plus" />
-          </button>
-          <button className={styles.btn} onClick={decrement} data-tclass="btn">
+          </BtnStyle>
+          <BtnStyle onClick={decrement} data-tclass="btn">
             <i className="fa fa-minus" />
-          </button>
-          <button className={styles.btn} onClick={incrementIfOdd} data-tclass="btn">odd</button>
-          <button className={styles.btn} onClick={() => incrementAsync()} data-tclass="btn">async</button>
-        </div>
-      </div>
+          </BtnStyle>
+          <BtnStyle onClick={incrementIfOdd} data-tclass="btn">odd</BtnStyle>
+          <BtnStyle onClick={() => { incrementAsync(); }} data-tclass="btn">async</BtnStyle>
+        </BtnGroupStyle>
+      </BtnGroupStyle>
     );
   }
 }

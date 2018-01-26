@@ -5,19 +5,19 @@ export const DECREMENT_COUNTER = 'DECREMENT_COUNTER';
 
 export function increment() {
   return {
-    INCREMENT_COUNTER
+    INCREMENT_COUNTER,
   };
 }
 
 export function decrement() {
   return {
-    DECREMENT_COUNTER
+    DECREMENT_COUNTER,
   };
 }
 
 export function incrementIfOdd() {
   return (dispatch: (action: actionType) => void, getState: () => counterStateType) => {
-    const { counter } = getState();
+    const { counter, } = getState();
 
     if (counter % 2 === 0) {
       return;

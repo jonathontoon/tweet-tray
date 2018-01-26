@@ -1,14 +1,11 @@
 import React from 'react';
-import { Provider } from 'react-redux';
-import { ConnectedRouter } from 'react-router-redux';
+import PropTypes from 'prop-types';
+import { Provider, } from 'react-redux';
+import { ConnectedRouter, } from 'react-router-redux';
 import Routes from '../routes';
 
-type RootType = {
-  store: {},
-  history: {}
-};
-
-export default function Root({ store, history }: RootType) {
+const Root = (props) => {
+  const { store, history, } = props;
   return (
     <Provider store={store}>
       <ConnectedRouter history={history}>
@@ -16,4 +13,16 @@ export default function Root({ store, history }: RootType) {
       </ConnectedRouter>
     </Provider>
   );
-}
+};
+
+Root.propTypes = {
+  store: PropTypes.object,
+  history: PropTypes.object,
+};
+
+Root.defaultProps = {
+  store: {},
+  history: {},
+};
+
+export default Root;

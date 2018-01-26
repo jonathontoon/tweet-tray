@@ -13,7 +13,6 @@
     "arrow-parens": ["off"],
     "compat/compat": "error",
     "consistent-return": "off",
-    "comma-dangle": "off",
     "generator-star-spacing": "off",
     "import/no-unresolved": "error",
     "import/no-extraneous-dependencies": "off",
@@ -30,7 +29,18 @@
     }],
     "react/jsx-no-bind": "off",
     "react/jsx-filename-extension": ["error", { "extensions": [".js", ".jsx"] }],
-    "react/prefer-stateless-function": "off"
+    "react/prefer-stateless-function": "off",
+    "linebreak-style": 0,
+    "react/forbid-prop-types": 0,
+    "no-unused-expressions": 0,
+    "comma-dangle": ["error", "always"],
+    "react/prop-types": [2, { "ignore": ["children"] }],
+    "no-undef": 0,
+    "func-names": 0,
+    "arrow-body-style": ["error", "always"],
+    "import/prefer-default-export": 0,
+    "array-bracket-spacing": 0,
+    "no-underscore-dangle": 0
   },
   "plugins": [
     "import",

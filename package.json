@@ -89,7 +89,6 @@
     "boilerplate",
     "react",
     "redux",
-    "sass",
     "webpack",
     "hot",
     "reload"
@@ -166,7 +165,6 @@
     "react-test-renderer": "^16.2.0",
     "redux-logger": "^3.0.6",
     "rimraf": "^2.6.2",
-    "sass-loader": "^6.0.6",
     "sinon": "^4.1.4",
     "spectron": "^3.7.2",
     "style-loader": "^0.19.1",
@@ -183,8 +181,8 @@
   "dependencies": {
     "devtron": "^1.4.0",
     "electron-debug": "^1.5.0",
-    "font-awesome": "^4.7.0",
     "history": "^4.7.2",
+    "prop-types": "^15.6.0",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-hot-loader": "^4.0.0-beta.13",
@@ -193,8 +191,10 @@
     "react-router-dom": "^4.2.2",
     "react-router-redux": "^5.0.0-alpha.6",
     "redux": "^3.7.2",
+    "redux-localstorage": "^0.4.1",
     "redux-thunk": "^2.2.0",
-    "source-map-support": "^0.5.0"
+    "source-map-support": "^0.5.0",
+    "styled-components": "^3.0.2"
   },
   "devEngines": {
     "node": ">=7.x",
