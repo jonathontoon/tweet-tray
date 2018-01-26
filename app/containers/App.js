@@ -1,4 +1,4 @@
-import React, { Component, } from 'react';
+import React, { Component, Fragment, } from 'react';
 import PropTypes from 'prop-types';
 import { ThemeProvider, } from 'styled-components';
 
@@ -10,9 +10,9 @@ class App extends Component {
   render() {
     return (
       <ThemeProvider theme={{ mode: 'day', }}>
-        <div>
+        <Fragment>
           {this.props.children}
-        </div>
+        </Fragment>
       </ThemeProvider>
     );
   }

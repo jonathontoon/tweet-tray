@@ -181,11 +181,16 @@
   "dependencies": {
     "devtron": "^1.4.0",
     "electron-debug": "^1.5.0",
+    "electron-positioner": "^3.0.0",
     "history": "^4.7.2",
+    "oauth": "^0.9.15",
+    "progress-arc-component": "^2.5.0",
     "prop-types": "^15.6.0",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
+    "react-expanding-textarea": "^0.1.9",
     "react-hot-loader": "^4.0.0-beta.13",
+    "react-pin-input": "^0.6.5",
     "react-redux": "^5.0.6",
     "react-router": "^4.2.0",
     "react-router-dom": "^4.2.2",
@@ -194,7 +199,9 @@
     "redux-localstorage": "^0.4.1",
     "redux-thunk": "^2.2.0",
     "source-map-support": "^0.5.0",
-    "styled-components": "^3.0.2"
+    "styled-components": "^3.0.2",
+    "styled-theming": "^2.2.0",
+    "twitter-text": "^2.0.3"
   },
   "devEngines": {
     "node": ">=7.x",

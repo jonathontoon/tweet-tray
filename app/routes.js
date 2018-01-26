@@ -1,16 +1,18 @@
 import React from 'react';
-import { Switch, Route } from 'react-router';
+import { Switch, Route, } from 'react-router';
 import App from './containers/App';
-import HomePage from './containers/HomePage';
-import CounterPage from './containers/CounterPage';
+import ComposerContainer from './containers/ComposerContainer';
+import OAuthContainer from './containers/OAuthContainer';
 
-const Routes = () => (
-  <App>
-    <Switch>
-      <Route path="/counter" component={CounterPage} />
-      <Route path="/" component={HomePage} />
-    </Switch>
-  </App>
-);
+const Routes = () => {
+  return (
+    <App>
+      <Switch>
+        <Route path="/" component={OAuthContainer} />
+        <Route path="/composer" component={ComposerContainer} />
+      </Switch>
+    </App>
+  );
+};
 
 export default Routes;
