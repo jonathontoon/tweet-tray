@@ -15,8 +15,7 @@
 [![React](/internals/img/react-padded-90.png)](https://facebook.github.io/react/)
 [![Webpack](/internals/img/webpack-padded-90.png)](https://webpack.github.io/)
 [![Redux](/internals/img/redux-padded-90.png)](http://redux.js.org/)
-[![React Router](/internals/img/react-router-padded-90.png)](https://github.com/ReactTraining/react-router)
-[![Flow](/internals/img/flow-padded-90.png)](https://flowtype.org/)
+[![React Router](/internals/img/react-router-padded-90.png)](https://github.com/ReactTraining/react-router)=
 [![ESLint](/internals/img/eslint-padded-90.png)](http://eslint.org/)
 [![Jest](/internals/img/jest-padded-90.png)](https://facebook.github.io/jest/)
 [![Yarn](/internals/img/yarn-padded-90.png)](https://yarnpkg.com/)
@@ -145,9 +144,6 @@ If you want to use Sass in your app, you only need to import `.sass` files inste
 ```js
 import './app.global.scss';
 ```
-
-## Static Type Checking
-This project comes with Flow support out of the box! You can annotate your code with types, [get Flow errors as ESLint errors](https://github.com/amilajack/eslint-plugin-flowtype-errors), and get [type errors during runtime](https://github.com/codemix/flow-runtime) during development. Types are completely optional.
 
 ## Dispatching redux actions from main process
 

@@ -78,11 +78,9 @@ Here's the most notable changes since `v0.10.0`. Its been about a year since a r
 #### Additions
 
 - **Added support for Yarn:** [#451](https://github.com/chentsulin/electron-react-boilerplate/pull/451)
-- **Added support for Flow:** [#425](https://github.com/chentsulin/electron-react-boilerplate/pull/425)
 - **Added support for stylelint:** [#911](https://github.com/chentsulin/electron-react-boilerplate/pull/911)
 - **Added support for electron-builder:** [#876](https://github.com/chentsulin/electron-react-boilerplate/pull/876)
 - **Added optional support for SASS:** [#880](https://github.com/chentsulin/electron-react-boilerplate/pull/880)
-- **Added support for eslint-plugin-flowtype:** [#911](https://github.com/chentsulin/electron-react-boilerplate/pull/911)
 - **Added support for appveyor:** [#280](https://github.com/chentsulin/electron-react-boilerplate/pull/280)
 - **Added support for webpack dlls:** [#860](https://github.com/chentsulin/electron-react-boilerplate/pull/860)
 - **Route based code splitting:** [#884](https://github.com/chentsulin/electron-react-boilerplate/pull/884)
