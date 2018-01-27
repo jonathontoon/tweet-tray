@@ -3,7 +3,7 @@
 - [Introduction](#introduction)
 - [Installation](#installation)
 - [Development](#development)
-- [Deployment](#deployment)
+- [Acknowledgements](#Acknowledgements)
 
 ## Introduction
 
@@ -30,6 +30,6 @@ For all new features or bug fixes please create pull requests directly into the 
 
 Coming Soon
 
-## Other
+## Acknowledgements
 
 This project is based off [electron-react-boilerplate](https://github.com/chentsulin/electron-react-boilerplate), all methodloligies still apply, expect for the removal of Flow and SASS.
