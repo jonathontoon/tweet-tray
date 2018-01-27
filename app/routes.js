@@ -1,14 +1,20 @@
 import React from 'react';
-import { Switch, Route } from 'react-router';
-import App from './containers/App';
-import HomePage from './containers/HomePage';
-import CounterPage from './containers/CounterPage';
+import { Switch, Route, } from 'react-router';
+import MainContainer from './containers/MainContainer';
+import ComposerContainer from './containers/ComposerContainer';
+import LogInContainer from './containers/LogInContainer';
+import VerifierCodeContainer from './containers/VerifierCodeContainer';
 
-export default () => (
-  <App>
-    <Switch>
-      <Route path="/counter" component={CounterPage} />
-      <Route path="/" component={HomePage} />
-    </Switch>
-  </App>
-);
+const Routes = () => {
+  return (
+    <MainContainer>
+      <Switch>
+        <Route exact path="/" component={LogInContainer} />
+        <Route exact path="/verifier" component={VerifierCodeContainer} />
+        <Route exact path="/composer" component={ComposerContainer} />
+      </Switch>
+    </MainContainer>
+  );
+};
+
+export default Routes;
