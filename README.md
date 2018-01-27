@@ -3,6 +3,7 @@
 - [Introduction](#introduction)
 - [Installation](#installation)
 - [Development](#development)
+- [Deployment](#deployment)
 - [Acknowledgements](#Acknowledgements)
 
 ## Introduction
