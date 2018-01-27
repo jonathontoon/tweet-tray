@@ -53,12 +53,26 @@ const FooterLink = Styled.a`
 
 class LogIn extends Component {
   static propTypes = {
+    accessTokenPair: PropTypes.object,
+    userCredentials: PropTypes.object,
     onUpdateRequestTokenPair: PropTypes.func.isRequired,
+  };
+
+  static defaultProps = {
+    accessTokenPair: null,
+    userCredentials: null,
   };
 
   static contextTypes = {
     router: PropTypes.object,
   };
+
+  componentWillMount() {
+    const { accessTokenPair, userCredentials, } = this.props;
+    if (accessTokenPair !== null && userCredentials !== null) {
+      this.context.router.history.push('/composer');
+    }
+  }
 
   componentDidMount() {
     ipcRenderer.on('receivedRequestTokenPair', (event, requestTokenPair) => {

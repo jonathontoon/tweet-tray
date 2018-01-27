@@ -6,6 +6,8 @@ import LogIn from '../components/LogIn';
 const mapStateToProps = (store) => {
   return {
     router: store.router,
+    accessTokenPair: store.accessTokenPair,
+    userCredentials: store.userCredentials,
   };
 };
 

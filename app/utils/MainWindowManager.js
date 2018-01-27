@@ -12,6 +12,7 @@ class MainWindowManager {
     this.oauthManager = null;
     this.tray = null;
     this.window = null;
+    this.windowIsReady = false;
     this.windowPositioner = null;
 
     this.createOAuth = this.createOAuth.bind(this);
@@ -46,6 +47,8 @@ class MainWindowManager {
     window.loadURL(`file://${path.join(__dirname, '../app.html')}`);
     window.setMenu(null);
 
+    this.windowPositioner = new Positioner(window);
+
     window.on('closed', () => {
       this.window = null;
     });
@@ -59,11 +62,11 @@ class MainWindowManager {
         throw new Error('"window" is not defined');
       }
 
-      this.windowPositioner = new Positioner(window);
-
       if (IS_DEV) {
         window.webContents.openDevTools();
       }
+
+      this.windowIsReady = true;
     });
 
     return window;
@@ -106,8 +109,9 @@ class MainWindowManager {
       }
 
       this.tray.on('click', () => {
-        if (this.window === null || this.window.isVisible()) return;
-        this.showWindow();
+        if ((this.window !== null || !this.window.isVisible()) && this.windowIsReady) {
+          this.showWindow();
+        }
       });
     }
   }
