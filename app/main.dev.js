@@ -134,14 +134,14 @@ ipcMain.on('postStatus', (postStatusEvent, response) => {
   const accessTokenSecret = response.accessTokenPair.secret;
 
   if (response.imageData) {
-    oauthManager.uploadMedia({
+    mainWindowManager.oauthManager.uploadMedia({
       media: response.imageData,
     }, accessToken, accessTokenSecret, (uploadMediaError, uploadResponse) => {
       if (uploadMediaError) {
         console.log(uploadMediaError);
       }
 
-      oauthManager.updateStatus({
+      mainWindowManager.oauthManager.updateStatus({
         status: response.statusText,
         media_ids: uploadResponse.media_id_string,
       }, accessToken, accessTokenSecret, (updateStatusError, statusResponse) => {
@@ -152,7 +152,7 @@ ipcMain.on('postStatus', (postStatusEvent, response) => {
       });
     });
   } else {
-    oauthManager.updateStatus({
+    mainWindowManager.oauthManager.updateStatus({
       status: response.statusText,
     }, accessToken, accessTokenSecret, (updateStatusError, statusResponse) => {
       if (updateStatusError) {
