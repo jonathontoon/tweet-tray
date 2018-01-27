@@ -1,22 +1,23 @@
 import React, { Component, Fragment, } from 'react';
 import PropTypes from 'prop-types';
-import { withRouter, } from 'react-router-dom';
 import { ThemeProvider, } from 'styled-components';
 
-class App extends Component {
+class Main extends Component {
   static propTypes = {
     children: PropTypes.node.isRequired,
+    colorTheme: PropTypes.string.isRequired,
   };
 
   render() {
+    const { children, colorTheme, } = this.props;
     return (
-      <ThemeProvider theme={{ mode: 'day', }}>
+      <ThemeProvider theme={{ mode: colorTheme, }}>
         <Fragment>
-          {this.props.children}
+          {children}
         </Fragment>
       </ThemeProvider>
     );
   }
 }
 
-export default withRouter(App);
+export default Main;

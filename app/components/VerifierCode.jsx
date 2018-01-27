@@ -1,7 +1,6 @@
 import React, { Component, } from 'react';
 import PropTypes from 'prop-types';
 import Styled from 'styled-components';
-import Theme from 'styled-theming';
 
 import PinInput from 'react-pin-input';
 
@@ -19,7 +18,7 @@ const VerifierCodeStyle = Styled.section`
   user-select: none;
   width: ${window.innerWidth}px;
   height: ${window.innerHeight}px;
-  background-color: ${Theme('mode', { day: constants.WHITE, night: constants.DARK_MODE_BACKGROUND, })};
+  background-color: ${constants.WHITE};
   position: relative;
 `;
 
@@ -33,7 +32,7 @@ const TwitterLogoStyle = Styled.img`
 const HeaderTextStyle = Styled.h1`
     padding: 0;
     margin: 0;
-    color: ${Theme('mode', { day: constants.BLACK, night: constants.WHITE, })};
+    color: ${constants.BLACK};
     text-align: left;
     font-size: ${constants.XTRA_LARGE_FONT_SIZE}px;
     font-weight: bold;
@@ -82,7 +81,6 @@ class VerifierCode extends Component {
 
   componentDidMount() {
     ipcRenderer.on('completedOAuth', (event, response) => {
-      console.log('completedOAuth');
       const { onUpdateAccessTokenPair, onSetUserCredentials, } = this.props;
       onUpdateAccessTokenPair(response.accessTokenPair);
       onSetUserCredentials(response.userCredentials);
@@ -106,8 +104,8 @@ class VerifierCode extends Component {
   }
 
   _onReturnToLogIn() {
-    this.context.router.history.push('/');
     ipcRenderer.send('returnToLogin');
+    this.context.router.history.push('/');
   }
 
   render() {
@@ -141,7 +139,7 @@ class VerifierCode extends Component {
               width: '14.2857143%',
               fontSize: '20px',
               fontWeight: 'bold',
-              backgroundColor: `${constants.WHITE}`,
+              backgroundColor: `${constants.LIGHT_GREY}`,
               border: `1px solid ${constants.BORDER_GREY}`,
               borderRadius: '4px',
               height: '48px',

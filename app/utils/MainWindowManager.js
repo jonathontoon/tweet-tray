@@ -1,7 +1,8 @@
+import fs from 'fs';
 import path from 'path';
 import Positioner from 'electron-positioner';
 import IS_DEV from 'electron-is-dev';
-import { app, BrowserWindow, Tray, Menu, } from 'electron';
+import { app, BrowserWindow, Tray, Menu, dialog, } from 'electron';
 
 import OAuthManager from './OAuthManager';
 import config from './config';
@@ -20,6 +21,8 @@ class MainWindowManager {
     this.createWindow = this.createWindow.bind(this);
     this.showWindow = this.showWindow.bind(this);
     this.hideWindow = this.hideWindow.bind(this);
+
+    this.openImageDialog = this.openImageDialog.bind(this);
   }
 
   createOAuth() {
@@ -61,7 +64,6 @@ class MainWindowManager {
       if (IS_DEV) {
         window.webContents.openDevTools();
       }
-
     });
 
     return window;
@@ -108,6 +110,53 @@ class MainWindowManager {
         this.showWindow();
       });
     }
+  }
+
+  static processFile(filePath, callback) {
+    fs.readFile(filePath, (readFileError, data) => {
+      if (readFileError) {
+        console.log(readFileError);
+      }
+      const base64ImageData = Buffer.from(data).toString('base64');
+      callback({
+        path: filePath,
+        data: base64ImageData,
+      });
+    });
+  }
+
+  openImageDialog(callback) {
+    const properties = ['openFile', ];
+
+    // Only Mac OSX supports the openDirectory option for file dialogs
+    if (process.platform === 'darwin') {
+      properties.push('openDirectory');
+    }
+
+    dialog.showOpenDialog({
+      title: 'Select a Photo',
+      buttonLabel: 'Add Photo',
+      filters: [
+        { name: 'Images', extensions: ['jpeg', 'jpg', 'png', 'gif', ], },
+      ],
+      properties,
+    }, (filePaths) => {
+      if (filePaths !== undefined) {
+        const imageSize = fs.lstatSync(filePaths[0]).size / (1024 * 1024);
+        const imageExtension = path.extname(filePaths[0]);
+        if (imageExtension === '.gif' && imageSize <= 15.0) {
+          this.constructor.processFile(filePaths[0], (image) => {
+            callback(image);
+          });
+        } else if (imageExtension !== '.gif' && imageSize <= 5.0) {
+          this.constructor.processFile(filePaths[0], (image) => {
+            callback(image);
+          });
+        }
+      }
+
+      this.showWindow();
+    });
   }
 }
 

@@ -10,9 +10,9 @@
  *
  */
 
-import fs from 'fs';
 import url from 'url';
-import { app, ipcMain, dialog, } from 'electron';
+import path from 'path';
+import { app, ipcMain, } from 'electron';
 
 import MainWindowManager from './utils/MainWindowManager';
 
@@ -25,7 +25,6 @@ if (process.env.NODE_ENV === 'production') {
 
 if (process.env.NODE_ENV === 'development' || process.env.DEBUG_PROD === 'true') {
   require('electron-debug')();
-  const path = require('path');
   const p = path.join(__dirname, '..', 'app', 'node_modules');
   require('module').globalPaths.push(p);
 }
@@ -89,7 +88,6 @@ ipcMain.on('startOAuth', (startOAuthEvent) => {
 
 // Get Verifier Code
 ipcMain.on('sendVerifierCode', (sendVerifierCodeEvent, data) => {
-  console.log(data);
   mainWindowManager.oauthManager.getAccessTokenPair(
     data.requestTokenPair,
     data.verifierCode,
@@ -176,37 +174,7 @@ ipcMain.on('quitApplication', () => {
 });
 
 ipcMain.on('addImage', (addImageEvent) => {
-  const properties = ['openFile', ];
-
-  // Only Mac OSX supports the openDirectory option for file dialogs
-  if (process.platform === 'darwin') {
-    properties.push('openDirectory');
-  }
-
-  dialog.showOpenDialog({
-    title: 'Select a Photo',
-    buttonLabel: 'Add Photo',
-    filters: [
-      { name: 'Images', extensions: ['jpeg', 'jpg', 'png', 'gif', ], },
-    ],
-    properties,
-  }, (filePaths) => {
-    if (filePaths !== undefined) {
-      const imageSize = fs.lstatSync(filePaths[0]).size / (1024 * 1024);
-      if (imageSize <= 5.0) {
-        fs.readFile(filePaths[0], (readFileError, data) => {
-          if (readFileError) {
-            console.log(readFileError);
-          }
-          const base64ImageData = Buffer.from(data).toString('base64');
-          addImageEvent.sender.send('addImageComplete', {
-            path: filePaths[0],
-            data: base64ImageData,
-          });
-        });
-      }
-    }
-
-    mainWindowManager.showWindow();
+  mainWindowManager.openImageDialog((image) => {
+    addImageEvent.sender.send('addImageComplete', image);
   });
 });

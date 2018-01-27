@@ -12,7 +12,6 @@ const mapStateToProps = (store) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     onUpdateRequestTokenPair: (requestTokenPair) => {
-      console.log(requestTokenPair);
       dispatch(updateRequestTokenPair(requestTokenPair));
     },
   };

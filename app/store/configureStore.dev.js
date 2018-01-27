@@ -1,5 +1,6 @@
 import { createStore, applyMiddleware, compose, } from 'redux';
 import thunk from 'redux-thunk';
+import persistState from 'redux-localstorage';
 import { createHashHistory, } from 'history';
 import { routerMiddleware, routerActions, } from 'react-router-redux';
 import { createLogger, } from 'redux-logger';
@@ -48,6 +49,7 @@ const configureStore = (initialState) => {
 
   // Apply Middleware & Compose Enhancers
   enhancers.push(applyMiddleware(...middleware));
+  enhancers.push(persistState(['accessTokenPair', 'userCredentials', 'colorTheme', ]));
   const enhancer = composeEnhancers(...enhancers);
 
   // Create Store

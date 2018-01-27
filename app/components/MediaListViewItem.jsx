@@ -1,8 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
 import Styled from 'styled-components';
-import Theme from 'styled-theming';
 
 import RemoveIcon from '../../resources/remove.svg';
 
@@ -20,7 +18,6 @@ const MediaImageStyle = Styled.img`
   width: 100%;
   height: auto;
   background-color: ${constants.LIGHT_GREY};
-  border: 1px solid ${Theme('mode', { day: constants.BORDER_GREY, night: constants.DARK_MODE_FOREGROUND, })};
 `;
 
 const MediaCloseButtonStyle = Styled.button`

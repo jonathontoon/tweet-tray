@@ -4,7 +4,7 @@ import Styled from 'styled-components';
 import Theme from 'styled-theming';
 
 import Header from './Header';
-import Settings from './Settings';
+import SettingsContainer from '../containers/SettingsContainer';
 import InnerContent from './InnerContent';
 import UserProfilePhoto from './UserProfilePhoto';
 import IconButton from './IconButton';
@@ -129,10 +129,10 @@ class Composer extends Component {
           <InnerContent
             style={{
               position: 'relative',
-              top: '48px',
+              top: '51px',
               left: '0px',
               minHeight: '180px',
-              height: 'calc(100% - 133px)',
+              height: 'calc(100% - 136px)',
             }}
           >
             <UserProfilePhoto />
@@ -166,7 +166,7 @@ class Composer extends Component {
             }
           />
         </form>
-        <Settings />
+        <SettingsContainer />
       </ComposerStyle>
     );
   }

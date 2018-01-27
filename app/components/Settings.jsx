@@ -56,7 +56,7 @@ const Settings = (props) => {
               title: 'Quit Tweet Tray',
               action: () => {
                 onToggleSettingsVisibility(false);
-                ipcRenderer.send('app-quit');
+                ipcRenderer.send('quitApplication');
               },
             }, {
               title: 'Log Out',
