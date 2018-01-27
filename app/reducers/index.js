@@ -8,14 +8,24 @@ import weightedStatus from './weightedStatus';
 import requestTokenPair from './requestTokenPair';
 import accessTokenPair from './accessTokenPair';
 
-const rootReducer = combineReducers({
-  colorTheme,
-  settingsVisibility,
+import { ON_LOGOUT, } from '../actions';
+
+const appReducer = combineReducers({
+  accessTokenPair,
+  requestTokenPair,
   userCredentials,
   weightedStatus,
-  requestTokenPair,
-  accessTokenPair,
-  router,
+  settingsVisibility,
+  colorTheme,
 });
+
+/* eslint no-param-reassign: 0 */
+const rootReducer = (state, action) => {
+  if (action.type === ON_LOGOUT) {
+    state = undefined;
+  }
+
+  return appReducer(state, action);
+};
 
 export default rootReducer;

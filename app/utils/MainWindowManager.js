@@ -38,7 +38,6 @@ class MainWindowManager {
       frame: false,
       titleBarStyle: 'hidden',
       show: false,
-      backgroundColor: '#1DA1F2',
       skipTaskbar: true,
       alwaysOnTop: true,
       icon: path.join(__dirname, '../../resources/icon.ico'),
@@ -53,9 +52,9 @@ class MainWindowManager {
       this.window = null;
     });
 
-    window.on('blur', () => {
-      this.hideWindow();
-    });
+    // window.on('blur', () => {
+    //   this.hideWindow();
+    // });
 
     window.once('ready-to-show', () => {
       if (!this.window) {

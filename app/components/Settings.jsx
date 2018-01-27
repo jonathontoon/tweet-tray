@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component, } from 'react';
 import PropTypes from 'prop-types';
 import Styled from 'styled-components';
 
@@ -24,68 +24,75 @@ const SettingsStyle = Styled.section`
     }
 `;
 
-const Settings = (props) => {
-  const {
-    showSettings,
-    onToggleSettingsVisibility,
-    colorTheme,
-    onToggleColorTheme,
-    shouldLogout,
-  } = props;
+class Settings extends Component {
+  static propTypes = {
+    showSettings: PropTypes.bool.isRequired,
+    onToggleSettingsVisibility: PropTypes.func.isRequired,
+    colorTheme: PropTypes.string.isRequired,
+    onToggleColorTheme: PropTypes.func.isRequired,
+    shouldLogout: PropTypes.func.isRequired,
+  };
 
-  return (
-    <SettingsStyle className={`${showSettings ? '' : 'hidden'}`}>
-      <InnerContent
-        style={{
-          position: 'relative',
-          top: '0px',
-          left: '0px',
-          padding: '0px',
-          minHeight: '100%',
-        }}
-      >
-        <ListView
-          dataSource={
-            [{
-              title: `${colorTheme === 'day' ? 'Enable' : 'Disable'} Night Mode`,
-              action: () => {
-                onToggleColorTheme(colorTheme === 'day' ? 'night' : 'day');
-                onToggleSettingsVisibility(false);
-              },
-            }, {
-              title: 'Quit Tweet Tray',
-              action: () => {
-                onToggleSettingsVisibility(false);
-                ipcRenderer.send('quitApplication');
-              },
-            }, {
-              title: 'Log Out',
-              action: () => {
-                onToggleSettingsVisibility(false);
-                shouldLogout();
-              },
-              type: 'warning',
-            }, {
-              title: 'Cancel',
-              action: () => {
-                onToggleSettingsVisibility(false);
-              },
-              type: 'last',
-            }, ]
-          }
-        />
-      </InnerContent>
-    </SettingsStyle>
-  );
-};
+  static contextTypes = {
+    router: PropTypes.object,
+  };
 
-Settings.propTypes = {
-  showSettings: PropTypes.bool.isRequired,
-  onToggleSettingsVisibility: PropTypes.func.isRequired,
-  colorTheme: PropTypes.string.isRequired,
-  onToggleColorTheme: PropTypes.func.isRequired,
-  shouldLogout: PropTypes.func.isRequired,
-};
+  render() {
+    const {
+      showSettings,
+      onToggleSettingsVisibility,
+      colorTheme,
+      onToggleColorTheme,
+      shouldLogout,
+    } = this.props;
+  
+    return (
+      <SettingsStyle className={`${showSettings ? '' : 'hidden'}`}>
+        <InnerContent
+          style={{
+            position: 'relative',
+            top: '0px',
+            left: '0px',
+            padding: '0px',
+            minHeight: '100%',
+          }}
+        >
+          <ListView
+            dataSource={
+              [{
+                title: `${colorTheme === 'day' ? 'Enable' : 'Disable'} Night Mode`,
+                action: () => {
+                  onToggleColorTheme(colorTheme === 'day' ? 'night' : 'day');
+                  onToggleSettingsVisibility(false);
+                },
+              }, {
+                title: 'Quit Tweet Tray',
+                action: () => {
+                  onToggleSettingsVisibility(false);
+                  ipcRenderer.send('quitApplication');
+                },
+              }, {
+                title: 'Log Out',
+                action: () => {
+                  onToggleSettingsVisibility(false);
+                  this.context.router.history.push('/');
+                  shouldLogout();
+                },
+                type: 'warning',
+              }, {
+                title: 'Cancel',
+                action: () => {
+                  onToggleSettingsVisibility(false);
+                },
+                type: 'last',
+              }, ]
+            }
+          />
+        </InnerContent>
+      </SettingsStyle>
+    );
+  }
+}
 
 export default Settings;
 

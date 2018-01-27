@@ -6,7 +6,7 @@ import webpack from 'webpack';
 import path from 'path';
 import merge from 'webpack-merge';
 import baseConfig from './webpack.config.base';
-import { dependencies } from './package.json';
+import { dependencies, } from './package.json';
 import CheckNodeEnv from './internals/scripts/CheckNodeEnv';
 
 CheckNodeEnv('development');
@@ -40,24 +40,24 @@ export default merge.smart(baseConfig, {
               // before react-hot-loader/babel
               'transform-class-properties',
               'transform-es2015-classes',
-              'react-hot-loader/babel'
+              'react-hot-loader/babel',
             ],
-          }
-        }
+          },
+        },
       },
       {
         test: /\.global\.css$/,
         use: [
           {
-            loader: 'style-loader'
+            loader: 'style-loader',
           },
           {
             loader: 'css-loader',
             options: {
               sourceMap: true,
             },
-          }
-        ]
+          },
+        ],
       },
       {
         test: /^((?!\.global).)*\.css$/,
@@ -72,31 +72,31 @@ export default merge.smart(baseConfig, {
               sourceMap: true,
               importLoaders: 1,
               localIdentName: '[name]__[local]__[hash:base64:5]',
-            }
+            },
           },
-        ]
+        ],
       },
       // Common Image Formats
       {
         test: /\.(?:ico|gif|png|jpg|jpeg|webp|svg)$/,
         use: 'url-loader',
-      }
-    ]
+      },
+    ],
   },
 
   entry: {
     renderer: (
       Object
         .keys(dependencies || {})
-        .filter(dependency => dependency !== 'font-awesome')
-    )
+        .filter(dependency => { return dependency !== 'font-awesome'; })
+    ),
   },
 
   output: {
     library: 'renderer',
     path: dist,
     filename: '[name].dev.dll.js',
-    libraryTarget: 'var'
+    libraryTarget: 'var',
   },
 
   plugins: [
@@ -115,7 +115,7 @@ export default merge.smart(baseConfig, {
      * development checks
      */
     new webpack.EnvironmentPlugin({
-      NODE_ENV: 'development'
+      NODE_ENV: 'development',
     }),
 
     new webpack.LoaderOptionsPlugin({

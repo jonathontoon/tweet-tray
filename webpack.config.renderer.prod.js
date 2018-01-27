@@ -5,7 +5,7 @@
 import path from 'path';
 import webpack from 'webpack';
 import ExtractTextPlugin from 'extract-text-webpack-plugin';
-import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
+import { BundleAnalyzerPlugin, } from 'webpack-bundle-analyzer';
 import merge from 'webpack-merge';
 import UglifyJSPlugin from 'uglifyjs-webpack-plugin';
 import baseConfig from './webpack.config.base';
@@ -23,7 +23,7 @@ export default merge.smart(baseConfig, {
   output: {
     path: path.join(__dirname, 'app/dist'),
     publicPath: './dist/',
-    filename: 'renderer.prod.js'
+    filename: 'renderer.prod.js',
   },
 
   module: {
@@ -37,10 +37,10 @@ export default merge.smart(baseConfig, {
             loader: 'css-loader',
             options: {
               minimize: true,
-            }
+            },
           },
           fallback: 'style-loader',
-        })
+        }),
       },
       // Pipe other styles through css modules and append to style.css
       {
@@ -53,16 +53,16 @@ export default merge.smart(baseConfig, {
               minimize: true,
               importLoaders: 1,
               localIdentName: '[name]__[local]__[hash:base64:5]',
-            }
-          }
+            },
+          },
         }),
       },
       // Common Image Formats
       {
         test: /\.(?:ico|gif|png|jpg|jpeg|webp|svg)$/,
         use: 'url-loader',
-      }
-    ]
+      },
+    ],
   },
 
   plugins: [
@@ -76,19 +76,19 @@ export default merge.smart(baseConfig, {
      * development checks
      */
     new webpack.EnvironmentPlugin({
-      NODE_ENV: 'production'
+      NODE_ENV: 'production',
     }),
 
     new UglifyJSPlugin({
       parallel: true,
-      sourceMap: true
+      sourceMap: true,
     }),
 
     new ExtractTextPlugin('style.css'),
 
     new BundleAnalyzerPlugin({
       analyzerMode: process.env.OPEN_ANALYZER === 'true' ? 'server' : 'disabled',
-      openAnalyzer: process.env.OPEN_ANALYZER === 'true'
+      openAnalyzer: process.env.OPEN_ANALYZER === 'true',
     }),
   ],
 });
