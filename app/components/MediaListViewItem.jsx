@@ -1,8 +1,10 @@
+import path from 'path';
 import React from 'react';
 import PropTypes from 'prop-types';
 import Styled from 'styled-components';
 
 import RemoveIcon from '../../resources/remove.svg';
+import GIFLabelIcon from '../../resources/gif-label.svg';
 
 import * as constants from '../constants';
 
@@ -18,6 +20,22 @@ const MediaImageStyle = Styled.img`
   width: 100%;
   height: auto;
   background-color: ${constants.LIGHT_GREY};
+`;
+
+const MediaGIFLabelStyle = Styled.img`
+  user-select: none;
+  width: 34px;
+  height: 18px;
+  padding: 4px;
+  padding-bottom: 3px;
+  padding-top: 3px;
+  border-radius: 4px;
+  outline: 0;
+  border: 0;
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  background-color: ${constants.OPAQUE_BLACK};
 `;
 
 const MediaCloseButtonStyle = Styled.button`
@@ -43,6 +61,9 @@ const MediaListViewItem = (props) => {
   return (
     <MediaListViewItemStyle>
       <MediaImageStyle src={`data:image/jpeg;base64,${media.data}`} alt="To Upload" />
+      {path.extname(media.path) === '.gif' && (
+        <MediaGIFLabelStyle src={GIFLabelIcon} alt="GIF" />
+      )}
       <MediaCloseButtonStyle onClick={action}>
         <img src={RemoveIcon} alt="Remove Icon" />
       </MediaCloseButtonStyle>

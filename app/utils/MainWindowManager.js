@@ -18,12 +18,14 @@ class MainWindowManager {
     this.createOAuth = this.createOAuth.bind(this);
 
     this.initTray = this.initTray.bind(this);
+    this._initTrayWithIconPath = this._initTrayWithIconPath.bind(this);
 
     this.createWindow = this.createWindow.bind(this);
     this.showWindow = this.showWindow.bind(this);
     this.hideWindow = this.hideWindow.bind(this);
 
     this.openImageDialog = this.openImageDialog.bind(this);
+    this.openGIFDialog = this.openGIFDialog.bind(this);
   }
 
   createOAuth() {
@@ -42,8 +44,8 @@ class MainWindowManager {
       alwaysOnTop: true,
       icon: path.join(__dirname, '../../resources/icon.ico'),
     });
-
-    window.loadURL(`file://${path.join(__dirname, '../app.html')}`);
+    const htmlPath = process.env.NODE_ENV === 'development' ? '../app.html' : '../app/app.html';
+    window.loadURL(`file://${path.join(__dirname, htmlPath)}`);
     window.setMenu(null);
 
     this.windowPositioner = new Positioner(window);
@@ -52,9 +54,9 @@ class MainWindowManager {
       this.window = null;
     });
 
-    // window.on('blur', () => {
-    //   this.hideWindow();
-    // });
+    window.on('blur', () => {
+      this.hideWindow();
+    });
 
     window.once('ready-to-show', () => {
       if (!this.window) {
@@ -91,28 +93,37 @@ class MainWindowManager {
 
   initTray() {
     if (this.tray === null) {
-      this.tray = new Tray(path.join(__dirname, '../../resources/system-tray.ico'));
-      const contextMenu = Menu.buildFromTemplate([{
-        label: 'Quit Tweet Tray',
-        click() { app.quit(); },
-      }, ]);
-      this.tray.setToolTip('Tweet Tray');
-      this.tray.setContextMenu(contextMenu);
-
-      if (this.window === null) {
-        this.window = this.createWindow();
-      }
-
-      if (this.oauthManager === null) {
-        this.oauthManager = this.createOAuth();
-      }
-
-      this.tray.on('click', () => {
-        if ((this.window !== null || !this.window.isVisible()) && this.windowIsReady) {
-          this.showWindow();
-        }
+      const trayIconPath = process.env.NODE_ENV === 'development' ? '../../resources/tray.ico' : '../resources/tray.ico';
+      Promise.resolve(path.join(__dirname, trayIconPath)).then((iconPath) => {
+        return this._initTrayWithIconPath(iconPath);
+      }).catch((error) => {
+        console.log(error);
       });
     }
+  }
+
+  _initTrayWithIconPath(iconPath) {
+    this.tray = new Tray(iconPath);
+    const contextMenu = Menu.buildFromTemplate([{
+      label: 'Quit Tweet Tray',
+      click() { app.quit(); },
+    }, ]);
+    this.tray.setToolTip('Tweet Tray');
+    this.tray.setContextMenu(contextMenu);
+
+    if (this.window === null) {
+      this.window = this.createWindow();
+    }
+
+    if (this.oauthManager === null) {
+      this.oauthManager = this.createOAuth();
+    }
+
+    this.tray.on('click', () => {
+      if ((this.window !== null || !this.window.isVisible()) && this.windowIsReady) {
+        this.showWindow();
+      }
+    });
   }
 
   static processFile(filePath, callback) {
@@ -138,20 +149,44 @@ class MainWindowManager {
 
     dialog.showOpenDialog({
       title: 'Select a Photo',
-      buttonLabel: 'Add Photo',
+      buttonLabel: 'Add',
       filters: [
-        { name: 'Images', extensions: ['jpeg', 'jpg', 'png', 'gif', ], },
+        { name: 'Images', extensions: ['jpeg', 'jpg', 'png', ], },
       ],
       properties,
     }, (filePaths) => {
       if (filePaths !== undefined) {
         const imageSize = fs.lstatSync(filePaths[0]).size / (1024 * 1024);
-        const imageExtension = path.extname(filePaths[0]);
-        if (imageExtension === '.gif' && imageSize <= 15.0) {
+        if (imageSize <= 5.0) {
           this.constructor.processFile(filePaths[0], (image) => {
             callback(image);
           });
-        } else if (imageExtension !== '.gif' && imageSize <= 5.0) {
+        }
+      }
+
+      this.showWindow();
+    });
+  }
+
+  openGIFDialog(callback) {
+    const properties = ['openFile', ];
+
+    // Only Mac OSX supports the openDirectory option for file dialogs
+    if (process.platform === 'darwin') {
+      properties.push('openDirectory');
+    }
+
+    dialog.showOpenDialog({
+      title: 'Select a GIF',
+      buttonLabel: 'Add',
+      filters: [
+        { name: 'GIFs', extensions: ['gif', ], },
+      ],
+      properties,
+    }, (filePaths) => {
+      if (filePaths !== undefined) {
+        const imageSize = fs.lstatSync(filePaths[0]).size / (1024 * 1024);
+        if (imageSize <= 15.0) {
           this.constructor.processFile(filePaths[0], (image) => {
             callback(image);
           });

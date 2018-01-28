@@ -178,3 +178,10 @@ ipcMain.on('addImage', (addImageEvent) => {
     addImageEvent.sender.send('addImageComplete', image);
   });
 });
+
+ipcMain.on('addGIF', (addImageEvent) => {
+  mainWindowManager.openGIFDialog((gif) => {
+    addImageEvent.sender.send('addGIFComplete', gif);
+  });
+});
+
