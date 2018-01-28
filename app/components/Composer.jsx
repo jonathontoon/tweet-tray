@@ -1,4 +1,4 @@
-import React, { Component, } from 'react';
+import React, { Component, Fragment, } from 'react';
 import PropTypes from 'prop-types';
 import Styled from 'styled-components';
 import Theme from 'styled-theming';
@@ -17,6 +17,7 @@ import * as constants from '../constants';
 
 import SettingsIcon from '../../resources/settings.svg';
 import PhotoIcon from '../../resources/photo.svg';
+import GIFIcon from '../../resources/gif.svg';
 
 const { ipcRenderer, } = window.require('electron');
 
@@ -27,6 +28,11 @@ const ComposerStyle = Styled.section`
   height: ${window.innerHeight}px;
   background-color: ${Theme('mode', { day: constants.WHITE, night: constants.DARK_MODE_BACKGROUND, })};
   position: relative;
+`;
+
+const SettingsIconWrapperStyle = Styled.div`
+  height: 100%;
+  margin-left: 20px;
 `;
 
 class Composer extends Component {
@@ -55,6 +61,10 @@ class Composer extends Component {
 
   componentDidMount() {
     ipcRenderer.on('addImageComplete', (event, response) => {
+      this._addImage(response);
+    });
+
+    ipcRenderer.on('addGIFComplete', (event, response) => {
       this._addImage(response);
     });
 
@@ -146,15 +156,28 @@ class Composer extends Component {
           </InnerContent>
           <Footer
             left={
-              <IconButton
-                disabled={image !== null}
-                iconSrc={PhotoIcon}
-                altText="Add Photo"
-                onClick={(e) => {
-                  e.preventDefault();
-                  ipcRenderer.send('addImage');
-                }}
-              />
+              <Fragment>
+                <IconButton
+                  disabled={image !== null}
+                  iconSrc={PhotoIcon}
+                  altText="Add Photo"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    ipcRenderer.send('addImage');
+                  }}
+                />
+                <SettingsIconWrapperStyle>
+                  <IconButton
+                    disabled={image !== null}
+                    iconSrc={GIFIcon}
+                    altText="Add GIF"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      ipcRenderer.send('addGIF');
+                    }}
+                  />
+                </SettingsIconWrapperStyle>
+              </Fragment>
             }
             right={
               <RoundedButton

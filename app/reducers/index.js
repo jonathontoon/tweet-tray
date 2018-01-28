@@ -1,5 +1,4 @@
 import { combineReducers, } from 'redux';
-import { routerReducer as router, } from 'react-router-redux';
 
 import colorTheme from './colorTheme';
 import settingsVisibility from './settingsVisibility';

@@ -20,7 +20,7 @@ export default merge.smart(baseConfig, {
 
   target: 'electron-renderer',
 
-  externals: ['fsevents', 'crypto-browserify'],
+  externals: ['fsevents', 'crypto-browserify', ],
 
   /**
    * Use `module` from `webpack.config.renderer.dev.js`
@@ -63,7 +63,7 @@ export default merge.smart(baseConfig, {
         test: /^((?!\.global).)*\.css$/,
         use: [
           {
-            loader: 'style-loader'
+            loader: 'style-loader',
           },
           {
             loader: 'css-loader',
@@ -126,6 +126,6 @@ export default merge.smart(baseConfig, {
           path: path.resolve(process.cwd(), 'dll'),
         },
       },
-    })
+    }),
   ],
 });
