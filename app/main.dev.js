@@ -16,7 +16,7 @@ import { app, ipcMain, } from 'electron';
 
 import MainWindowManager from './utils/MainWindowManager';
 
-const mainWindowManager = new MainWindowManager();
+let mainWindowManager = null;
 
 if (process.env.NODE_ENV === 'production') {
   const sourceMapSupport = require('source-map-support');
@@ -48,7 +48,7 @@ app.on('ready', async () => {
   if (process.env.NODE_ENV === 'development' || process.env.DEBUG_PROD === 'true') {
     await installExtensions();
   }
-  mainWindowManager.initTray();
+  mainWindowManager = new MainWindowManager();
 });
 
 app.on('window-all-closed', () => {
@@ -57,10 +57,6 @@ app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
     app.quit();
   }
-});
-
-app.on('activate', () => {
-  mainWindowManager.initTray();
 });
 
 // Start Twitter OAuth Flow

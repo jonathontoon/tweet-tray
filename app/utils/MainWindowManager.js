@@ -26,6 +26,8 @@ class MainWindowManager {
 
     this.openImageDialog = this.openImageDialog.bind(this);
     this.openGIFDialog = this.openGIFDialog.bind(this);
+
+    this.initTray();
   }
 
   createOAuth() {
@@ -40,7 +42,6 @@ class MainWindowManager {
       frame: false,
       titleBarStyle: 'hidden',
       show: false,
-      skipTaskbar: true,
       alwaysOnTop: true,
       icon: path.join(__dirname, '../../resources/icon.ico'),
     });
@@ -66,8 +67,6 @@ class MainWindowManager {
       if (IS_DEV) {
         window.webContents.openDevTools();
       }
-
-      this.windowIsReady = true;
     });
 
     return window;
@@ -120,7 +119,7 @@ class MainWindowManager {
     }
 
     this.tray.on('click', () => {
-      if ((this.window !== null || !this.window.isVisible()) && this.windowIsReady) {
+      if (this.window !== null) {
         this.showWindow();
       }
     });
