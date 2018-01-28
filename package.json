@@ -1,6 +1,5 @@
 {
   "name": "tweet-tray",
-  "productName": "Tweet Tray",
   "description": "Tweet quickly from the desktop without any more distractions.",
   "author": {
     "name": "Jonathon Toon",
@@ -35,10 +34,10 @@
     "test-e2e": "cross-env NODE_ENV=test BABEL_DISABLE_CACHE=1 node --trace-warnings -r babel-register ./internals/scripts/RunTests.js e2e",
     "test-watch": "npm test -- --watch"
   },
-  "browserslist": "electron 1.6",
+  "browserslist": "electron 1.7",
   "build": {
-    "productName": "ElectronReact",
-    "appId": "org.develar.ElectronReact",
+    "productName": "Tweet Tray",
+    "appId": "org.jonathontoon.tweettray",
     "files": [
       "dist/",
       "node_modules/",
