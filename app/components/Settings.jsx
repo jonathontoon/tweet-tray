@@ -68,7 +68,6 @@ class Settings extends Component {
               }, {
                 title: 'Quit Tweet Tray',
                 action: () => {
-                  onToggleSettingsVisibility(false);
                   ipcRenderer.send('quitApplication');
                 },
               }, {
