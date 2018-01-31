@@ -39,6 +39,7 @@
     "productName": "Tweet Tray",
     "appId": "org.jonathontoon.tweettray",
     "files": [
+      "includes/",
       "dist/",
       "node_modules/",
       "app.html",

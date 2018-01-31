@@ -43,10 +43,9 @@ class MainWindowManager {
       titleBarStyle: 'hidden',
       show: false,
       alwaysOnTop: true,
-      icon: path.join(__dirname, '../../resources/icon.ico'),
+      icon: path.join(__dirname, 'icon.ico'),
     });
-    const htmlPath = process.env.NODE_ENV === 'development' ? '../app.html' : '../app/app.html';
-    window.loadURL(`file://${path.join(__dirname, htmlPath)}`);
+    window.loadURL(`file://${__dirname}/app.html`);
     window.setMenu(null);
 
     this.windowPositioner = new Positioner(window);

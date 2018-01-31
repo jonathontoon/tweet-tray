@@ -4016,12 +4016,6 @@ fs-extra@^5.0.0:
     jsonfile "^4.0.0"
     universalify "^0.1.0"
 
-fs-jetpack@^1.2.0:
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/fs-jetpack/-/fs-jetpack-1.2.0.tgz#feb20b44bf3725492827cd2f81a7c812423882c5"
-  dependencies:
-    minimatch "^3.0.2"
-
 fs-write-stream-atomic@^1.0.8:
   version "1.0.10"
   resolved "https://registry.yarnpkg.com/fs-write-stream-atomic/-/fs-write-stream-atomic-1.0.10.tgz#b47df53493ef911df75731e70a9ded0189db40c9"

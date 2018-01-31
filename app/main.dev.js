@@ -11,12 +11,19 @@
  */
 
 import url from 'url';
+import fs from 'fs';
 import path from 'path';
-import { app, ipcMain, } from 'electron';
+import Positioner from 'electron-positioner';
+import IS_DEV from 'electron-is-dev';
+import { app, ipcMain, BrowserWindow, Tray, Menu, dialog, } from 'electron';
 
-import MainWindowManager from './utils/MainWindowManager';
+import OAuthManager from './utils/OAuthManager';
+import config from './utils/config';
 
-let mainWindowManager = null;
+let oauthManager = null;
+let windowManager = null;
+let trayManager = null;
+let windowPositioner = null;
 
 if (process.env.NODE_ENV === 'production') {
   const sourceMapSupport = require('source-map-support');
@@ -44,11 +51,166 @@ const installExtensions = async () => {
     .catch(console.log);
 };
 
+const showWindow = () => {
+  const trayPosition = (process.platform === 'darwin') ? 'trayCenter' : 'trayBottomCenter';
+  const trayBounds = trayManager.getBounds();
+
+  const position = windowPositioner.calculate(trayPosition, trayBounds);
+
+  windowManager.setPosition(position.x, position.y - 6);
+  windowManager.show();
+  trayManager.setHighlightMode('always');
+};
+
+const hideWindow = () => {
+  windowManager.hide();
+  trayManager.setHighlightMode('never');
+};
+
+const createWindow = () => {
+  const window = new BrowserWindow({
+    width: 348,
+    height: 520,
+    resizable: false,
+    frame: false,
+    titleBarStyle: 'hidden',
+    show: false,
+    alwaysOnTop: true,
+    skipTaskbar: true,
+    icon: `${__dirname}\\includes\\icon.ico`,
+  });
+  window.loadURL(`file://${__dirname}/app.html`);
+  window.setMenu(null);
+
+  window.on('blur', () => {
+    if (oauthManager.window && oauthManager.window.isVisible()) return;
+    if (!window && !window.isVisible()) return;
+    hideWindow();
+  });
+
+  window.once('ready-to-show', () => {
+    if (!window) {
+      throw new Error('"window" is not defined');
+    }
+
+    if (IS_DEV) {
+      window.webContents.openDevTools();
+    }
+
+    if (trayManager !== null) {
+      showWindow();
+    }
+  });
+
+  windowPositioner = new Positioner(window);
+
+  return window;
+};
+
+const createTray = () => {
+  const tray = new Tray(`${__dirname}\\includes\\tray.ico`);
+  const contextMenu = Menu.buildFromTemplate([{
+    label: 'Quit Tweet Tray',
+    click: () => {
+      app.quit();
+    },
+  }, ]);
+  tray.setToolTip('Tweet Tray');
+  tray.setContextMenu(contextMenu);
+
+  if (oauthManager === null) {
+    oauthManager = new OAuthManager(config, windowManager);
+  }
+
+  tray.on('click', () => {
+    if (windowManager !== null && !windowManager.isVisible()) {
+      if (windowManager !== null) {
+        showWindow();
+      }
+    } else {
+      hideWindow();
+    }
+  });
+
+  return tray;
+};
+
+const processFile = (filePath, callback) => {
+  fs.readFile(filePath, (readFileError, data) => {
+    if (readFileError) {
+      console.log(readFileError);
+    }
+    const base64ImageData = Buffer.from(data).toString('base64');
+    callback({
+      path: filePath,
+      data: base64ImageData,
+    });
+  });
+};
+
+const openImageDialog = (callback) => {
+  const properties = ['openFile', ];
+
+  // Only Mac OSX supports the openDirectory option for file dialogs
+  if (process.platform === 'darwin') {
+    properties.push('openDirectory');
+  }
+
+  dialog.showOpenDialog({
+    title: 'Select a Photo',
+    buttonLabel: 'Add',
+    filters: [
+      { name: 'Images', extensions: ['jpeg', 'jpg', 'png', ], },
+    ],
+    properties,
+  }, (filePaths) => {
+    if (filePaths !== undefined) {
+      const imageSize = fs.lstatSync(filePaths[0]).size / (1024 * 1024);
+      if (imageSize <= 5.0) {
+        processFile(filePaths[0], (image) => {
+          callback(image);
+        });
+      }
+    }
+    windowManager.show();
+  });
+};
+
+const openGIFDialog = (callback) => {
+  const properties = ['openFile', ];
+
+  // Only Mac OSX supports the openDirectory option for file dialogs
+  if (process.platform === 'darwin') {
+    properties.push('openDirectory');
+  }
+
+  dialog.showOpenDialog({
+    title: 'Select a GIF',
+    buttonLabel: 'Add',
+    filters: [
+      { name: 'GIFs', extensions: ['gif', ], },
+    ],
+    properties,
+  }, (filePaths) => {
+    if (filePaths !== undefined) {
+      const imageSize = fs.lstatSync(filePaths[0]).size / (1024 * 1024);
+      if (imageSize <= 15.0) {
+        processFile(filePaths[0], (image) => {
+          callback(image);
+        });
+      }
+    }
+    windowManager.show();
+  });
+};
+
 app.on('ready', async () => {
   if (process.env.NODE_ENV === 'development' || process.env.DEBUG_PROD === 'true') {
     await installExtensions();
   }
-  mainWindowManager = new MainWindowManager();
+
+  windowManager = createWindow();
+  trayManager = createTray();
 });
 
 app.on('window-all-closed', () => {
@@ -61,19 +223,19 @@ app.on('window-all-closed', () => {
 
 // Start Twitter OAuth Flow
 ipcMain.on('startOAuth', (startOAuthEvent) => {
-  mainWindowManager.oauthManager.getRequestTokenPair((requestTokenPairError, requestTokenPair) => {
+  oauthManager.getRequestTokenPair((requestTokenPairError, requestTokenPair) => {
     if (requestTokenPairError) {
-      mainWindowManager.oauthManager.destroyWindow();
+      oauthManager.destroyWindow();
       return;
     }
 
     startOAuthEvent.sender.send('receivedRequestTokenPair', requestTokenPair);
 
-    mainWindowManager.oauthManager.window.on('close', () => {
+    oauthManager.window.on('close', () => {
       startOAuthEvent.sender.send('canceledOAuth');
     });
 
-    mainWindowManager.oauthManager.window.webContents.on('did-navigate', (event, webContentsURL) => {
+    oauthManager.window.webContents.on('did-navigate', (event, webContentsURL) => {
       const urlInfo = url.parse(webContentsURL, true);
       if (urlInfo.pathname === '/oauth/authenticate') {
         startOAuthEvent.sender.send('startedCodeVerification');
@@ -84,23 +246,23 @@ ipcMain.on('startOAuth', (startOAuthEvent) => {
 
 // Get Verifier Code
 ipcMain.on('sendVerifierCode', (sendVerifierCodeEvent, data) => {
-  mainWindowManager.oauthManager.getAccessTokenPair(
+  oauthManager.getAccessTokenPair(
     data.requestTokenPair,
     data.verifierCode,
     (accessTokenPairError, accessTokenPair) => {
       if (accessTokenPairError) {
-        mainWindowManager.oauthManager.destroyWindow();
+        oauthManager.destroyWindow();
         return;
       }
 
-      mainWindowManager.oauthManager.verifyCredentials(
+      oauthManager.verifyCredentials(
         accessTokenPair,
         (credentialsError, credentials) => {
           if (credentialsError) {
             return;
           }
 
-          mainWindowManager.oauthManager.destroyWindow();
+          oauthManager.destroyWindow();
 
           const userCredentials = {
             name: credentials.name,
@@ -130,14 +292,14 @@ ipcMain.on('postStatus', (postStatusEvent, response) => {
   const accessTokenSecret = response.accessTokenPair.secret;
 
   if (response.imageData) {
-    mainWindowManager.oauthManager.uploadMedia({
+    oauthManager.uploadMedia({
       media: response.imageData,
     }, accessToken, accessTokenSecret, (uploadMediaError, uploadResponse) => {
       if (uploadMediaError) {
         console.log(uploadMediaError);
       }
 
-      mainWindowManager.oauthManager.updateStatus({
+      oauthManager.updateStatus({
         status: response.statusText,
         media_ids: uploadResponse.media_id_string,
       }, accessToken, accessTokenSecret, (updateStatusError, statusResponse) => {
@@ -148,7 +310,7 @@ ipcMain.on('postStatus', (postStatusEvent, response) => {
       });
     });
   } else {
-    mainWindowManager.oauthManager.updateStatus({
+    oauthManager.updateStatus({
       status: response.statusText,
     }, accessToken, accessTokenSecret, (updateStatusError, statusResponse) => {
       if (updateStatusError) {
@@ -160,8 +322,8 @@ ipcMain.on('postStatus', (postStatusEvent, response) => {
 });
 
 ipcMain.on('returnToLogin', () => {
-  if (mainWindowManager.oauthManager.window !== null) {
-    mainWindowManager.oauthManager.destroyWindow();
+  if (oauthManager.window !== null) {
+    oauthManager.destroyWindow();
   }
 });
 
@@ -170,13 +332,13 @@ ipcMain.on('quitApplication', () => {
 });
 
 ipcMain.on('addImage', (addImageEvent) => {
-  mainWindowManager.openImageDialog((image) => {
+  openImageDialog((image) => {
     addImageEvent.sender.send('addImageComplete', image);
   });
 });
 
 ipcMain.on('addGIF', (addImageEvent) => {
-  mainWindowManager.openGIFDialog((gif) => {
+  openGIFDialog((gif) => {
     addImageEvent.sender.send('addGIFComplete', gif);
   });
 });
