@@ -14,7 +14,6 @@ import url from 'url';
 import fs from 'fs';
 import path from 'path';
 import Positioner from 'electron-positioner';
-import IS_DEV from 'electron-is-dev';
 import { app, ipcMain, BrowserWindow, Tray, dialog, screen, nativeImage, } from 'electron';
 
 import OAuthManager from './utils/OAuthManager';
@@ -120,7 +119,7 @@ const createWindow = () => {
       throw new Error('"window" is not defined');
     }
 
-    if (IS_DEV) {
+    if (process.env.NODE_ENV === 'development' || process.env.DEBUG_PROD === 'true') {
       window.webContents.openDevTools();
     }
 
@@ -194,6 +193,10 @@ const openImageDialog = (callback) => {
 app.on('ready', async () => {
   if (process.env.NODE_ENV === 'development' || process.env.DEBUG_PROD === 'true') {
     await installExtensions();
+  }
+
+  if (process.platform === 'darwin') {
+    app.dock.hide();
   }
 
   windowManager = createWindow();
