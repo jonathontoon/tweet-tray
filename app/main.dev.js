@@ -142,7 +142,7 @@ const createTray = () => {
       app.quit();
     },
   }, ]);
-  tray.setToolTip('Tweet Tray');
+  tray.setToolTip(`Tweet Tray ${app.getVersion()}`);
   tray.setContextMenu(contextMenu);
 
   if (oauthManager === null) {
@@ -163,10 +163,13 @@ const createTray = () => {
 };
 
 const processFile = (filePath, callback) => {
+  const imageSize = fs.lstatSync(filePath).size / (1024 * 1024);
   const base64ImageData = fs.readFileSync(filePath).toString('base64');
   callback({
     path: filePath,
     data: base64ImageData,
+    size: imageSize,
+    extension: path.extname(filePath),
   });
 };
 
@@ -317,9 +320,7 @@ ipcMain.on('postStatus', (postStatusEvent, response) => {
 });
 
 ipcMain.on('returnToLogin', () => {
-  if (oauthManager.window !== null) {
-    oauthManager.destroyWindow();
-  }
+  oauthManager.destroyWindow();
 });
 
 ipcMain.on('quitApplication', () => {

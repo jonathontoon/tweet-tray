@@ -77,9 +77,23 @@ class Composer extends Component {
   }
 
   _addImage(newImage) {
-    this.setState({
-      image: newImage,
-    });
+    if (newImage.extension === '.gif') {
+      if (newImage.size <= 15.0) {
+        this.setState({
+          image: newImage,
+        });
+      } else {
+        Notifier('Oops, an error occured!', 'GIFs must be less than 15mb', false, null);
+      }
+    } else if (newImage.extension !== '.gif') {
+      if (newImage.size <= 5.0) {
+        this.setState({
+          image: newImage,
+        });
+      } else {
+        Notifier('Oops, an error occured!', 'Images must be less than 5mb', false, null);
+      }
+    }
   }
 
   _removeImage() {
