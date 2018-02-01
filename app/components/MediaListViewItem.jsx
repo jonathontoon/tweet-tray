@@ -26,7 +26,7 @@ const MediaGIFLabelStyle = Styled.img`
   user-select: none;
   width: 34px;
   height: 18px;
-  padding: 4px;
+  padding: 2px;
   padding-bottom: 3px;
   padding-top: 3px;
   border-radius: 4px;

@@ -57,20 +57,23 @@ const showWindow = () => {
   let trayPosition = null;
   let windowPosition = null;
 
+  const halfScreenWidth = screenSize.width / 2;
+  const halfScreenHeight = screenSize.height / 2;
+
   if (process.platform !== 'darwin') {
-    if (trayBounds.x < screenSize.width / 2 && trayBounds.y > screenSize.height / 2 && trayBounds.height === 32) {
+    if (trayBounds.x < halfScreenWidth && trayBounds.y > halfScreenHeight && trayBounds.height === 32) {
       trayPosition = 'trayBottomLeft';
       windowPosition = windowPositioner.calculate(trayPosition, trayBounds);
       windowManager.setPosition(windowPosition.x + 78, windowPosition.y - 10);
-    } else if (trayBounds.x > screenSize.width / 2 && trayBounds.y > screenSize.height / 2 && trayBounds.height === 32) {
+    } else if (trayBounds.x > halfScreenWidth && trayBounds.y > halfScreenHeight && trayBounds.height === 32) {
       trayPosition = 'trayBottomRight';
       windowPosition = windowPositioner.calculate(trayPosition, trayBounds);
       windowManager.setPosition(windowPosition.x - 8, windowPosition.y - 10);
-    } else if (trayBounds.x > screenSize.width / 2 && trayBounds.y < screenSize.height / 2 && trayBounds.height === 40) {
+    } else if (trayBounds.x > halfScreenWidth && trayBounds.y < halfScreenHeight && trayBounds.height === 40) {
       trayPosition = 'trayCenter';
       windowPosition = windowPositioner.calculate(trayPosition, trayBounds);
       windowManager.setPosition(windowPosition.x, windowPosition.y + 6);
-    } else if (trayBounds.x > screenSize.width / 2 && trayBounds.y > screenSize.height / 2 && trayBounds.height === 40) {
+    } else if (trayBounds.x > halfScreenWidth && trayBounds.y > halfScreenHeight && trayBounds.height === 40) {
       trayPosition = 'trayBottomCenter';
       windowPosition = windowPositioner.calculate(trayPosition, trayBounds);
       windowManager.setPosition(windowPosition.x, windowPosition.y - 6);
@@ -101,6 +104,7 @@ const createWindow = () => {
     alwaysOnTop: true,
     skipTaskbar: true,
     icon: `${__dirname}\\includes\\icon.ico`,
+    backgroundThrottling: false,
   });
   window.loadURL(`file://${__dirname}/app.html`);
   window.setMenu(null);
@@ -138,7 +142,7 @@ const createTray = () => {
       app.quit();
     },
   }, ]);
-  tray.setToolTip('Tweet Tray');
+  tray.setToolTip(`Tweet Tray ${app.getVersion()}`);
   tray.setContextMenu(contextMenu);
 
   if (oauthManager === null) {
@@ -159,15 +163,13 @@ const createTray = () => {
 };
 
 const processFile = (filePath, callback) => {
-  fs.readFile(filePath, (readFileError, data) => {
-    if (readFileError) {
-      console.log(readFileError);
-    }
-    const base64ImageData = Buffer.from(data).toString('base64');
-    callback({
-      path: filePath,
-      data: base64ImageData,
-    });
+  const imageSize = fs.lstatSync(filePath).size / (1024 * 1024);
+  const base64ImageData = fs.readFileSync(filePath).toString('base64');
+  callback({
+    path: filePath,
+    data: base64ImageData,
+    size: imageSize,
+    extension: path.extname(filePath),
   });
 };
 
@@ -180,48 +182,17 @@ const openImageDialog = (callback) => {
   }
 
   dialog.showOpenDialog({
-    title: 'Select a Photo',
+    title: 'Select an Image',
     buttonLabel: 'Add',
     filters: [
-      { name: 'Images', extensions: ['jpeg', 'jpg', 'png', ], },
+      { name: 'Images', extensions: ['jpeg', 'jpg', 'png', 'gif', ], },
     ],
     properties,
   }, (filePaths) => {
     if (filePaths !== undefined) {
-      const imageSize = fs.lstatSync(filePaths[0]).size / (1024 * 1024);
-      if (imageSize <= 5.0) {
-        processFile(filePaths[0], (image) => {
-          callback(image);
-        });
-      }
-    }
-    windowManager.show();
-  });
-};
-
-const openGIFDialog = (callback) => {
-  const properties = ['openFile', ];
-
-  // Only Mac OSX supports the openDirectory option for file dialogs
-  if (process.platform === 'darwin') {
-    properties.push('openDirectory');
-  }
-
-  dialog.showOpenDialog({
-    title: 'Select a GIF',
-    buttonLabel: 'Add',
-    filters: [
-      { name: 'GIFs', extensions: ['gif', ], },
-    ],
-    properties,
-  }, (filePaths) => {
-    if (filePaths !== undefined) {
-      const imageSize = fs.lstatSync(filePaths[0]).size / (1024 * 1024);
-      if (imageSize <= 15.0) {
-        processFile(filePaths[0], (image) => {
-          callback(image);
-        });
-      }
+      processFile(filePaths[0], (image) => {
+        callback(image);
+      });
     }
     windowManager.show();
   });
@@ -236,19 +207,12 @@ app.on('ready', async () => {
   trayManager = createTray();
 });
 
-app.on('window-all-closed', () => {
-  // Respect the OSX convention of having the application in memory even
-  // after all windows have been closed
-  if (process.platform !== 'darwin') {
-    app.quit();
-  }
-});
-
 // Start Twitter OAuth Flow
 ipcMain.on('startOAuth', (startOAuthEvent) => {
   oauthManager.getRequestTokenPair((requestTokenPairError, requestTokenPair) => {
     if (requestTokenPairError) {
       oauthManager.destroyWindow();
+      startOAuthEvent.sender.send('startOAuthError');
       return;
     }
 
@@ -275,6 +239,7 @@ ipcMain.on('sendVerifierCode', (sendVerifierCodeEvent, data) => {
     (accessTokenPairError, accessTokenPair) => {
       if (accessTokenPairError) {
         oauthManager.destroyWindow();
+        sendVerifierCodeEvent.sender.send('sendVerifierCodeError');
         return;
       }
 
@@ -282,6 +247,8 @@ ipcMain.on('sendVerifierCode', (sendVerifierCodeEvent, data) => {
         accessTokenPair,
         (credentialsError, credentials) => {
           if (credentialsError) {
+            oauthManager.destroyWindow();
+            sendVerifierCodeEvent.sender.send('verifyCredentialsError');
             return;
           }
 
@@ -314,12 +281,16 @@ ipcMain.on('postStatus', (postStatusEvent, response) => {
   const accessToken = response.accessTokenPair.token;
   const accessTokenSecret = response.accessTokenPair.secret;
 
+  windowManager.hide();
+
   if (response.imageData) {
     oauthManager.uploadMedia({
       media: response.imageData,
     }, accessToken, accessTokenSecret, (uploadMediaError, uploadResponse) => {
       if (uploadMediaError) {
-        console.log(uploadMediaError);
+        oauthManager.destroyWindow();
+        postStatusEvent.sender.send('postStatusError', uploadResponse);
+        return;
       }
 
       oauthManager.updateStatus({
@@ -327,7 +298,9 @@ ipcMain.on('postStatus', (postStatusEvent, response) => {
         media_ids: uploadResponse.media_id_string,
       }, accessToken, accessTokenSecret, (updateStatusError, statusResponse) => {
         if (updateStatusError) {
-          console.log(updateStatusError);
+          oauthManager.destroyWindow();
+          postStatusEvent.sender.send('postStatusError', statusResponse);
+          return;
         }
         postStatusEvent.sender.send('postStatusComplete', statusResponse);
       });
@@ -337,7 +310,9 @@ ipcMain.on('postStatus', (postStatusEvent, response) => {
       status: response.statusText,
     }, accessToken, accessTokenSecret, (updateStatusError, statusResponse) => {
       if (updateStatusError) {
-        console.log(updateStatusError);
+        oauthManager.destroyWindow();
+        postStatusEvent.sender.send('postStatusError', statusResponse);
+        return;
       }
       postStatusEvent.sender.send('postStatusComplete', statusResponse);
     });
@@ -345,9 +320,7 @@ ipcMain.on('postStatus', (postStatusEvent, response) => {
 });
 
 ipcMain.on('returnToLogin', () => {
-  if (oauthManager.window !== null) {
-    oauthManager.destroyWindow();
-  }
+  oauthManager.destroyWindow();
 });
 
 ipcMain.on('quitApplication', () => {
@@ -357,12 +330,6 @@ ipcMain.on('quitApplication', () => {
 ipcMain.on('addImage', (addImageEvent) => {
   openImageDialog((image) => {
     addImageEvent.sender.send('addImageComplete', image);
-  });
-});
-
-ipcMain.on('addGIF', (addImageEvent) => {
-  openGIFDialog((gif) => {
-    addImageEvent.sender.send('addGIFComplete', gif);
   });
 });
 

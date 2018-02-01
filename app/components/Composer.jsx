@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import Styled from 'styled-components';
 import Theme from 'styled-theming';
 
+import Notifier from '../utils/Notifier';
+
 import Header from './Header';
 import SettingsContainer from '../containers/SettingsContainer';
 import InnerContent from './InnerContent';
@@ -17,9 +19,8 @@ import * as constants from '../constants';
 
 import SettingsIcon from '../../resources/settings.svg';
 import PhotoIcon from '../../resources/photo.svg';
-import GIFIcon from '../../resources/gif.svg';
 
-const { ipcRenderer, } = window.require('electron');
+const { ipcRenderer, shell, } = window.require('electron');
 
 const ComposerStyle = Styled.section`
   overflow: hidden;
@@ -28,11 +29,6 @@ const ComposerStyle = Styled.section`
   height: ${window.innerHeight}px;
   background-color: ${Theme('mode', { day: constants.WHITE, night: constants.DARK_MODE_BACKGROUND, })};
   position: relative;
-`;
-
-const SettingsIconWrapperStyle = Styled.div`
-  height: 100%;
-  margin-left: 20px;
 `;
 
 class Composer extends Component {
@@ -68,19 +64,36 @@ class Composer extends Component {
       this._addImage(response);
     });
 
-    ipcRenderer.on('postStatusComplete', () => {
-      this.setState({
-        image: null,
+    ipcRenderer.on('postStatusError', (event, response) => {
+      const parsedResponse = JSON.parse(response);
+      Notifier('Oops, an error occured!', parsedResponse.errors[0].message, false, null);
+    });
+
+    ipcRenderer.on('postStatusComplete', (event, response) => {
+      Notifier('Your Tweet was posted!', 'Click here to view it', false, () => {
+        shell.openExternal(`https://twitter.com/${response.user.screen_name}/status/${response.id_str}`);
       });
-      this.props.onUpdateWeightedStatus(null);
-      this.forceUpdate();
     });
   }
 
   _addImage(newImage) {
-    this.setState({
-      image: newImage,
-    });
+    if (newImage.extension === '.gif') {
+      if (newImage.size <= 15.0) {
+        this.setState({
+          image: newImage,
+        });
+      } else {
+        Notifier('Oops, an error occured!', 'GIFs must be less than 15mb', false, null);
+      }
+    } else if (newImage.extension !== '.gif') {
+      if (newImage.size <= 5.0) {
+        this.setState({
+          image: newImage,
+        });
+      } else {
+        Notifier('Oops, an error occured!', 'Images must be less than 5mb', false, null);
+      }
+    }
   }
 
   _removeImage() {
@@ -98,13 +111,19 @@ class Composer extends Component {
     const statusText = weightedStatus === null ? '' : weightedStatus.text;
     const imageData = image ? image.data : null;
 
-    ipcRenderer.send('postStatus', {
+    const statusData = {
       accessTokenPair,
       statusText,
       imageData,
-    });
+    };
 
+    this.setState({
+      image: null,
+    });
+    this.props.onUpdateWeightedStatus(null);
     this._composerForm.reset();
+    ipcRenderer.send('postStatus', statusData);
+    this.forceUpdate();
   }
 
   render() {
@@ -166,17 +185,6 @@ class Composer extends Component {
                     ipcRenderer.send('addImage');
                   }}
                 />
-                <SettingsIconWrapperStyle>
-                  <IconButton
-                    disabled={image !== null}
-                    iconSrc={GIFIcon}
-                    altText="Add GIF"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      ipcRenderer.send('addGIF');
-                    }}
-                  />
-                </SettingsIconWrapperStyle>
               </Fragment>
             }
             right={
