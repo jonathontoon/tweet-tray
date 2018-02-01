@@ -19,9 +19,9 @@ git clone https://github.com/jonathontoon/tweet-tray.git
 
 2. To run Tweet Tray locally you will need to first install either [npm](https://www.npmjs.com/get-npm) or [yarn](https://yarnpkg.com/lang/en/docs/install/) package managers.
 
-3. Setup the applications' dependencies by navigating to the `tweettray` directory and run either `npm install` or `yarn install`.
+3. Setup the applications' dependencies by navigating to the `tweet-tray` directory and run `yarn install`.
 
-4. After everything has been installed simply call `npm run dev` or `yarn dev`.
+4. After everything has been installed simply call `yarn dev` to run the development build. To run the production build you can call `yarn prestart` followed by `yarn start`.
 
 ## Development
 
