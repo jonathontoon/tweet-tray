@@ -15,7 +15,7 @@ import fs from 'fs';
 import path from 'path';
 import Positioner from 'electron-positioner';
 import IS_DEV from 'electron-is-dev';
-import { app, ipcMain, BrowserWindow, Tray, Menu, dialog, } from 'electron';
+import { app, ipcMain, BrowserWindow, Tray, Menu, dialog, screen, } from 'electron';
 
 import OAuthManager from './utils/OAuthManager';
 import config from './utils/config';
@@ -52,12 +52,35 @@ const installExtensions = async () => {
 };
 
 const showWindow = () => {
-  const trayPosition = (process.platform === 'darwin') ? 'trayCenter' : 'trayBottomCenter';
+  const screenSize = screen.getPrimaryDisplay().workAreaSize;
   const trayBounds = trayManager.getBounds();
+  let trayPosition = null;
+  let windowPosition = null;
 
-  const position = windowPositioner.calculate(trayPosition, trayBounds);
+  if (process.platform !== 'darwin') {
+    if (trayBounds.x < screenSize.width / 2 && trayBounds.y > screenSize.height / 2 && trayBounds.height === 32) {
+      trayPosition = 'trayBottomLeft';
+      windowPosition = windowPositioner.calculate(trayPosition, trayBounds);
+      windowManager.setPosition(windowPosition.x + 78, windowPosition.y - 10);
+    } else if (trayBounds.x > screenSize.width / 2 && trayBounds.y > screenSize.height / 2 && trayBounds.height === 32) {
+      trayPosition = 'trayBottomRight';
+      windowPosition = windowPositioner.calculate(trayPosition, trayBounds);
+      windowManager.setPosition(windowPosition.x - 8, windowPosition.y - 10);
+    } else if (trayBounds.x > screenSize.width / 2 && trayBounds.y < screenSize.height / 2 && trayBounds.height === 40) {
+      trayPosition = 'trayCenter';
+      windowPosition = windowPositioner.calculate(trayPosition, trayBounds);
+      windowManager.setPosition(windowPosition.x, windowPosition.y + 6);
+    } else if (trayBounds.x > screenSize.width / 2 && trayBounds.y > screenSize.height / 2 && trayBounds.height === 40) {
+      trayPosition = 'trayBottomCenter';
+      windowPosition = windowPositioner.calculate(trayPosition, trayBounds);
+      windowManager.setPosition(windowPosition.x, windowPosition.y - 6);
+    }
+  } else {
+    trayPosition = 'trayCenter';
+    windowPosition = windowPositioner.calculate(trayPosition, trayBounds);
+    windowManager.setPosition(windowPosition.x, windowPosition.y);
+  }
 
-  windowManager.setPosition(position.x, position.y - 6);
   windowManager.show();
   trayManager.setHighlightMode('always');
 };
