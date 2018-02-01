@@ -98,7 +98,6 @@ const createWindow = () => {
     height: 520,
     resizable: false,
     frame: false,
-    titleBarStyle: 'hidden',
     show: false,
     alwaysOnTop: true,
     skipTaskbar: true,
