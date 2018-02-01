@@ -163,15 +163,10 @@ const createTray = () => {
 };
 
 const processFile = (filePath, callback) => {
-  fs.readFile(filePath, (readFileError, data) => {
-    if (readFileError) {
-      console.log(readFileError);
-    }
-    const base64ImageData = Buffer.from(data).toString('base64');
-    callback({
-      path: filePath,
-      data: base64ImageData,
-    });
+  const base64ImageData = fs.readFileSync(filePath).toString('base64');
+  callback({
+    path: filePath,
+    data: base64ImageData,
   });
 };
 
