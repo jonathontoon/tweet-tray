@@ -8,7 +8,7 @@
 
 ## Introduction
 
-Tweet Tray is a small Electron and React application which allows you to tweet from your desktop system tray or status bar, without any further distractions.
+Tweet Tray is a small application which allows you to tweet from your desktop system tray or status bar, without any further distractions. The core technology used consists of Electron, React + Redux and Styled Components. All transpiled from ES6 Javascript.
 
 ## Installation
 
