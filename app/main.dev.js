@@ -60,22 +60,26 @@ const showWindow = () => {
   const halfScreenHeight = screenSize.height / 2;
 
   if (process.platform !== 'darwin') {
-    if (trayBounds.x < halfScreenWidth && trayBounds.y > halfScreenHeight && trayBounds.height === 32) {
-      trayPosition = 'trayBottomLeft';
-      windowPosition = windowPositioner.calculate(trayPosition, trayBounds);
-      windowManager.setPosition(windowPosition.x + 78, windowPosition.y - 10);
-    } else if (trayBounds.x > halfScreenWidth && trayBounds.y > halfScreenHeight && trayBounds.height === 32) {
-      trayPosition = 'trayBottomRight';
-      windowPosition = windowPositioner.calculate(trayPosition, trayBounds);
-      windowManager.setPosition(windowPosition.x - 8, windowPosition.y - 10);
-    } else if (trayBounds.x > halfScreenWidth && trayBounds.y < halfScreenHeight && trayBounds.height === 40) {
-      trayPosition = 'trayCenter';
-      windowPosition = windowPositioner.calculate(trayPosition, trayBounds);
-      windowManager.setPosition(windowPosition.x, windowPosition.y + 6);
-    } else if (trayBounds.x > halfScreenWidth && trayBounds.y > halfScreenHeight && trayBounds.height === 40) {
-      trayPosition = 'trayBottomCenter';
-      windowPosition = windowPositioner.calculate(trayPosition, trayBounds);
-      windowManager.setPosition(windowPosition.x, windowPosition.y - 6);
+    if (trayBounds.height === 32) {
+      if (trayBounds.x < halfScreenWidth && trayBounds.y > halfScreenHeight) {
+        trayPosition = 'trayBottomLeft';
+        windowPosition = windowPositioner.calculate(trayPosition, trayBounds);
+        windowManager.setPosition(windowPosition.x + 78, windowPosition.y - 10);
+      } else if (trayBounds.x > halfScreenWidth && trayBounds.y > halfScreenHeight) {
+        trayPosition = 'trayBottomRight';
+        windowPosition = windowPositioner.calculate(trayPosition, trayBounds);
+        windowManager.setPosition(windowPosition.x - 8, windowPosition.y - 10);
+      }
+    } else if (trayBounds.height === 40) {
+      if (trayBounds.x > halfScreenWidth && trayBounds.y < halfScreenHeight) {
+        trayPosition = 'trayCenter';
+        windowPosition = windowPositioner.calculate(trayPosition, trayBounds);
+        windowManager.setPosition(windowPosition.x, windowPosition.y + 6);
+      } else if (trayBounds.x > halfScreenWidth && trayBounds.y > halfScreenHeight) {
+        trayPosition = 'trayBottomCenter';
+        windowPosition = windowPositioner.calculate(trayPosition, trayBounds);
+        windowManager.setPosition(windowPosition.x, windowPosition.y - 6);
+      }
     }
   } else {
     trayPosition = 'trayCenter';
@@ -84,12 +88,10 @@ const showWindow = () => {
   }
 
   windowManager.show();
-  trayManager.setHighlightMode('always');
 };
 
 const hideWindow = () => {
   windowManager.hide();
-  trayManager.setHighlightMode('never');
 };
 
 const createWindow = () => {
@@ -136,11 +138,12 @@ const createTray = () => {
   let trayImage = nativeImage.createFromPath(`${__dirname}/includes/tray.ico`);
 
   if (process.platform === 'darwin') {
-    trayImage = nativeImage.createFromPath(`${__dirname}/includes/iconTemplate.png`);
+    trayImage = nativeImage.createFromPath(`${__dirname}/includes/trayTemplate.png`);
   }
 
   const tray = new Tray(trayImage);
   tray.setToolTip(`Tweet Tray ${app.getVersion()}`);
+  tray.setPressedImage(nativeImage.createFromPath(`${__dirname}/includes/trayTemplatePressed.png`));
 
   if (oauthManager === null) {
     oauthManager = new OAuthManager(config, windowManager);
