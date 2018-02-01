@@ -57,20 +57,23 @@ const showWindow = () => {
   let trayPosition = null;
   let windowPosition = null;
 
+  const halfScreenWidth = screenSize.width / 2;
+  const halfScreenHeight = screenSize.height / 2;
+
   if (process.platform !== 'darwin') {
-    if (trayBounds.x < screenSize.width / 2 && trayBounds.y > screenSize.height / 2 && trayBounds.height === 32) {
+    if (trayBounds.x < halfScreenWidth && trayBounds.y > halfScreenHeight && trayBounds.height === 32) {
       trayPosition = 'trayBottomLeft';
       windowPosition = windowPositioner.calculate(trayPosition, trayBounds);
       windowManager.setPosition(windowPosition.x + 78, windowPosition.y - 10);
-    } else if (trayBounds.x > screenSize.width / 2 && trayBounds.y > screenSize.height / 2 && trayBounds.height === 32) {
+    } else if (trayBounds.x > halfScreenWidth && trayBounds.y > halfScreenHeight && trayBounds.height === 32) {
       trayPosition = 'trayBottomRight';
       windowPosition = windowPositioner.calculate(trayPosition, trayBounds);
       windowManager.setPosition(windowPosition.x - 8, windowPosition.y - 10);
-    } else if (trayBounds.x > screenSize.width / 2 && trayBounds.y < screenSize.height / 2 && trayBounds.height === 40) {
+    } else if (trayBounds.x > halfScreenWidth && trayBounds.y < halfScreenHeight && trayBounds.height === 40) {
       trayPosition = 'trayCenter';
       windowPosition = windowPositioner.calculate(trayPosition, trayBounds);
       windowManager.setPosition(windowPosition.x, windowPosition.y + 6);
-    } else if (trayBounds.x > screenSize.width / 2 && trayBounds.y > screenSize.height / 2 && trayBounds.height === 40) {
+    } else if (trayBounds.x > halfScreenWidth && trayBounds.y > halfScreenHeight && trayBounds.height === 40) {
       trayPosition = 'trayBottomCenter';
       windowPosition = windowPositioner.calculate(trayPosition, trayBounds);
       windowManager.setPosition(windowPosition.x, windowPosition.y - 6);
