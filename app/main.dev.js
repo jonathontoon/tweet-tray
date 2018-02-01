@@ -87,10 +87,12 @@ const showWindow = () => {
     windowManager.setPosition(windowPosition.x, windowPosition.y + 20);
   }
 
+  trayManager.setHighlightMode('always');
   windowManager.show();
 };
 
 const hideWindow = () => {
+  trayManager.setHighlightMode('never');
   windowManager.hide();
 };
 
