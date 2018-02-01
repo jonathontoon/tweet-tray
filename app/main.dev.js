@@ -15,7 +15,7 @@ import fs from 'fs';
 import path from 'path';
 import Positioner from 'electron-positioner';
 import IS_DEV from 'electron-is-dev';
-import { app, ipcMain, BrowserWindow, Tray, Menu, dialog, screen, nativeImage, } from 'electron';
+import { app, ipcMain, BrowserWindow, Tray, dialog, screen, nativeImage, } from 'electron';
 
 import OAuthManager from './utils/OAuthManager';
 import config from './utils/config';
@@ -136,15 +136,8 @@ const createWindow = () => {
 
 const createTray = () => {
   const tray = new Tray(nativeImage.createFromPath(`${__dirname}/includes/tray.ico`));
-  const contextMenu = Menu.buildFromTemplate([{
-    label: 'Quit Tweet Tray',
-    click: () => {
-      app.quit();
-    },
-  }, ]);
   tray.setToolTip(`Tweet Tray ${app.getVersion()}`);
-  tray.setContextMenu(contextMenu);
-
+  
   if (oauthManager === null) {
     oauthManager = new OAuthManager(config, windowManager);
   }
