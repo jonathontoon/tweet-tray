@@ -19,7 +19,6 @@ import * as constants from '../constants';
 
 import SettingsIcon from '../../resources/settings.svg';
 import PhotoIcon from '../../resources/photo.svg';
-import GIFIcon from '../../resources/gif.svg';
 
 const { ipcRenderer, shell, } = window.require('electron');
 
@@ -30,11 +29,6 @@ const ComposerStyle = Styled.section`
   height: ${window.innerHeight}px;
   background-color: ${Theme('mode', { day: constants.WHITE, night: constants.DARK_MODE_BACKGROUND, })};
   position: relative;
-`;
-
-const SettingsIconWrapperStyle = Styled.div`
-  height: 100%;
-  margin-left: 20px;
 `;
 
 class Composer extends Component {
@@ -70,8 +64,13 @@ class Composer extends Component {
       this._addImage(response);
     });
 
+    ipcRenderer.on('postStatusError', (event, response) => {
+      const parsedResponse = JSON.parse(response);
+      Notifier('Oops, an error occured!', parsedResponse.errors[0].message, false, null);
+    });
+
     ipcRenderer.on('postStatusComplete', (event, response) => {
-      Notifier('Your Tweet was posted!', 'Click here to see it on Twitter', false, () => {
+      Notifier('Your Tweet was posted!', 'Click here to view it', false, () => {
         shell.openExternal(`https://twitter.com/${response.user.screen_name}/status/${response.id_str}`);
       });
     });
@@ -172,17 +171,6 @@ class Composer extends Component {
                     ipcRenderer.send('addImage');
                   }}
                 />
-                <SettingsIconWrapperStyle>
-                  <IconButton
-                    disabled={image !== null}
-                    iconSrc={GIFIcon}
-                    altText="Add GIF"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      ipcRenderer.send('addGIF');
-                    }}
-                  />
-                </SettingsIconWrapperStyle>
               </Fragment>
             }
             right={

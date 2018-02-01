@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import Styled from 'styled-components';
 import Theme from 'styled-theming';
 
+import Notifier from '../utils/Notifier';
+
 import InnerContent from './InnerContent';
 import RoundedButton from './RoundedButton';
 
@@ -75,6 +77,10 @@ class LogIn extends Component {
   }
 
   componentDidMount() {
+    ipcRenderer.on('startOAuthError', () => {
+      Notifier('Oops, an error occured!', 'Your account failed to authenticate', false, null);
+    });
+
     ipcRenderer.on('receivedRequestTokenPair', (event, requestTokenPair) => {
       const { onUpdateRequestTokenPair, } = this.props;
       onUpdateRequestTokenPair(requestTokenPair);

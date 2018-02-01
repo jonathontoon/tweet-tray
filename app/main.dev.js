@@ -184,48 +184,17 @@ const openImageDialog = (callback) => {
   }
 
   dialog.showOpenDialog({
-    title: 'Select a Photo',
+    title: 'Select an Image',
     buttonLabel: 'Add',
     filters: [
-      { name: 'Images', extensions: ['jpeg', 'jpg', 'png', ], },
+      { name: 'Images', extensions: ['jpeg', 'jpg', 'png', 'gif', ], },
     ],
     properties,
   }, (filePaths) => {
     if (filePaths !== undefined) {
-      const imageSize = fs.lstatSync(filePaths[0]).size / (1024 * 1024);
-      if (imageSize <= 5.0) {
-        processFile(filePaths[0], (image) => {
-          callback(image);
-        });
-      }
-    }
-    windowManager.show();
-  });
-};
-
-const openGIFDialog = (callback) => {
-  const properties = ['openFile', ];
-
-  // Only Mac OSX supports the openDirectory option for file dialogs
-  if (process.platform === 'darwin') {
-    properties.push('openDirectory');
-  }
-
-  dialog.showOpenDialog({
-    title: 'Select a GIF',
-    buttonLabel: 'Add',
-    filters: [
-      { name: 'GIFs', extensions: ['gif', ], },
-    ],
-    properties,
-  }, (filePaths) => {
-    if (filePaths !== undefined) {
-      const imageSize = fs.lstatSync(filePaths[0]).size / (1024 * 1024);
-      if (imageSize <= 15.0) {
-        processFile(filePaths[0], (image) => {
-          callback(image);
-        });
-      }
+      processFile(filePaths[0], (image) => {
+        callback(image);
+      });
     }
     windowManager.show();
   });
@@ -245,6 +214,7 @@ ipcMain.on('startOAuth', (startOAuthEvent) => {
   oauthManager.getRequestTokenPair((requestTokenPairError, requestTokenPair) => {
     if (requestTokenPairError) {
       oauthManager.destroyWindow();
+      startOAuthEvent.sender.send('startOAuthError');
       return;
     }
 
@@ -271,6 +241,7 @@ ipcMain.on('sendVerifierCode', (sendVerifierCodeEvent, data) => {
     (accessTokenPairError, accessTokenPair) => {
       if (accessTokenPairError) {
         oauthManager.destroyWindow();
+        sendVerifierCodeEvent.sender.send('sendVerifierCodeError');
         return;
       }
 
@@ -278,6 +249,8 @@ ipcMain.on('sendVerifierCode', (sendVerifierCodeEvent, data) => {
         accessTokenPair,
         (credentialsError, credentials) => {
           if (credentialsError) {
+            oauthManager.destroyWindow();
+            sendVerifierCodeEvent.sender.send('verifyCredentialsError');
             return;
           }
 
@@ -317,7 +290,9 @@ ipcMain.on('postStatus', (postStatusEvent, response) => {
       media: response.imageData,
     }, accessToken, accessTokenSecret, (uploadMediaError, uploadResponse) => {
       if (uploadMediaError) {
-        console.log(uploadMediaError);
+        oauthManager.destroyWindow();
+        postStatusEvent.sender.send('postStatusError', uploadResponse);
+        return;
       }
 
       oauthManager.updateStatus({
@@ -325,7 +300,9 @@ ipcMain.on('postStatus', (postStatusEvent, response) => {
         media_ids: uploadResponse.media_id_string,
       }, accessToken, accessTokenSecret, (updateStatusError, statusResponse) => {
         if (updateStatusError) {
-          console.log(updateStatusError);
+          oauthManager.destroyWindow();
+          postStatusEvent.sender.send('postStatusError', statusResponse);
+          return;
         }
         postStatusEvent.sender.send('postStatusComplete', statusResponse);
       });
@@ -335,7 +312,9 @@ ipcMain.on('postStatus', (postStatusEvent, response) => {
       status: response.statusText,
     }, accessToken, accessTokenSecret, (updateStatusError, statusResponse) => {
       if (updateStatusError) {
-        console.log(updateStatusError);
+        oauthManager.destroyWindow();
+        postStatusEvent.sender.send('postStatusError', statusResponse);
+        return;
       }
       postStatusEvent.sender.send('postStatusComplete', statusResponse);
     });
@@ -355,12 +334,6 @@ ipcMain.on('quitApplication', () => {
 ipcMain.on('addImage', (addImageEvent) => {
   openImageDialog((image) => {
     addImageEvent.sender.send('addImageComplete', image);
-  });
-});
-
-ipcMain.on('addGIF', (addImageEvent) => {
-  openGIFDialog((gif) => {
-    addImageEvent.sender.send('addGIFComplete', gif);
   });
 });
 

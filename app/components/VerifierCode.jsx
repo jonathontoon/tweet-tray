@@ -80,6 +80,14 @@ class VerifierCode extends Component {
   }
 
   componentDidMount() {
+    ipcRenderer.on('sendVerifierCodeError', () => {
+      Notifier('Oops, an error occured!', 'Your account failed to authenticate', false, null);
+    });
+
+    ipcRenderer.on('verifyCredentialsError', () => {
+      Notifier('Oops, an error occured!', 'Your account failed to authenticate', false, null);
+    });
+
     ipcRenderer.on('completedOAuth', (event, response) => {
       const { onUpdateAccessTokenPair, onSetUserCredentials, } = this.props;
       onUpdateAccessTokenPair(response.accessTokenPair);
