@@ -108,7 +108,7 @@ const createWindow = () => {
   window.setMenu(null);
 
   window.on('blur', () => {
-    if (oauthManager.window && oauthManager.window.isVisible()) return;
+    if (oauthManager.isOAuthActive) return;
     if (!window && !window.isVisible()) return;
     hideWindow();
   });
@@ -135,13 +135,13 @@ const createWindow = () => {
 const createTray = () => {
   let trayImage = nativeImage.createFromPath(`${__dirname}/includes/tray.ico`);
 
-  if (process.platform === "darwin") {
+  if (process.platform === 'darwin') {
     trayImage = nativeImage.createFromPath(`${__dirname}/includes/iconTemplate.png`);
   }
 
   const tray = new Tray(trayImage);
   tray.setToolTip(`Tweet Tray ${app.getVersion()}`);
-  
+
   if (oauthManager === null) {
     oauthManager = new OAuthManager(config, windowManager);
   }

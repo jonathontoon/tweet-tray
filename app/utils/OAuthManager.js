@@ -20,6 +20,7 @@ class OAuthManager {
     this.authenticateURL = config.BASE_AUTHENTICATE_URL;
 
     this.window = null;
+    this.isOAuthActive = false;
     this._mainWindow = mainWindow;
 
     this._createWindow = this._createWindow.bind(this);
@@ -54,18 +55,24 @@ class OAuthManager {
     });
     window.setMenu(null);
     window.on('closed', () => {
+      this.isOAuthActive = false;
       if (this._mainWindow !== null && this._mainWindow.isVisible()) {
         this._mainWindow.focus();
       }
-      this.destroyWindow();
+    });
+    window.on('show', () => {
+      this.isOAuthActive = true;
+    });
+    window.on('hide', () => {
+      this.isOAuthActive = false;
     });
     return window;
   }
 
   destroyWindow() {
     if (this.window !== null) {
+      this.isOAuthActive = false;
       this.window.close();
-      this.window = null;
     }
   }
 
