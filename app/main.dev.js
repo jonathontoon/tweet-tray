@@ -80,7 +80,7 @@ const showWindow = () => {
   } else {
     trayPosition = 'trayCenter';
     windowPosition = windowPositioner.calculate(trayPosition, trayBounds);
-    windowManager.setPosition(windowPosition.x, windowPosition.y);
+    windowManager.setPosition(windowPosition.x, windowPosition.y + 20);
   }
 
   windowManager.show();
