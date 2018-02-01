@@ -101,7 +101,7 @@ const createWindow = () => {
     show: false,
     alwaysOnTop: true,
     skipTaskbar: true,
-    icon: `${__dirname}\\includes\\icon.ico`,
+    icon: nativeImage.createFromPath(`${__dirname}/includes/icon.ico`),
     backgroundThrottling: false,
   });
   window.loadURL(`file://${__dirname}/app.html`);
@@ -133,7 +133,13 @@ const createWindow = () => {
 };
 
 const createTray = () => {
-  const tray = new Tray(nativeImage.createFromPath(`${__dirname}/includes/tray.ico`));
+  let trayImage = nativeImage.createFromPath(`${__dirname}/includes/tray.ico`);
+
+  if (process.platform === "darwin") {
+    trayImage = nativeImage.createFromPath(`${__dirname}/includes/iconTemplate.png`);
+  }
+
+  const tray = new Tray(trayImage);
   tray.setToolTip(`Tweet Tray ${app.getVersion()}`);
   
   if (oauthManager === null) {
