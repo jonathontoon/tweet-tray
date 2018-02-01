@@ -104,6 +104,7 @@ const createWindow = () => {
     alwaysOnTop: true,
     skipTaskbar: true,
     icon: `${__dirname}\\includes\\icon.ico`,
+    backgroundThrottling: false,
   });
   window.loadURL(`file://${__dirname}/app.html`);
   window.setMenu(null);
@@ -239,14 +240,6 @@ app.on('ready', async () => {
   trayManager = createTray();
 });
 
-app.on('window-all-closed', () => {
-  // Respect the OSX convention of having the application in memory even
-  // after all windows have been closed
-  if (process.platform !== 'darwin') {
-    app.quit();
-  }
-});
-
 // Start Twitter OAuth Flow
 ipcMain.on('startOAuth', (startOAuthEvent) => {
   oauthManager.getRequestTokenPair((requestTokenPairError, requestTokenPair) => {
@@ -316,6 +309,8 @@ ipcMain.on('sendVerifierCode', (sendVerifierCodeEvent, data) => {
 ipcMain.on('postStatus', (postStatusEvent, response) => {
   const accessToken = response.accessTokenPair.token;
   const accessTokenSecret = response.accessTokenPair.secret;
+
+  windowManager.hide();
 
   if (response.imageData) {
     oauthManager.uploadMedia({

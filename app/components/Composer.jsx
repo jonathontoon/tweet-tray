@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import Styled from 'styled-components';
 import Theme from 'styled-theming';
 
+import Notifier from '../utils/Notifier';
+
 import Header from './Header';
 import SettingsContainer from '../containers/SettingsContainer';
 import InnerContent from './InnerContent';
@@ -19,7 +21,7 @@ import SettingsIcon from '../../resources/settings.svg';
 import PhotoIcon from '../../resources/photo.svg';
 import GIFIcon from '../../resources/gif.svg';
 
-const { ipcRenderer, } = window.require('electron');
+const { ipcRenderer, shell, } = window.require('electron');
 
 const ComposerStyle = Styled.section`
   overflow: hidden;
@@ -68,12 +70,10 @@ class Composer extends Component {
       this._addImage(response);
     });
 
-    ipcRenderer.on('postStatusComplete', () => {
-      this.setState({
-        image: null,
+    ipcRenderer.on('postStatusComplete', (event, response) => {
+      Notifier('Your Tweet was posted!', 'Click here to see it on Twitter', false, () => {
+        shell.openExternal(`https://twitter.com/${response.user.screen_name}/status/${response.id_str}`);
       });
-      this.props.onUpdateWeightedStatus(null);
-      this.forceUpdate();
     });
   }
 
@@ -98,13 +98,19 @@ class Composer extends Component {
     const statusText = weightedStatus === null ? '' : weightedStatus.text;
     const imageData = image ? image.data : null;
 
-    ipcRenderer.send('postStatus', {
+    const statusData = {
       accessTokenPair,
       statusText,
       imageData,
-    });
+    };
 
+    this.setState({
+      image: null,
+    });
+    this.props.onUpdateWeightedStatus(null);
     this._composerForm.reset();
+    ipcRenderer.send('postStatus', statusData);
+    this.forceUpdate();
   }
 
   render() {
