@@ -24,6 +24,8 @@ let windowManager = null;
 let trayManager = null;
 let windowPositioner = null;
 
+let isDialogOpen = false;
+
 if (process.env.NODE_ENV === 'production') {
   const sourceMapSupport = require('source-map-support');
   sourceMapSupport.install();
@@ -113,6 +115,7 @@ const createWindow = () => {
 
   window.on('blur', () => {
     if (oauthManager.isOAuthActive) return;
+    if (isDialogOpen) return;
     if (!window && !window.isVisible()) return;
     hideWindow();
   });
@@ -150,7 +153,7 @@ const createTray = () => {
     oauthManager = new OAuthManager(config, windowManager);
   }
 
-  tray.on('click', () => {
+  tray.on('click' || 'right-click', () => {
     if (windowManager !== null && !windowManager.isVisible()) {
       if (windowManager !== null) {
         showWindow();
@@ -192,6 +195,7 @@ const openImageDialog = (callback) => {
   }, (filePaths) => {
     if (filePaths !== undefined) {
       processFile(filePaths[0], (image) => {
+        isDialogOpen = false;
         callback(image);
       });
     }
@@ -334,6 +338,7 @@ ipcMain.on('quitApplication', () => {
 });
 
 ipcMain.on('addImage', (addImageEvent) => {
+  isDialogOpen = true;
   openImageDialog((image) => {
     addImageEvent.sender.send('addImageComplete', image);
   });
