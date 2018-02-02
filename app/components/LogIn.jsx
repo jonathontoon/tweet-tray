@@ -13,7 +13,7 @@ import * as constants from '../constants';
 import Logo from '../../resources/twitter-logo.svg';
 import NotificationIcon from '../../resources/notification.jpg';
 
-const { ipcRenderer, shell, } = window.require('electron');
+const { ipcRenderer, } = window.require('electron');
 
 const LogInStyle = Styled.section`
   overflow: hidden;
@@ -41,18 +41,6 @@ const HeaderTextStyle = Styled.h1`
   position: relative;
   top: 80px;
   line-height: 28px;
-`;
-
-const FooterTextStyle = Styled.div`
-  position: relative;
-  top: 277px;
-  font-size: ${constants.SMALL_FONT_SIZE}px;
-  color: ${constants.GREY};
-`;
-
-const FooterLink = Styled.a`
-  font-weight: bold;
-  color: ${constants.GREY};
 `;
 
 class LogIn extends Component {
@@ -88,8 +76,8 @@ class LogIn extends Component {
       onUpdateRequestTokenPair(requestTokenPair);
     });
 
-    ipcRenderer.on('startedCodeVerification', () => {
-      this.context.router.history.replace('/verifier');
+    ipcRenderer.on('startedAuthorizationCode', () => {
+      this.context.router.history.replace('/authorization');
     });
 
     ipcRenderer.on('canceledOAuth', () => {
@@ -115,15 +103,25 @@ class LogIn extends Component {
             }}
             style={{
               position: 'relative',
-              top: '124px',
+              top: '266px',
               height: '44px',
             }}
             fullWidth
             title="Sign in with Twitter"
           />
-          <FooterTextStyle>
-            Tweet Tray is licensed under <FooterLink onClick={() => { shell.openExternal('https://opensource.org/licenses/MIT'); }} href="#">MIT</FooterLink>, and is not in any way affiliated or endorsed by Twitter, the company or any individual of the company.
-          </FooterTextStyle>
+          <RoundedButton
+            onClick={() => {
+              ipcRenderer.send('quitApplication');
+            }}
+            style={{
+              position: 'relative',
+              top: '286px',
+              height: '44px',
+            }}
+            fullWidth
+            borderButton
+            title="Quit Tweet Tray"
+          />
         </InnerContent>
       </LogInStyle>
     );

@@ -251,21 +251,21 @@ ipcMain.on('startOAuth', (startOAuthEvent) => {
     oauthManager.window.webContents.on('did-navigate', (event, webContentsURL) => {
       const urlInfo = url.parse(webContentsURL, true);
       if (urlInfo.pathname === '/oauth/authenticate') {
-        startOAuthEvent.sender.send('startedCodeVerification');
+        startOAuthEvent.sender.send('startedAuthorizationCode');
       }
     });
   });
 });
 
-// Get Verifier Code
-ipcMain.on('sendVerifierCode', (sendVerifierCodeEvent, data) => {
+// Get Authorize Code
+ipcMain.on('sendAuthorizeCode', (sendAuthorizeCodeEvent, data) => {
   oauthManager.getAccessTokenPair(
     data.requestTokenPair,
-    data.verifierCode,
+    data.authorizeCode,
     (accessTokenPairError, accessTokenPair) => {
       if (accessTokenPairError) {
         oauthManager.window.close();
-        sendVerifierCodeEvent.sender.send('sendVerifierCodeError');
+        sendAuthorizeCodeEvent.sender.send('sendAuthorizeCodeError');
         return;
       }
 
@@ -274,7 +274,7 @@ ipcMain.on('sendVerifierCode', (sendVerifierCodeEvent, data) => {
         (credentialsError, credentials) => {
           if (credentialsError) {
             oauthManager.window.close();
-            sendVerifierCodeEvent.sender.send('verifyCredentialsError');
+            sendAuthorizeCodeEvent.sender.send('verifyCredentialsError');
             return;
           }
 
@@ -292,7 +292,7 @@ ipcMain.on('sendVerifierCode', (sendVerifierCodeEvent, data) => {
             profileImageURL: credentials.profile_image_url_https,
           };
 
-          sendVerifierCodeEvent.sender.send('completedOAuth', {
+          sendAuthorizeCodeEvent.sender.send('completedOAuth', {
             accessTokenPair,
             userCredentials,
           });

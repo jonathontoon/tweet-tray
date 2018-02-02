@@ -26,15 +26,10 @@ const RoundedButtonStyle = Styled.button`
         width: 100% !important;
     }
 
-    &.invertColor {
-        background-color: ${constants.WHITE};
-        color: ${constants.BLUE};
-    }
-
     &.borderButton {
-        border-width: 1px;
-        border-style: bold;
-        background-color: transparent;
+        color: ${constants.BLUE} !important;
+        border: 2px solid ${constants.BLUE} !important;
+        background-color: ${constants.WHITE} !important;
     }
 
     &:hover {
@@ -52,7 +47,6 @@ const RoundedButtonStyle = Styled.button`
 class RoundedButton extends Component {
   static propTypes = {
     disabled: PropTypes.bool,
-    invertColor: PropTypes.bool,
     borderButton: PropTypes.bool,
     fullWidth: PropTypes.bool,
     style: PropTypes.object,
@@ -62,7 +56,6 @@ class RoundedButton extends Component {
   };
   static defaultProps = {
     disabled: false,
-    invertColor: false,
     borderButton: false,
     fullWidth: false,
     style: null,
@@ -77,7 +70,6 @@ class RoundedButton extends Component {
       style,
       title,
       onClick,
-      invertColor,
       borderButton,
       fullWidth,
       type,
@@ -87,11 +79,7 @@ class RoundedButton extends Component {
       <RoundedButtonStyle
         type={type}
         style={style}
-        className={`
-          ${fullWidth ? 'fullWidth' : ''}
-          ${invertColor ? 'invertColor' : ''}
-          ${borderButton ? 'borderButton' : ''}
-        `}
+        className={`${fullWidth ? 'fullWidth' : ''} ${borderButton ? 'borderButton' : ''}`}
         onClick={onClick}
         disabled={disabled}
       >
