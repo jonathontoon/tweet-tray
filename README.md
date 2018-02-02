@@ -6,7 +6,7 @@
 - [Deployment](#deployment)
 - [Acknowledgements](#Acknowledgements)
 - [Change Log](#change-log)
-- [License (MIT)](#license)
+- [License (MIT)](#license-(mit))
 
 ## Introduction
 
