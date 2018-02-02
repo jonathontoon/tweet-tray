@@ -71,11 +71,11 @@ class AuthorizationCode extends Component {
 
   componentDidMount() {
     ipcRenderer.on('sendauthorizeCodeError', () => {
-      Notifier('Oops, an error occured!', 'Your account failed to authenticate', false, NotificationIcon, null);
+      Notifier('Oops, an error occured!', 'Your account could not be authorized', false, NotificationIcon, null);
     });
 
     ipcRenderer.on('verifyCredentialsError', () => {
-      Notifier('Oops, an error occured!', 'Your account failed to authenticate', false, NotificationIcon, null);
+      Notifier('Oops, an error occured!', 'Your account could not be authorized', false, NotificationIcon, null);
     });
 
     ipcRenderer.on('completedOAuth', (event, response) => {
@@ -118,7 +118,7 @@ class AuthorizationCode extends Component {
         >
           <TwitterLogoStyle src={Logo} alt="Twitter Logo" />
           <HeaderTextStyle>
-            Finish up by entering the 7-digit verification code shown in the pop up window.
+            Finish up by entering the 7 digit authorization code shown in the pop up window.
           </HeaderTextStyle>
           <PinInput
             length={7}
@@ -157,7 +157,7 @@ class AuthorizationCode extends Component {
             }}
             disabled={authorizeCode.length < 7}
             fullWidth
-            title="Complete Authorization"
+            title="Authorize my Account"
           />
           <RoundedButton
             onClick={this._onReturnToLogIn}
