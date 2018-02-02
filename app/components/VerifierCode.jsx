@@ -10,6 +10,7 @@ import RoundedButton from './RoundedButton';
 import * as constants from '../constants';
 
 import Logo from '../../resources/twitter-logo.svg';
+import NotificationIcon from '../../resources/notification.jpg';
 
 const { ipcRenderer, } = window.require('electron');
 
@@ -37,7 +38,8 @@ const HeaderTextStyle = Styled.h1`
     font-size: ${constants.XTRA_LARGE_FONT_SIZE}px;
     font-weight: bold;
     position: relative;
-    top: 78px;
+    top: 80px;
+    line-height: 28px;
 `;
 
 const FooterTextStyle = Styled.div`
@@ -81,18 +83,18 @@ class VerifierCode extends Component {
 
   componentDidMount() {
     ipcRenderer.on('sendVerifierCodeError', () => {
-      Notifier('Oops, an error occured!', 'Your account failed to authenticate', false, null);
+      Notifier('Oops, an error occured!', 'Your account failed to authenticate', false, NotificationIcon, null);
     });
 
     ipcRenderer.on('verifyCredentialsError', () => {
-      Notifier('Oops, an error occured!', 'Your account failed to authenticate', false, null);
+      Notifier('Oops, an error occured!', 'Your account failed to authenticate', false, NotificationIcon, null);
     });
 
     ipcRenderer.on('completedOAuth', (event, response) => {
       const { onUpdateAccessTokenPair, onSetUserCredentials, } = this.props;
       onUpdateAccessTokenPair(response.accessTokenPair);
       onSetUserCredentials(response.userCredentials);
-      this.context.router.history.push('/composer');
+      this.context.router.history.replace('/composer');
     });
   }
 
@@ -113,7 +115,7 @@ class VerifierCode extends Component {
 
   _onReturnToLogIn() {
     ipcRenderer.send('returnToLogin');
-    this.context.router.history.push('/');
+    this.context.router.history.replace('/');
   }
 
   render() {

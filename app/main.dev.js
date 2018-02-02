@@ -14,8 +14,7 @@ import url from 'url';
 import fs from 'fs';
 import path from 'path';
 import Positioner from 'electron-positioner';
-import IS_DEV from 'electron-is-dev';
-import { app, ipcMain, BrowserWindow, Tray, Menu, dialog, screen, } from 'electron';
+import { app, ipcMain, BrowserWindow, Tray, dialog, screen, nativeImage, } from 'electron';
 
 import OAuthManager from './utils/OAuthManager';
 import config from './utils/config';
@@ -24,6 +23,8 @@ let oauthManager = null;
 let windowManager = null;
 let trayManager = null;
 let windowPositioner = null;
+
+let isDialogOpen = false;
 
 if (process.env.NODE_ENV === 'production') {
   const sourceMapSupport = require('source-map-support');
@@ -51,6 +52,28 @@ const installExtensions = async () => {
     .catch(console.log);
 };
 
+const trayIconImage = () => {
+  let trayIconImagePath = `${__dirname}/includes/icons/tray.ico`;
+  if (process.platform === 'darwin') {
+    trayIconImagePath = `${__dirname}/includes/icons/trayTemplate.png`;
+  }
+
+  return nativeImage.createFromPath(trayIconImagePath);
+};
+
+const appIconImage = () => {
+  let appIconImagePath = path.join(__dirname, '../resources/1024x1024.png');
+  if (process.platform === 'darwin') {
+    appIconImagePath = path.join(__dirname, '../resources/icon.icns');
+  }
+
+  if (process.platform === 'win32') {
+    appIconImagePath = path.join(__dirname, '../resources/icon.ico');
+  }
+
+  return nativeImage.createFromPath(appIconImagePath);
+};
+
 const showWindow = () => {
   const screenSize = screen.getPrimaryDisplay().workAreaSize;
   const trayBounds = trayManager.getBounds();
@@ -61,36 +84,40 @@ const showWindow = () => {
   const halfScreenHeight = screenSize.height / 2;
 
   if (process.platform !== 'darwin') {
-    if (trayBounds.x < halfScreenWidth && trayBounds.y > halfScreenHeight && trayBounds.height === 32) {
-      trayPosition = 'trayBottomLeft';
-      windowPosition = windowPositioner.calculate(trayPosition, trayBounds);
-      windowManager.setPosition(windowPosition.x + 78, windowPosition.y - 10);
-    } else if (trayBounds.x > halfScreenWidth && trayBounds.y > halfScreenHeight && trayBounds.height === 32) {
-      trayPosition = 'trayBottomRight';
-      windowPosition = windowPositioner.calculate(trayPosition, trayBounds);
-      windowManager.setPosition(windowPosition.x - 8, windowPosition.y - 10);
-    } else if (trayBounds.x > halfScreenWidth && trayBounds.y < halfScreenHeight && trayBounds.height === 40) {
-      trayPosition = 'trayCenter';
-      windowPosition = windowPositioner.calculate(trayPosition, trayBounds);
-      windowManager.setPosition(windowPosition.x, windowPosition.y + 6);
-    } else if (trayBounds.x > halfScreenWidth && trayBounds.y > halfScreenHeight && trayBounds.height === 40) {
-      trayPosition = 'trayBottomCenter';
-      windowPosition = windowPositioner.calculate(trayPosition, trayBounds);
-      windowManager.setPosition(windowPosition.x, windowPosition.y - 6);
+    if (trayBounds.height === 32) {
+      if (trayBounds.x < halfScreenWidth && trayBounds.y > halfScreenHeight) {
+        trayPosition = 'trayBottomLeft';
+        windowPosition = windowPositioner.calculate(trayPosition, trayBounds);
+        windowManager.setPosition(windowPosition.x + 78, windowPosition.y - 10);
+      } else if (trayBounds.x > halfScreenWidth && trayBounds.y > halfScreenHeight) {
+        trayPosition = 'trayBottomRight';
+        windowPosition = windowPositioner.calculate(trayPosition, trayBounds);
+        windowManager.setPosition(windowPosition.x - 8, windowPosition.y - 10);
+      }
+    } else if (trayBounds.height === 40) {
+      if (trayBounds.x > halfScreenWidth && trayBounds.y < halfScreenHeight) {
+        trayPosition = 'trayCenter';
+        windowPosition = windowPositioner.calculate(trayPosition, trayBounds);
+        windowManager.setPosition(windowPosition.x, windowPosition.y + 6);
+      } else if (trayBounds.x > halfScreenWidth && trayBounds.y > halfScreenHeight) {
+        trayPosition = 'trayBottomCenter';
+        windowPosition = windowPositioner.calculate(trayPosition, trayBounds);
+        windowManager.setPosition(windowPosition.x, windowPosition.y - 6);
+      }
     }
   } else {
     trayPosition = 'trayCenter';
     windowPosition = windowPositioner.calculate(trayPosition, trayBounds);
-    windowManager.setPosition(windowPosition.x, windowPosition.y);
+    windowManager.setPosition(windowPosition.x, windowPosition.y + 20);
   }
 
-  windowManager.show();
   trayManager.setHighlightMode('always');
+  windowManager.show();
 };
 
 const hideWindow = () => {
-  windowManager.hide();
   trayManager.setHighlightMode('never');
+  windowManager.hide();
 };
 
 const createWindow = () => {
@@ -99,18 +126,18 @@ const createWindow = () => {
     height: 520,
     resizable: false,
     frame: false,
-    titleBarStyle: 'hidden',
     show: false,
     alwaysOnTop: true,
     skipTaskbar: true,
-    icon: `${__dirname}\\includes\\icon.ico`,
+    icon: appIconImage(),
     backgroundThrottling: false,
   });
   window.loadURL(`file://${__dirname}/app.html`);
   window.setMenu(null);
 
   window.on('blur', () => {
-    if (oauthManager.window && oauthManager.window.isVisible()) return;
+    if (oauthManager.isOAuthActive) return;
+    if (isDialogOpen) return;
     if (!window && !window.isVisible()) return;
     hideWindow();
   });
@@ -120,7 +147,7 @@ const createWindow = () => {
       throw new Error('"window" is not defined');
     }
 
-    if (IS_DEV) {
+    if (process.env.NODE_ENV === 'development' || process.env.DEBUG_PROD === 'true') {
       window.webContents.openDevTools();
     }
 
@@ -135,21 +162,14 @@ const createWindow = () => {
 };
 
 const createTray = () => {
-  const tray = new Tray(`${__dirname}\\includes\\tray.ico`);
-  const contextMenu = Menu.buildFromTemplate([{
-    label: 'Quit Tweet Tray',
-    click: () => {
-      app.quit();
-    },
-  }, ]);
+  const tray = new Tray(trayIconImage());
   tray.setToolTip(`Tweet Tray ${app.getVersion()}`);
-  tray.setContextMenu(contextMenu);
 
   if (oauthManager === null) {
     oauthManager = new OAuthManager(config, windowManager);
   }
 
-  tray.on('click', () => {
+  tray.on('click' || 'right-click', () => {
     if (windowManager !== null && !windowManager.isVisible()) {
       if (windowManager !== null) {
         showWindow();
@@ -191,6 +211,7 @@ const openImageDialog = (callback) => {
   }, (filePaths) => {
     if (filePaths !== undefined) {
       processFile(filePaths[0], (image) => {
+        isDialogOpen = false;
         callback(image);
       });
     }
@@ -203,15 +224,20 @@ app.on('ready', async () => {
     await installExtensions();
   }
 
+  if (process.platform === 'darwin') {
+    app.dock.hide();
+  }
+
   windowManager = createWindow();
   trayManager = createTray();
 });
 
 // Start Twitter OAuth Flow
 ipcMain.on('startOAuth', (startOAuthEvent) => {
+  oauthManager.isOAuthActive = true;
   oauthManager.getRequestTokenPair((requestTokenPairError, requestTokenPair) => {
     if (requestTokenPairError) {
-      oauthManager.destroyWindow();
+      oauthManager.window.close();
       startOAuthEvent.sender.send('startOAuthError');
       return;
     }
@@ -238,7 +264,7 @@ ipcMain.on('sendVerifierCode', (sendVerifierCodeEvent, data) => {
     data.verifierCode,
     (accessTokenPairError, accessTokenPair) => {
       if (accessTokenPairError) {
-        oauthManager.destroyWindow();
+        oauthManager.window.close();
         sendVerifierCodeEvent.sender.send('sendVerifierCodeError');
         return;
       }
@@ -247,12 +273,12 @@ ipcMain.on('sendVerifierCode', (sendVerifierCodeEvent, data) => {
         accessTokenPair,
         (credentialsError, credentials) => {
           if (credentialsError) {
-            oauthManager.destroyWindow();
+            oauthManager.window.close();
             sendVerifierCodeEvent.sender.send('verifyCredentialsError');
             return;
           }
 
-          oauthManager.destroyWindow();
+          oauthManager.window.close();
 
           const userCredentials = {
             name: credentials.name,
@@ -281,14 +307,14 @@ ipcMain.on('postStatus', (postStatusEvent, response) => {
   const accessToken = response.accessTokenPair.token;
   const accessTokenSecret = response.accessTokenPair.secret;
 
-  windowManager.hide();
+  hideWindow();
 
   if (response.imageData) {
     oauthManager.uploadMedia({
       media: response.imageData,
     }, accessToken, accessTokenSecret, (uploadMediaError, uploadResponse) => {
       if (uploadMediaError) {
-        oauthManager.destroyWindow();
+        oauthManager.window.close();
         postStatusEvent.sender.send('postStatusError', uploadResponse);
         return;
       }
@@ -298,7 +324,7 @@ ipcMain.on('postStatus', (postStatusEvent, response) => {
         media_ids: uploadResponse.media_id_string,
       }, accessToken, accessTokenSecret, (updateStatusError, statusResponse) => {
         if (updateStatusError) {
-          oauthManager.destroyWindow();
+          oauthManager.window.close();
           postStatusEvent.sender.send('postStatusError', statusResponse);
           return;
         }
@@ -310,7 +336,7 @@ ipcMain.on('postStatus', (postStatusEvent, response) => {
       status: response.statusText,
     }, accessToken, accessTokenSecret, (updateStatusError, statusResponse) => {
       if (updateStatusError) {
-        oauthManager.destroyWindow();
+        oauthManager.window.close();
         postStatusEvent.sender.send('postStatusError', statusResponse);
         return;
       }
@@ -320,14 +346,16 @@ ipcMain.on('postStatus', (postStatusEvent, response) => {
 });
 
 ipcMain.on('returnToLogin', () => {
-  oauthManager.destroyWindow();
+  oauthManager.window.close();
 });
 
 ipcMain.on('quitApplication', () => {
+  hideWindow();
   app.quit();
 });
 
 ipcMain.on('addImage', (addImageEvent) => {
+  isDialogOpen = true;
   openImageDialog((image) => {
     addImageEvent.sender.send('addImageComplete', image);
   });

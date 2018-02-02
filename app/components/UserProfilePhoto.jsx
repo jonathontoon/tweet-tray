@@ -1,11 +1,12 @@
 import React, { Component, } from 'react';
 import { connect, } from 'react-redux';
 import PropTypes from 'prop-types';
-import ProgressArc from 'progress-arc-component';
 import Styled from 'styled-components';
 import Theme from 'styled-theming';
 
 import * as constants from '../constants';
+
+import ProgressArc from './ProgressArc';
 
 const UserProfilePhotoStyle = Styled.div`
     overflow: hidden;

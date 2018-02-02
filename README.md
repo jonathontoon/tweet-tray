@@ -21,7 +21,7 @@ git clone https://github.com/jonathontoon/tweet-tray.git
 
 3. Setup the applications' dependencies by navigating to the `tweet-tray` directory and run either `npm install` or `yarn install`.
 
-4. After everything has been installed simply call `npm run dev` or `yarn dev`.
+4. After everything has been installed simply call `yarn dev` to run the development build. To run the production build you can call `yarn prestart` followed by `yarn start`.
 
 ## Development
 

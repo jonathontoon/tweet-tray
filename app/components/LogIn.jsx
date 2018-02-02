@@ -11,6 +11,7 @@ import RoundedButton from './RoundedButton';
 import * as constants from '../constants';
 
 import Logo from '../../resources/twitter-logo.svg';
+import NotificationIcon from '../../resources/notification.jpg';
 
 const { ipcRenderer, shell, } = window.require('electron');
 
@@ -39,6 +40,7 @@ const HeaderTextStyle = Styled.h1`
   font-weight: bold;
   position: relative;
   top: 80px;
+  line-height: 28px;
 `;
 
 const FooterTextStyle = Styled.div`
@@ -72,13 +74,13 @@ class LogIn extends Component {
   componentWillMount() {
     const { accessTokenPair, userCredentials, } = this.props;
     if (accessTokenPair !== null && userCredentials !== null) {
-      this.context.router.history.push('/composer');
+      this.context.router.history.replace('/composer');
     }
   }
 
   componentDidMount() {
     ipcRenderer.on('startOAuthError', () => {
-      Notifier('Oops, an error occured!', 'Your account failed to authenticate', false, null);
+      Notifier('Oops, an error occured!', 'Your account failed to authenticate', false, NotificationIcon, null);
     });
 
     ipcRenderer.on('receivedRequestTokenPair', (event, requestTokenPair) => {
@@ -87,11 +89,11 @@ class LogIn extends Component {
     });
 
     ipcRenderer.on('startedCodeVerification', () => {
-      this.context.router.history.push('/verifier');
+      this.context.router.history.replace('/verifier');
     });
 
     ipcRenderer.on('canceledOAuth', () => {
-      this.context.router.history.push('/');
+      this.context.router.history.replace('/');
     });
   }
 

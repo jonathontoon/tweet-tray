@@ -45,7 +45,7 @@ class Settings extends Component {
       onToggleColorTheme,
       shouldLogout,
     } = this.props;
-  
+
     return (
       <SettingsStyle className={`${showSettings ? '' : 'hidden'}`}>
         <InnerContent
@@ -74,7 +74,7 @@ class Settings extends Component {
                 title: 'Log Out',
                 action: () => {
                   onToggleSettingsVisibility(false);
-                  this.context.router.history.push('/');
+                  this.context.router.history.replace('/');
                   shouldLogout();
                 },
                 type: 'warning',

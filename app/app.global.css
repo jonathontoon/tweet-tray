@@ -6,5 +6,6 @@
 }
 
 #root {
-  z-index: 99
+  z-index: 99;
+  overflow: hidden;
 }
