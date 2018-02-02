@@ -1,14 +1,25 @@
-# Table of Contents
+### Table of Contents
 
 - [Introduction](#introduction)
+- [Downloads](#downloads)
+- [Report Bugs](#report-bugs)
 - [Installation](#installation)
 - [Development](#development)
 - [Deployment](#deployment)
 - [Acknowledgements](#Acknowledgements)
+- [Change Log](#change-log)
 
 ## Introduction
+<img alt="OSX Day" src="https://i.imgur.com/rL4jWFz.png" width="340"/>    <img alt="Windows Day" src="https://i.imgur.com/WWluLuq.png" width="340"/>
 
-Tweet Tray is a small application which allows you to tweet from your desktop system tray or status bar, without any further distractions. The core technology used consists of Electron, React + Redux and Styled Components. All transpiled from ES6 Javascript.
+Tweet Tray is a small application which allows you to tweet from your desktop system tray or status bar, without any further distractions. The core technology used consists of [Electron](https://github.com/electron/electron), [React](https://github.com/facebook/react) + [Redux](https://github.com/reactjs/redux) and [Styled Components](https://github.com/styled-components/styled-components). All transpiled from ES6 Javascript.
+
+## Downloads
+
+[Windows](https://github.com/electron/electron) | [OSX](https://github.com/electron/electron) | [Linux](https://github.com/electron/electron)
+
+## Report Bugs
+Please create a Github [issue](https://github.com/jonathontoon/tweet-tray/issues) and provide has much information as possible regarding the bug, including images or error codes. 
 
 ## Installation
 
@@ -25,12 +36,26 @@ git clone https://github.com/jonathontoon/tweet-tray.git
 
 ## Development
 
-For all new features or bug fixes please create fork of the main repository and submit pull requests directly into the `develop` branch. Once your pull request has been successfully rebased and tested a separate request can then be made to merge into `master`.
+For all new features or bug fixes simply submit a pull request directly into the `develop` branch. Once your pull request has been successfully rebased and tested a separate request can then be made to merge into `master`.
 
 ## Deployment
 
-To create an installable build simply call `yarn package`, which will create an executable based on your current operating system.s
+To create an installable build simply call `yarn package`, which will create an executable based on your current operating system. If you want to debug something in a packaged build you can call `DEBUG_PROD=true yarn package`.
 
 ## Acknowledgements
 
 This project is based off [electron-react-boilerplate](https://github.com/chentsulin/electron-react-boilerplate), all methodloligies still apply, except for the removal of Flow and SASS.
+
+## Change Log
+
+### v1.0.0b
+The beginning and initial release of Tweet Tray! 🎉
+
+Included in this release are the basics to use the app. Look forward to more updates soon!
+- Set up basic framework for Electron and React.
+- Created wrapper for using Twitter OAuth 1.0 API with Electron.
+- Created React application, components and UI, using Redux and Styled Components.
+- Basic ability to add a single image, or GIF to a tweet.
+- Settings component with the ability to enable Night Mode.
+- Notifications which create alerts whenever a tweet has sent successfully or any type of error has occured.
+- Basic smoke testing for Windows 10 and OSX High Sierra.
