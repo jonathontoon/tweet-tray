@@ -17,9 +17,9 @@ Tweet Tray is a small application which allows you to tweet from your desktop sy
 git clone https://github.com/jonathontoon/tweet-tray.git
 ```
 
-2. To run Tweet Tray locally you will need to first install either [npm](https://www.npmjs.com/get-npm) or [yarn](https://yarnpkg.com/lang/en/docs/install/) package managers.
+2. To run Tweet Tray locally you will need to first install [npm](https://www.npmjs.com/get-npm) and [yarn](https://yarnpkg.com/lang/en/docs/install/) package managers.
 
-3. Setup the applications' dependencies by navigating to the `tweet-tray` directory and run either `npm install` or `yarn install`.
+3. Setup the applications' dependencies by navigating to the `tweet-tray` directory and run `yarn install`.
 
 4. After everything has been installed simply call `yarn dev` to run the development build. To run the production build you can call `yarn prestart` followed by `yarn start`.
 
@@ -29,7 +29,7 @@ For all new features or bug fixes please create fork of the main repository and 
 
 ## Deployment
 
-Coming Soon
+To create an installable build simply call `yarn package`, which will create an executable based on your current operating system.s
 
 ## Acknowledgements
 

@@ -68,7 +68,7 @@ class LogIn extends Component {
 
   componentDidMount() {
     ipcRenderer.on('startOAuthError', () => {
-      Notifier('Oops, an error occured!', 'Your account failed to authenticate', false, NotificationIcon, null);
+      Notifier('Oops, an error occured!', 'Your account could not be authorized', false, NotificationIcon, null);
     });
 
     ipcRenderer.on('receivedRequestTokenPair', (event, requestTokenPair) => {
