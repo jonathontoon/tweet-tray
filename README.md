@@ -47,9 +47,10 @@ This project is based off [electron-react-boilerplate](https://github.com/chents
 The beginning and initial release of Tweet Tray! 🎉
 
 Included in this release are the basics to use the app. Look forward to more updates soon!
-- Set up basic framework for Electron and React
-- Created wrapper for using Twitter OAuth 1.0 API with Electron
-- Created React application, components and UI, using Redux and Styled Components
+- Set up basic framework for Electron and React.
+- Created wrapper for using Twitter OAuth 1.0 API with Electron.
+- Created React application, components and UI, using Redux and Styled Components.
 - Basic ability to add a single image, or GIF to a tweet.
+- Settings component with the ability to enable Night Mode.
 - Notifications which create alerts whenever a tweet has sent successfully or any type of error has occured.
 - Basic smoke testing for Windows 10 and OSX High Sierra.
