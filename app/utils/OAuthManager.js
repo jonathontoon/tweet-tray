@@ -24,7 +24,6 @@ class OAuthManager {
     this._mainWindow = mainWindow;
 
     this._createWindow = this._createWindow.bind(this);
-    this.destroyWindow = this.destroyWindow.bind(this);
 
     this.getRequestTokenPair = this.getRequestTokenPair.bind(this);
     this.getAccessTokenPair = this.getAccessTokenPair.bind(this);
@@ -63,17 +62,7 @@ class OAuthManager {
     window.on('show', () => {
       this.isOAuthActive = true;
     });
-    window.on('hide', () => {
-      this.isOAuthActive = false;
-    });
     return window;
-  }
-
-  destroyWindow() {
-    if (this.window !== null) {
-      this.isOAuthActive = false;
-      this.window.close();
-    }
   }
 
   getRequestTokenPair(callback) {

@@ -217,7 +217,7 @@ app.on('ready', async () => {
 ipcMain.on('startOAuth', (startOAuthEvent) => {
   oauthManager.getRequestTokenPair((requestTokenPairError, requestTokenPair) => {
     if (requestTokenPairError) {
-      oauthManager.destroyWindow();
+      oauthManager.window.close();
       startOAuthEvent.sender.send('startOAuthError');
       return;
     }
@@ -244,7 +244,7 @@ ipcMain.on('sendVerifierCode', (sendVerifierCodeEvent, data) => {
     data.verifierCode,
     (accessTokenPairError, accessTokenPair) => {
       if (accessTokenPairError) {
-        oauthManager.destroyWindow();
+        oauthManager.window.close();
         sendVerifierCodeEvent.sender.send('sendVerifierCodeError');
         return;
       }
@@ -253,12 +253,12 @@ ipcMain.on('sendVerifierCode', (sendVerifierCodeEvent, data) => {
         accessTokenPair,
         (credentialsError, credentials) => {
           if (credentialsError) {
-            oauthManager.destroyWindow();
+            oauthManager.window.close();
             sendVerifierCodeEvent.sender.send('verifyCredentialsError');
             return;
           }
 
-          oauthManager.destroyWindow();
+          oauthManager.window.close();
 
           const userCredentials = {
             name: credentials.name,
@@ -294,7 +294,7 @@ ipcMain.on('postStatus', (postStatusEvent, response) => {
       media: response.imageData,
     }, accessToken, accessTokenSecret, (uploadMediaError, uploadResponse) => {
       if (uploadMediaError) {
-        oauthManager.destroyWindow();
+        oauthManager.window.close();
         postStatusEvent.sender.send('postStatusError', uploadResponse);
         return;
       }
@@ -304,7 +304,7 @@ ipcMain.on('postStatus', (postStatusEvent, response) => {
         media_ids: uploadResponse.media_id_string,
       }, accessToken, accessTokenSecret, (updateStatusError, statusResponse) => {
         if (updateStatusError) {
-          oauthManager.destroyWindow();
+          oauthManager.window.close();
           postStatusEvent.sender.send('postStatusError', statusResponse);
           return;
         }
@@ -316,7 +316,7 @@ ipcMain.on('postStatus', (postStatusEvent, response) => {
       status: response.statusText,
     }, accessToken, accessTokenSecret, (updateStatusError, statusResponse) => {
       if (updateStatusError) {
-        oauthManager.destroyWindow();
+        oauthManager.window.close();
         postStatusEvent.sender.send('postStatusError', statusResponse);
         return;
       }
@@ -326,7 +326,7 @@ ipcMain.on('postStatus', (postStatusEvent, response) => {
 });
 
 ipcMain.on('returnToLogin', () => {
-  oauthManager.destroyWindow();
+  oauthManager.window.close();
 });
 
 ipcMain.on('quitApplication', () => {
