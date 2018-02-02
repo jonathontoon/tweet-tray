@@ -1,7 +1,7 @@
 import { connect, } from 'react-redux';
 import { withRouter, } from 'react-router-dom';
 import { updateAccessTokenPair, setUserCredentials, } from '../actions';
-import VerifierCode from '../components/VerifierCode';
+import AuthorizationCode from '../components/AuthorizationCode';
 
 const mapStateToProps = (store) => {
   return {
@@ -21,4 +21,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(VerifierCode));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(AuthorizationCode));
