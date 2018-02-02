@@ -9,7 +9,7 @@
 - [Change Log](#change-log)
 
 ## Introduction
-<img alt="OSX Day" src="https://i.imgur.com/rL4jWFz.png" width="400"/>  <img alt="Windows Day" src="https://i.imgur.com/WWluLuq.png" width="400"/>
+<img alt="OSX Day" src="https://i.imgur.com/rL4jWFz.png" width="340"/>    <img alt="Windows Day" src="https://i.imgur.com/WWluLuq.png" width="340"/>
 
 Tweet Tray is a small application which allows you to tweet from your desktop system tray or status bar, without any further distractions. The core technology used consists of [Electron](https://github.com/electron/electron), [React](https://github.com/facebook/react) + [Redux](https://github.com/reactjs/redux) and [Styled Components](https://github.com/styled-components/styled-components). All transpiled from ES6 Javascript.
 
