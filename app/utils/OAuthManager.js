@@ -1,6 +1,6 @@
 import path from 'path';
 import { OAuth, } from 'oauth';
-import electron, { BrowserWindow, } from 'electron';
+import electron, { BrowserWindow, nativeImage, } from 'electron';
 
 class OAuthManager {
   constructor(config, mainWindow) {
@@ -19,9 +19,11 @@ class OAuthManager {
 
     this.authenticateURL = config.BASE_AUTHENTICATE_URL;
 
-    this.window = this._createWindow();
+    this.window = null;
     this.isOAuthActive = false;
     this._mainWindow = mainWindow;
+
+    this._appIconImage = this._appIconImage.bind(this);
 
     this._createWindow = this._createWindow.bind(this);
 
@@ -31,6 +33,19 @@ class OAuthManager {
     this.updateStatus = this.updateStatus.bind(this);
     this.uploadMedia = this.uploadMedia.bind(this);
   }
+
+  _appIconImage = () => {
+    let appIconImagePath = path.join(__dirname, '../../resources/1024x1024.png');
+    if (process.platform === 'darwin') {
+      appIconImagePath = path.join(__dirname, '../../resources/icon.icns');
+    }
+
+    if (process.platform === 'win32') {
+      appIconImagePath = path.join(__dirname, '../../resources/icon.ico');
+    }
+
+    return nativeImage.createFromPath(appIconImagePath);
+  };
 
   _createWindow() {
     const screenBounds = electron.screen.getPrimaryDisplay().bounds;
@@ -50,7 +65,7 @@ class OAuthManager {
       alwaysOnTop: true,
       resizable: true,
       title: 'Twitter / Authorize an application',
-      icon: path.join(__dirname, '../../resources/icon.ico'),
+      icon: this._appIconImage(),
     });
     window.setMenu(null);
     window.on('closed', () => {

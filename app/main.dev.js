@@ -52,6 +52,28 @@ const installExtensions = async () => {
     .catch(console.log);
 };
 
+const trayIconImage = () => {
+  let trayIconImagePath = `${__dirname}/includes/icons/tray.ico`;
+  if (process.platform === 'darwin') {
+    trayIconImagePath = `${__dirname}/includes/icons/trayTemplate.png`;
+  }
+
+  return nativeImage.createFromPath(trayIconImagePath);
+};
+
+const appIconImage = () => {
+  let appIconImagePath = path.join(__dirname, '../resources/1024x1024.png');
+  if (process.platform === 'darwin') {
+    appIconImagePath = path.join(__dirname, '../resources/icon.icns');
+  }
+
+  if (process.platform === 'win32') {
+    appIconImagePath = path.join(__dirname, '../resources/icon.ico');
+  }
+
+  return nativeImage.createFromPath(appIconImagePath);
+};
+
 const showWindow = () => {
   const screenSize = screen.getPrimaryDisplay().workAreaSize;
   const trayBounds = trayManager.getBounds();
@@ -107,7 +129,7 @@ const createWindow = () => {
     show: false,
     alwaysOnTop: true,
     skipTaskbar: true,
-    icon: nativeImage.createFromPath(`${__dirname}/includes/icon.ico`),
+    icon: appIconImage(),
     backgroundThrottling: false,
   });
   window.loadURL(`file://${__dirname}/app.html`);
@@ -140,13 +162,7 @@ const createWindow = () => {
 };
 
 const createTray = () => {
-  let trayImage = nativeImage.createFromPath(`${__dirname}/includes/tray.ico`);
-
-  if (process.platform === 'darwin') {
-    trayImage = nativeImage.createFromPath(`${__dirname}/includes/trayTemplate.png`);
-  }
-
-  const tray = new Tray(trayImage);
+  const tray = new Tray(trayIconImage());
   tray.setToolTip(`Tweet Tray ${app.getVersion()}`);
 
   if (oauthManager === null) {
