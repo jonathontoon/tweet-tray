@@ -145,8 +145,7 @@ const createTray = () => {
 
   const tray = new Tray(trayImage);
   tray.setToolTip(`Tweet Tray ${app.getVersion()}`);
-  tray.setPressedImage(nativeImage.createFromPath(`${__dirname}/includes/trayTemplatePressed.png`));
-
+  
   if (oauthManager === null) {
     oauthManager = new OAuthManager(config, windowManager);
   }
@@ -215,6 +214,7 @@ app.on('ready', async () => {
 
 // Start Twitter OAuth Flow
 ipcMain.on('startOAuth', (startOAuthEvent) => {
+  oauthManager.isOAuthActive = true;
   oauthManager.getRequestTokenPair((requestTokenPairError, requestTokenPair) => {
     if (requestTokenPairError) {
       oauthManager.window.close();

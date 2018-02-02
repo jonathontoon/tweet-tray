@@ -55,7 +55,8 @@ class OAuthManager {
     window.setMenu(null);
     window.on('closed', () => {
       this.isOAuthActive = false;
-      if (this._mainWindow !== null && this._mainWindow.isVisible()) {
+      if (this._mainWindow !== null && !this._mainWindow.isVisible()) {
+        this._mainWindow.show();
         this._mainWindow.focus();
       }
     });
@@ -66,9 +67,7 @@ class OAuthManager {
   }
 
   getRequestTokenPair(callback) {
-    if (this.window === null) {
-      this.window = this._createWindow();
-    }
+    this.window = this._createWindow();
 
     this.oauth.getOAuthRequestToken((error, oauthToken, oauthTokenSecret) => {
       if (error) {
@@ -89,10 +88,6 @@ class OAuthManager {
   }
 
   getAccessTokenPair(requestTokenPair, verifier, callback) {
-    if (this.window === null) {
-      this.window = this._createWindow();
-    }
-
     this.oauth.getOAuthAccessToken(
       requestTokenPair.token, requestTokenPair.secret, verifier,
       (error, oauthAccessToken, oauthAccessTokenSecret) => {

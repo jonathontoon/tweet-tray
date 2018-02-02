@@ -73,7 +73,7 @@ class LogIn extends Component {
   componentWillMount() {
     const { accessTokenPair, userCredentials, } = this.props;
     if (accessTokenPair !== null && userCredentials !== null) {
-      this.context.router.history.push('/composer');
+      this.context.router.history.replace('/composer');
     }
   }
 
@@ -88,11 +88,11 @@ class LogIn extends Component {
     });
 
     ipcRenderer.on('startedCodeVerification', () => {
-      this.context.router.history.push('/verifier');
+      this.context.router.history.replace('/verifier');
     });
 
     ipcRenderer.on('canceledOAuth', () => {
-      this.context.router.history.push('/');
+      this.context.router.history.replace('/');
     });
   }
 

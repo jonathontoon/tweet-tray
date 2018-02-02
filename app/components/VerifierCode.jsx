@@ -93,7 +93,7 @@ class VerifierCode extends Component {
       const { onUpdateAccessTokenPair, onSetUserCredentials, } = this.props;
       onUpdateAccessTokenPair(response.accessTokenPair);
       onSetUserCredentials(response.userCredentials);
-      this.context.router.history.push('/composer');
+      this.context.router.history.replace('/composer');
     });
   }
 
@@ -114,7 +114,7 @@ class VerifierCode extends Component {
 
   _onReturnToLogIn() {
     ipcRenderer.send('returnToLogin');
-    this.context.router.history.push('/');
+    this.context.router.history.replace('/');
   }
 
   render() {
