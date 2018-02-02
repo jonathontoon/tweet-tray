@@ -45,7 +45,7 @@ class Settings extends Component {
       onToggleColorTheme,
       shouldLogout,
     } = this.props;
-  
+
     return (
       <SettingsStyle className={`${showSettings ? '' : 'hidden'}`}>
         <InnerContent

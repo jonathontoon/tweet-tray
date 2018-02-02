@@ -145,7 +145,7 @@ const createTray = () => {
 
   const tray = new Tray(trayImage);
   tray.setToolTip(`Tweet Tray ${app.getVersion()}`);
-  
+
   if (oauthManager === null) {
     oauthManager = new OAuthManager(config, windowManager);
   }

@@ -14,7 +14,7 @@ const ListViewItemStyle = Styled.button`
     outline: none;
     border: none;
     background-color: ${Theme('mode', { day: constants.WHITE, night: constants.DARK_MODE_FOREGROUND, })};
-    font-weight: normal;
+    font-weight: 500;
     text-align: left;
     color: ${Theme('mode', { day: constants.GREY, night: constants.WHITE, })};
     font-size: ${constants.REGULAR_FONT_SIZE}px;
