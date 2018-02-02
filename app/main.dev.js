@@ -291,7 +291,7 @@ ipcMain.on('postStatus', (postStatusEvent, response) => {
   const accessToken = response.accessTokenPair.token;
   const accessTokenSecret = response.accessTokenPair.secret;
 
-  windowManager.hide();
+  hideWindow();
 
   if (response.imageData) {
     oauthManager.uploadMedia({
@@ -334,6 +334,7 @@ ipcMain.on('returnToLogin', () => {
 });
 
 ipcMain.on('quitApplication', () => {
+  hideWindow();
   app.quit();
 });
 

@@ -55,13 +55,6 @@ class OAuthManager {
     window.setMenu(null);
     window.on('closed', () => {
       this.isOAuthActive = false;
-      if (this._mainWindow !== null && !this._mainWindow.isVisible()) {
-        this._mainWindow.show();
-        this._mainWindow.focus();
-      }
-    });
-    window.on('show', () => {
-      this.isOAuthActive = true;
     });
     return window;
   }
