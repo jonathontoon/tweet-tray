@@ -37,7 +37,8 @@ const HeaderTextStyle = Styled.h1`
     font-size: ${constants.XTRA_LARGE_FONT_SIZE}px;
     font-weight: bold;
     position: relative;
-    top: 78px;
+    top: 80px;
+    line-height: 28px;
 `;
 
 const FooterTextStyle = Styled.div`

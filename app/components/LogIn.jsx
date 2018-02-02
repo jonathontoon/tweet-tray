@@ -39,6 +39,7 @@ const HeaderTextStyle = Styled.h1`
   font-weight: bold;
   position: relative;
   top: 80px;
+  line-height: 28px;
 `;
 
 const FooterTextStyle = Styled.div`

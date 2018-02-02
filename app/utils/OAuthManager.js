@@ -19,7 +19,7 @@ class OAuthManager {
 
     this.authenticateURL = config.BASE_AUTHENTICATE_URL;
 
-    this.window = null;
+    this.window = this._createWindow();
     this.isOAuthActive = false;
     this._mainWindow = mainWindow;
 
