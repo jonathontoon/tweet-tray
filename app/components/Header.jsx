@@ -33,7 +33,7 @@ const LeftStyle = Styled.div`
 
 const TitleStyle = Styled.div`
     font-size:  ${constants.LARGE_FONT_SIZE}px;
-    font-weight: bold;
+    font-weight: 500;
     color: ${Theme('mode', { day: constants.BLACK, night: constants.WHITE, })};
     line-height: 34px;
     float: left;
