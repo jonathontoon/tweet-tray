@@ -11,6 +11,7 @@ import RoundedButton from './RoundedButton';
 import * as constants from '../constants';
 
 import Logo from '../../resources/twitter-logo.svg';
+import NotificationIcon from '../../resources/notification.jpg';
 
 const { ipcRenderer, shell, } = window.require('electron');
 
@@ -79,7 +80,7 @@ class LogIn extends Component {
 
   componentDidMount() {
     ipcRenderer.on('startOAuthError', () => {
-      Notifier('Oops, an error occured!', 'Your account failed to authenticate', false, null);
+      Notifier('Oops, an error occured!', 'Your account failed to authenticate', false, NotificationIcon, null);
     });
 
     ipcRenderer.on('receivedRequestTokenPair', (event, requestTokenPair) => {

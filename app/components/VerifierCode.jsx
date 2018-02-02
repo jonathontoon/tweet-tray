@@ -10,6 +10,7 @@ import RoundedButton from './RoundedButton';
 import * as constants from '../constants';
 
 import Logo from '../../resources/twitter-logo.svg';
+import NotificationIcon from '../../resources/notification.jpg';
 
 const { ipcRenderer, } = window.require('electron');
 
@@ -82,11 +83,11 @@ class VerifierCode extends Component {
 
   componentDidMount() {
     ipcRenderer.on('sendVerifierCodeError', () => {
-      Notifier('Oops, an error occured!', 'Your account failed to authenticate', false, null);
+      Notifier('Oops, an error occured!', 'Your account failed to authenticate', false, NotificationIcon, null);
     });
 
     ipcRenderer.on('verifyCredentialsError', () => {
-      Notifier('Oops, an error occured!', 'Your account failed to authenticate', false, null);
+      Notifier('Oops, an error occured!', 'Your account failed to authenticate', false, NotificationIcon, null);
     });
 
     ipcRenderer.on('completedOAuth', (event, response) => {
