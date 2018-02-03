@@ -39,7 +39,7 @@ const HeaderTextStyle = Styled.h1`
     font-weight: bold;
     position: relative;
     top: 80px;
-    line-height: 28px;
+    line-height: 30px;
 `;
 
 class AuthorizationCode extends Component {
@@ -152,7 +152,7 @@ class AuthorizationCode extends Component {
             onClick={this._onCodeEntered}
             style={{
               position: 'relative',
-              top: '218px',
+              top: '212px',
               height: '44px',
             }}
             disabled={authorizeCode.length < 7}
@@ -163,7 +163,7 @@ class AuthorizationCode extends Component {
             onClick={this._onReturnToLogIn}
             style={{
               position: 'relative',
-              top: '238px',
+              top: '232px',
               height: '44px',
             }}
             fullWidth

@@ -40,7 +40,7 @@ const HeaderTextStyle = Styled.h1`
   font-weight: bold;
   position: relative;
   top: 80px;
-  line-height: 28px;
+  line-height: 30px;
 `;
 
 class LogIn extends Component {
@@ -103,7 +103,7 @@ class LogIn extends Component {
             }}
             style={{
               position: 'relative',
-              top: '266px',
+              top: '260px',
               height: '44px',
             }}
             fullWidth
@@ -115,7 +115,7 @@ class LogIn extends Component {
             }}
             style={{
               position: 'relative',
-              top: '286px',
+              top: '280px',
               height: '44px',
             }}
             fullWidth
