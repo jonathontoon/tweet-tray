@@ -118,7 +118,7 @@ class AuthorizationCode extends Component {
         >
           <TwitterLogoStyle src={Logo} alt="Twitter Logo" />
           <HeaderTextStyle>
-            Finish up by entering the 7 digit authorization code shown in the pop up window.
+            Finish up by entering the 7 digit authorization PIN shown in the pop up window.
           </HeaderTextStyle>
           <PinInput
             length={7}
