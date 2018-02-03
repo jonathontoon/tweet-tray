@@ -33,6 +33,7 @@ app/node_modules
 
 # App packaged
 release
+app/utils/config.js
 app/main.prod.js
 app/main.prod.js.map
 app/renderer.prod.js
