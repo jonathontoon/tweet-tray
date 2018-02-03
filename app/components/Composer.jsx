@@ -19,6 +19,7 @@ import * as constants from '../constants';
 
 import SettingsIcon from '../../resources/settings.svg';
 import PhotoIcon from '../../resources/photo.svg';
+import NotificationIcon from '../../resources/notification.jpg';
 
 const { ipcRenderer, shell, } = window.require('electron');
 
@@ -66,11 +67,11 @@ class Composer extends Component {
 
     ipcRenderer.on('postStatusError', (event, response) => {
       const parsedResponse = JSON.parse(response);
-      Notifier('Oops, an error occured!', parsedResponse.errors[0].message, false, null);
+      Notifier('Oops, an error occured!', parsedResponse.errors[0].message, false, NotificationIcon, null);
     });
 
     ipcRenderer.on('postStatusComplete', (event, response) => {
-      Notifier('Your Tweet was posted!', 'Click here to view it', false, () => {
+      Notifier('Your Tweet was posted!', 'Click here to view it', false, NotificationIcon, () => {
         shell.openExternal(`https://twitter.com/${response.user.screen_name}/status/${response.id_str}`);
       });
     });
@@ -83,7 +84,7 @@ class Composer extends Component {
           image: newImage,
         });
       } else {
-        Notifier('Oops, an error occured!', 'GIFs must be less than 15mb', false, null);
+        Notifier('Oops, an error occured!', 'GIFs must be less than 15mb', false, NotificationIcon, null);
       }
     } else if (newImage.extension !== '.gif') {
       if (newImage.size <= 5.0) {
@@ -91,7 +92,7 @@ class Composer extends Component {
           image: newImage,
         });
       } else {
-        Notifier('Oops, an error occured!', 'Images must be less than 5mb', false, null);
+        Notifier('Oops, an error occured!', 'Images must be less than 5mb', false, NotificationIcon, null);
       }
     }
   }

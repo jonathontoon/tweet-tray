@@ -10,10 +10,11 @@ import RoundedButton from './RoundedButton';
 import * as constants from '../constants';
 
 import Logo from '../../resources/twitter-logo.svg';
+import NotificationIcon from '../../resources/notification.jpg';
 
 const { ipcRenderer, } = window.require('electron');
 
-const VerifierCodeStyle = Styled.section`
+const AuthorizationCodeStyle = Styled.section`
   overflow: hidden;
   user-select: none;
   width: ${window.innerWidth}px;
@@ -37,22 +38,11 @@ const HeaderTextStyle = Styled.h1`
     font-size: ${constants.XTRA_LARGE_FONT_SIZE}px;
     font-weight: bold;
     position: relative;
-    top: 78px;
+    top: 80px;
+    line-height: 28px;
 `;
 
-const FooterTextStyle = Styled.div`
-  position: relative;
-  top: 247px;
-  font-size: ${constants.SMALL_FONT_SIZE}px;
-  color: ${constants.GREY};
-`;
-
-const FooterLinkStyle = Styled.a`
-  font-weight: bold;
-  color: ${constants.GREY};
-`;
-
-class VerifierCode extends Component {
+class AuthorizationCode extends Component {
   static propTypes = {
     requestTokenPair: PropTypes.object,
     onUpdateAccessTokenPair: PropTypes.func.isRequired,
@@ -71,7 +61,7 @@ class VerifierCode extends Component {
     super(props);
 
     this.state = {
-      verifierCode: '',
+      authorizeCode: '',
     };
 
     this._onInputComplete = this._onInputComplete.bind(this);
@@ -80,47 +70,47 @@ class VerifierCode extends Component {
   }
 
   componentDidMount() {
-    ipcRenderer.on('sendVerifierCodeError', () => {
-      Notifier('Oops, an error occured!', 'Your account failed to authenticate', false, null);
+    ipcRenderer.on('sendauthorizeCodeError', () => {
+      Notifier('Oops, an error occured!', 'Your account could not be authorized', false, NotificationIcon, null);
     });
 
     ipcRenderer.on('verifyCredentialsError', () => {
-      Notifier('Oops, an error occured!', 'Your account failed to authenticate', false, null);
+      Notifier('Oops, an error occured!', 'Your account could not be authorized', false, NotificationIcon, null);
     });
 
     ipcRenderer.on('completedOAuth', (event, response) => {
       const { onUpdateAccessTokenPair, onSetUserCredentials, } = this.props;
       onUpdateAccessTokenPair(response.accessTokenPair);
       onSetUserCredentials(response.userCredentials);
-      this.context.router.history.push('/composer');
+      this.context.router.history.replace('/composer');
     });
   }
 
   _onInputComplete(value) {
     this.setState({
-      verifierCode: value,
+      authorizeCode: value,
     });
   }
 
   _onCodeEntered() {
-    const { verifierCode, } = this.state;
+    const { authorizeCode, } = this.state;
     const { requestTokenPair, } = this.props;
-    ipcRenderer.send('sendVerifierCode', {
-      verifierCode,
+    ipcRenderer.send('sendAuthorizeCode', {
+      authorizeCode,
       requestTokenPair,
     });
   }
 
   _onReturnToLogIn() {
     ipcRenderer.send('returnToLogin');
-    this.context.router.history.push('/');
+    this.context.router.history.replace('/');
   }
 
   render() {
-    const { verifierCode, } = this.state;
+    const { authorizeCode, } = this.state;
 
     return (
-      <VerifierCodeStyle>
+      <AuthorizationCodeStyle>
         <InnerContent
           style={{
             height: 'calc(100% - 30px)',
@@ -128,7 +118,7 @@ class VerifierCode extends Component {
         >
           <TwitterLogoStyle src={Logo} alt="Twitter Logo" />
           <HeaderTextStyle>
-            Finish up by entering the 7-digit verification code shown in the pop up window.
+            Finish up by entering the 7 digit authorization code shown in the pop up window.
           </HeaderTextStyle>
           <PinInput
             length={7}
@@ -141,7 +131,7 @@ class VerifierCode extends Component {
               margin: '0px !important',
               padding: '0px !important',
               position: 'relative',
-              top: '125px',
+              top: '146px',
             }}
             inputStyle={{
               width: '14.2857143%',
@@ -162,20 +152,28 @@ class VerifierCode extends Component {
             onClick={this._onCodeEntered}
             style={{
               position: 'relative',
-              top: '180px',
+              top: '218px',
               height: '44px',
             }}
-            disabled={verifierCode.length < 7}
+            disabled={authorizeCode.length < 7}
             fullWidth
-            title="Complete Authorization"
+            title="Authorize my Account"
           />
-          <FooterTextStyle>
-            If you need to restart the authoriation process you can click <FooterLinkStyle onClick={this._onReturnToLogIn} href="#">here</FooterLinkStyle> and return to the log in page.
-          </FooterTextStyle>
+          <RoundedButton
+            onClick={this._onReturnToLogIn}
+            style={{
+              position: 'relative',
+              top: '238px',
+              height: '44px',
+            }}
+            fullWidth
+            borderButton
+            title="Return to Log In"
+          />
         </InnerContent>
-      </VerifierCodeStyle>
+      </AuthorizationCodeStyle>
     );
   }
 }
 
-export default VerifierCode;
+export default AuthorizationCode;
