@@ -15,7 +15,7 @@ Tweet Tray is a small application which allows you to tweet from your desktop sy
 
 ## Downloads
 
-[Windows](https://github.com/electron/electron) | [OSX](https://github.com/electron/electron) | [Linux](https://github.com/electron/electron)
+See [releases](https://github.com/jonathontoon/tweet-tray/releases) to find the specific download for your operating system.
 
 ## Report Bugs
 Please create a Github [issue](https://github.com/jonathontoon/tweet-tray/issues) and provide as much information as possible regarding the bug, including images or error codes. 
