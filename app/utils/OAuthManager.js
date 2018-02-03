@@ -1,6 +1,23 @@
 import path from 'path';
 import { OAuth, } from 'oauth';
-import electron, { BrowserWindow, nativeImage, } from 'electron';
+import electron, { BrowserWindow, nativeImage, Menu, } from 'electron';
+
+const selectionMenu = Menu.buildFromTemplate([
+  {role: 'copy'},
+  {type: 'separator'},
+  {role: 'selectall'},
+]);
+
+const inputMenu = Menu.buildFromTemplate([
+  {role: 'undo'},
+  {role: 'redo'},
+  {type: 'separator'},
+  {role: 'cut'},
+  {role: 'copy'},
+  {role: 'paste'},
+  {type: 'separator'},
+  {role: 'selectall'},
+]);
 
 class OAuthManager {
   constructor(config, mainWindow) {
@@ -68,6 +85,16 @@ class OAuthManager {
       icon: this._appIconImage(),
     });
     window.setMenu(null);
+
+    window.webContents.on('context-menu', (e, props) => {
+      const { selectionText, isEditable } = props;
+      if (isEditable) {
+        inputMenu.popup(window);
+      } else if (selectionText && selectionText.trim() !== '') {
+        selectionMenu.popup(window);
+      }
+    });
+
     window.on('closed', () => {
       this.isOAuthActive = false;
     });

@@ -14,7 +14,7 @@ import url from 'url';
 import fs from 'fs';
 import path from 'path';
 import Positioner from 'electron-positioner';
-import { app, ipcMain, BrowserWindow, Tray, dialog, screen, nativeImage, } from 'electron';
+import { app, ipcMain, BrowserWindow, Tray, dialog, screen, nativeImage, Menu, } from 'electron';
 
 import OAuthManager from './utils/OAuthManager';
 import config from './utils/config';
@@ -51,6 +51,23 @@ const installExtensions = async () => {
     }))
     .catch(console.log);
 };
+
+const selectionMenu = Menu.buildFromTemplate([
+  {role: 'copy'},
+  {type: 'separator'},
+  {role: 'selectall'},
+]);
+
+const inputMenu = Menu.buildFromTemplate([
+  {role: 'undo'},
+  {role: 'redo'},
+  {type: 'separator'},
+  {role: 'cut'},
+  {role: 'copy'},
+  {role: 'paste'},
+  {type: 'separator'},
+  {role: 'selectall'},
+]);
 
 const trayIconImage = () => {
   let trayIconImagePath = `${__dirname}/includes/icons/tray.ico`;
@@ -140,6 +157,15 @@ const createWindow = () => {
     if (isDialogOpen) return;
     if (!window && !window.isVisible()) return;
     hideWindow();
+  });
+
+  window.webContents.on('context-menu', (e, props) => {
+    const { selectionText, isEditable } = props;
+    if (isEditable) {
+      inputMenu.popup(window);
+    } else if (selectionText && selectionText.trim() !== '') {
+      selectionMenu.popup(window);
+    }
   });
 
   window.once('ready-to-show', () => {
