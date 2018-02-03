@@ -20,6 +20,7 @@ const MediaImageStyle = Styled.img`
   width: 100%;
   height: auto;
   background-color: ${constants.LIGHT_GREY};
+  border-radius: 2px;
 `;
 
 const MediaGIFLabelStyle = Styled.img`
