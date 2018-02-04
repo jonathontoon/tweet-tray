@@ -9,20 +9,20 @@ import { Menu, } from 'electron';
 // }));
 
 const selectionMenu = Menu.buildFromTemplate([
-  { role: 'copy', accelerator: 'Cmd+C', },
+  { role: 'copy', accelerator: process.platform === 'darwin' ? 'Cmd+C' : 'Ctrl+C', },
   { type: 'separator', },
-  { role: 'selectall', accelerator: 'Cmd+A', },
+  { role: 'selectall', accelerator: process.platform === 'darwin' ? 'Cmd+A' : 'Ctrl+A', },
 ]);
 
 const inputMenu = Menu.buildFromTemplate([
-  { role: 'undo', accelerator: 'Cmd+Z', },
-  { role: 'redo', accelerator: 'Cmd+Shift+Z', },
+  { role: 'undo', accelerator: process.platform === 'darwin' ? 'Cmd+Z' : 'Ctrl+Z',, },
+  { role: 'redo', accelerator: process.platform === 'darwin' ? 'Ctrl+Z' : 'Ctrl+Shift+Z', },
   { type: 'separator', },
-  { role: 'cut', accelerator: 'Cmd+X', },
-  { role: 'copy', accelerator: 'Cmd+C', },
-  { role: 'paste', accelerator: 'Cmd+P', },
+  { role: 'cut', accelerator: process.platform === 'darwin' ? 'Cmd+X' : 'Ctrl+X', },
+  { role: 'copy', accelerator: process.platform === 'darwin' ? 'Cmd+C' : 'Ctrl+C', },
+  { role: 'paste', accelerator: process.platform === 'darwin' ? 'Cmd+P' : 'Ctrl+P', },
   { type: 'separator', },
-  { role: 'selectall', accelerator: 'Cmd+A', },
+  { role: 'selectall', accelerator: process.platform === 'darwin' ? 'Cmd+A' : 'Ctrl+A', },
 ]);
 
 export default {
