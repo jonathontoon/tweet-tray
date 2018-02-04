@@ -16,8 +16,9 @@ import path from 'path';
 import Positioner from 'electron-positioner';
 import { app, ipcMain, BrowserWindow, Tray, dialog, screen, nativeImage, } from 'electron';
 
-import OAuthManager from './utils/OAuthManager';
 import config from './utils/config';
+import OAuthManager from './utils/OAuthManager';
+import { selectionMenu, inputMenu, } from './utils/menu';
 
 let oauthManager = null;
 let windowManager = null;
@@ -140,6 +141,15 @@ const createWindow = () => {
     if (isDialogOpen) return;
     if (!window && !window.isVisible()) return;
     hideWindow();
+  });
+
+  window.webContents.on('context-menu', (e, props) => {
+    const { selectionText, isEditable, } = props;
+    if (isEditable) {
+      inputMenu.popup(window);
+    } else if (selectionText && selectionText.trim() !== '') {
+      selectionMenu.popup(window);
+    }
   });
 
   window.once('ready-to-show', () => {

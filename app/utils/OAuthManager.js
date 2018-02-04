@@ -2,6 +2,8 @@ import path from 'path';
 import { OAuth, } from 'oauth';
 import electron, { BrowserWindow, nativeImage, } from 'electron';
 
+import { selectionMenu, inputMenu, } from './menu';
+
 class OAuthManager {
   constructor(config, mainWindow) {
     this.consumerKey = config.OAUTH_CONSUMER_KEY;
@@ -68,6 +70,16 @@ class OAuthManager {
       icon: this._appIconImage(),
     });
     window.setMenu(null);
+
+    window.webContents.on('context-menu', (e, props) => {
+      const { selectionText, isEditable } = props;
+      if (isEditable) {
+        inputMenu.popup(window);
+      } else if (selectionText && selectionText.trim() !== '') {
+        selectionMenu.popup(window);
+      }
+    });
+
     window.on('closed', () => {
       this.isOAuthActive = false;
     });
