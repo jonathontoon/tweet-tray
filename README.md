@@ -28,9 +28,7 @@ Please create a Github [issue](https://github.com/jonathontoon/tweet-tray/issues
 
 3. Setup the applications' dependencies by navigating to the `tweet-tray` directory and run `yarn install`.
 
-4. Before you can use all functions of Tweet Tray you'll need to create your own [Twitter OAuth Application](https://apps.twitter.com/app/new) to test. You don't need to set a callback URL, as Tweet Tray uses a mannually input Authorization code. 
-
-Take the Consumer Key and Secret and update your local `config.js` file found under `app/utils`.
+4. Before you can use all functions of Tweet Tray you'll need to create your own [Twitter OAuth Application](https://apps.twitter.com/app/new) to test. You don't need to set a callback URL, as Tweet Tray uses a mannually input Authorization code. After that, take the Consumer Key and Secret and update your local `config.js` file found under `app/utils`.
 
 5. After everything has been installed simply call `yarn dev` to run the development build. To run the production build you can call `yarn prestart` followed by `yarn start`.
 
