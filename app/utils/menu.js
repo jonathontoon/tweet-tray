@@ -20,7 +20,7 @@ const inputMenu = Menu.buildFromTemplate([
   { type: 'separator', },
   { role: 'cut', accelerator: process.platform === 'darwin' ? 'Cmd+X' : 'Ctrl+X', },
   { role: 'copy', accelerator: process.platform === 'darwin' ? 'Cmd+C' : 'Ctrl+C', },
-  { role: 'paste', accelerator: process.platform === 'darwin' ? 'Cmd+P' : 'Ctrl+P', },
+  { role: 'paste', accelerator: process.platform === 'darwin' ? 'Cmd+V' : 'Ctrl+V', },
   { type: 'separator', },
   { role: 'selectall', accelerator: process.platform === 'darwin' ? 'Cmd+A' : 'Ctrl+A', },
 ]);
