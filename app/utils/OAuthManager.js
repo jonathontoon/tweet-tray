@@ -1,23 +1,8 @@
 import path from 'path';
 import { OAuth, } from 'oauth';
-import electron, { BrowserWindow, nativeImage, Menu, } from 'electron';
+import electron, { BrowserWindow, nativeImage, } from 'electron';
 
-const selectionMenu = Menu.buildFromTemplate([
-  {role: 'copy'},
-  {type: 'separator'},
-  {role: 'selectall'},
-]);
-
-const inputMenu = Menu.buildFromTemplate([
-  {role: 'undo'},
-  {role: 'redo'},
-  {type: 'separator'},
-  {role: 'cut'},
-  {role: 'copy'},
-  {role: 'paste'},
-  {type: 'separator'},
-  {role: 'selectall'},
-]);
+import { selectionMenu, inputMenu, } from './menu';
 
 class OAuthManager {
   constructor(config, mainWindow) {

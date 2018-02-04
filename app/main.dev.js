@@ -14,10 +14,11 @@ import url from 'url';
 import fs from 'fs';
 import path from 'path';
 import Positioner from 'electron-positioner';
-import { app, ipcMain, BrowserWindow, Tray, dialog, screen, nativeImage, Menu, } from 'electron';
+import { app, ipcMain, BrowserWindow, Tray, dialog, screen, nativeImage, } from 'electron';
 
-import OAuthManager from './utils/OAuthManager';
 import config from './utils/config';
+import OAuthManager from './utils/OAuthManager';
+import { selectionMenu, inputMenu, } from './utils/menu';
 
 let oauthManager = null;
 let windowManager = null;
@@ -51,23 +52,6 @@ const installExtensions = async () => {
     }))
     .catch(console.log);
 };
-
-const selectionMenu = Menu.buildFromTemplate([
-  {role: 'copy'},
-  {type: 'separator'},
-  {role: 'selectall'},
-]);
-
-const inputMenu = Menu.buildFromTemplate([
-  {role: 'undo'},
-  {role: 'redo'},
-  {type: 'separator'},
-  {role: 'cut'},
-  {role: 'copy'},
-  {role: 'paste'},
-  {type: 'separator'},
-  {role: 'selectall'},
-]);
 
 const trayIconImage = () => {
   let trayIconImagePath = `${__dirname}/includes/icons/tray.ico`;
@@ -160,7 +144,7 @@ const createWindow = () => {
   });
 
   window.webContents.on('context-menu', (e, props) => {
-    const { selectionText, isEditable } = props;
+    const { selectionText, isEditable, } = props;
     if (isEditable) {
       inputMenu.popup(window);
     } else if (selectionText && selectionText.trim() !== '') {
