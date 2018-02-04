@@ -14,11 +14,11 @@ import url from 'url';
 import fs from 'fs';
 import path from 'path';
 import Positioner from 'electron-positioner';
-import { app, ipcMain, BrowserWindow, Tray, dialog, screen, nativeImage, } from 'electron';
+import { app, ipcMain, BrowserWindow, Tray, dialog, screen, nativeImage, Menu, } from 'electron';
 
 import config from './utils/config';
 import OAuthManager from './utils/OAuthManager';
-import { selectionMenu, inputMenu, } from './utils/menu';
+import { selectionMenu, inputMenu, applicationMenu, } from './utils/menu';
 
 let oauthManager = null;
 let windowManager = null;
@@ -135,6 +135,8 @@ const createWindow = () => {
   });
   window.loadURL(`file://${__dirname}/app.html`);
   window.setMenu(null);
+
+  Menu.setApplicationMenu(applicationMenu);
 
   window.on('blur', () => {
     if (oauthManager.isOAuthActive) return;
