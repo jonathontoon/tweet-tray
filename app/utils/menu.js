@@ -16,7 +16,7 @@ const selectionMenu = Menu.buildFromTemplate([
 
 const inputMenu = Menu.buildFromTemplate([
   { role: 'undo', accelerator: process.platform === 'darwin' ? 'Cmd+Z' : 'Ctrl+Z', },
-  { role: 'redo', accelerator: process.platform === 'darwin' ? 'Ctrl+Z' : 'Ctrl+Shift+Z', },
+  { role: 'redo', accelerator: process.platform === 'darwin' ? 'Cmd+Shift+Z' : 'Ctrl+Shift+Z', },
   { type: 'separator', },
   { role: 'cut', accelerator: process.platform === 'darwin' ? 'Cmd+X' : 'Ctrl+X', },
   { role: 'copy', accelerator: process.platform === 'darwin' ? 'Cmd+C' : 'Ctrl+C', },
