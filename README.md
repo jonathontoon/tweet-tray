@@ -22,10 +22,7 @@ Please create a Github [issue](https://github.com/jonathontoon/tweet-tray/issues
 
 ## Installation
 
-1. Clone the Tweet Tray repository from Github to your local machine.
-```
-git clone https://github.com/jonathontoon/tweet-tray.git
-```
+1. Fork the Tweet Tray repository on Github to your own account then clone it locally.
 
 2. To run Tweet Tray locally you will need to first install [npm](https://www.npmjs.com/get-npm) and [yarn](https://yarnpkg.com/lang/en/docs/install/) package managers.
 
@@ -37,7 +34,7 @@ git clone https://github.com/jonathontoon/tweet-tray.git
 
 ## Development
 
-For all new features or bug fixes simply submit a pull request directly into the `develop` branch. Once your pull request has been successfully rebased and tested a separate request can then be made to merge into `master`.
+For all new features or bug fixes simply submit a pull request from your own fork into the original `develop` branch. Once your pull request has been successfully rebased and tested a separate request can then be made to merge into `master`.
 
 ## Deployment
 
