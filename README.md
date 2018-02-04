@@ -31,7 +31,9 @@ git clone https://github.com/jonathontoon/tweet-tray.git
 
 3. Setup the applications' dependencies by navigating to the `tweet-tray` directory and run `yarn install`.
 
-4. After everything has been installed simply call `yarn dev` to run the development build. To run the production build you can call `yarn prestart` followed by `yarn start`.
+4. Before you can use all functions of Tweet Tray you'll need to create your own [Twitter OAuth Application](https://apps.twitter.com/app/new) to test. Take the Consumer Key and Secret and update your local `config.js` file found under `app/utils`.
+
+5. After everything has been installed simply call `yarn dev` to run the development build. To run the production build you can call `yarn prestart` followed by `yarn start`.
 
 ## Development
 
