@@ -1,7 +1,7 @@
 {
   "name": "tweet-tray",
   "productName": "Tweet Tray",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Tweet quickly from the desktop without any more distractions.",
   "main": "./main.prod.js",
   "author": {

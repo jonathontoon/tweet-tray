@@ -72,7 +72,7 @@ class OAuthManager {
     window.setMenu(null);
 
     window.webContents.on('context-menu', (e, props) => {
-      const { selectionText, isEditable } = props;
+      const { selectionText, isEditable, } = props;
       if (isEditable) {
         inputMenu.popup(window);
       } else if (selectionText && selectionText.trim() !== '') {
