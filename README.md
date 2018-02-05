@@ -6,7 +6,7 @@
 - [Installation](#installation)
 - [Development](#development)
 - [Deployment](#deployment)
-- [Acknowledgements](#Acknowledgements)
+- [Acknowledgements](#acknowledgements)
 
 ## Introduction
 <img alt="OSX Day" src="https://i.imgur.com/rL4jWFz.png" width="320"/>    <img alt="Windows Day" src="https://i.imgur.com/WWluLuq.png" width="320"/>
