@@ -326,7 +326,6 @@ ipcMain.on('postStatus', (postStatusEvent, response) => {
       media: response.imageData,
     }, accessToken, accessTokenSecret, (uploadMediaError, uploadResponse) => {
       if (uploadMediaError) {
-        oauthManager.window.close();
         postStatusEvent.sender.send('postStatusError', uploadResponse);
         return;
       }
