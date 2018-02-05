@@ -257,6 +257,7 @@ ipcMain.on('startOAuth', (startOAuthEvent) => {
     startOAuthEvent.sender.send('receivedRequestTokenPair', requestTokenPair);
 
     oauthManager.window.on('close', () => {
+      oauthManager.isOAuthActive = false;
       startOAuthEvent.sender.send('canceledOAuth');
     });
 
