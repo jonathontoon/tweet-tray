@@ -22,6 +22,10 @@ const SettingsStyle = Styled.section`
     &.hidden {
       display:none;
     }
+
+    &:hover {
+      cursor: pointer;
+    }
 `;
 
 class Settings extends Component {
@@ -47,7 +51,10 @@ class Settings extends Component {
     } = this.props;
 
     return (
-      <SettingsStyle className={`${showSettings ? '' : 'hidden'}`}>
+      <SettingsStyle
+        className={`${showSettings ? '' : 'hidden'}`}
+        onClick={() => { onToggleSettingsVisibility(false); }}
+      >
         <InnerContent
           style={{
             position: 'relative',
@@ -61,18 +68,21 @@ class Settings extends Component {
             dataSource={
               [{
                 title: `${colorTheme === 'day' ? 'Enable' : 'Disable'} Night Mode`,
-                action: () => {
+                action: (e) => {
+                  e.stopPropagation();
                   onToggleColorTheme(colorTheme === 'day' ? 'night' : 'day');
                   onToggleSettingsVisibility(false);
                 },
               }, {
                 title: 'Quit Tweet Tray',
-                action: () => {
+                action: (e) => {
+                  e.stopPropagation();
                   ipcRenderer.send('quitApplication');
                 },
               }, {
                 title: 'Log Out',
-                action: () => {
+                action: (e) => {
+                  e.stopPropagation();
                   onToggleSettingsVisibility(false);
                   this.context.router.history.replace('/');
                   shouldLogout();
@@ -80,7 +90,8 @@ class Settings extends Component {
                 type: 'warning',
               }, {
                 title: 'Cancel',
-                action: () => {
+                action: (e) => {
+                  e.stopPropagation();
                   onToggleSettingsVisibility(false);
                 },
                 type: 'last',
