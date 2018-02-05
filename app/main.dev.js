@@ -336,7 +336,6 @@ ipcMain.on('postStatus', (postStatusEvent, response) => {
         media_ids: uploadResponse.media_id_string,
       }, accessToken, accessTokenSecret, (updateStatusError, statusResponse) => {
         if (updateStatusError) {
-          oauthManager.window.close();
           postStatusEvent.sender.send('postStatusError', statusResponse);
           return;
         }
@@ -348,7 +347,6 @@ ipcMain.on('postStatus', (postStatusEvent, response) => {
       status: response.statusText,
     }, accessToken, accessTokenSecret, (updateStatusError, statusResponse) => {
       if (updateStatusError) {
-        oauthManager.window.close();
         postStatusEvent.sender.send('postStatusError', statusResponse);
         return;
       }
