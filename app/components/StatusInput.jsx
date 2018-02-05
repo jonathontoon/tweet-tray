@@ -1,10 +1,11 @@
 import React, { Component, } from 'react';
 import { connect, } from 'react-redux';
 import PropTypes from 'prop-types';
-import ExpandedTextArea from 'react-expanding-textarea';
 import TwitterText from 'twitter-text';
 import Styled from 'styled-components';
 import Theme from 'styled-theming';
+
+import ExpandedTextArea from './ExpandingTextArea';
 
 import * as constants from '../constants';
 
@@ -98,6 +99,7 @@ class StatusInput extends Component {
           style={{
             minHeight: 58,
           }}
+          autoFocus
           onInput={this._onTextAreaUpdate}
           onKeyUp={this._onTextAreaUpdate}
           onChange={this._onTextAreaUpdate}
