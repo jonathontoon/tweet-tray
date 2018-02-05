@@ -18,7 +18,7 @@ const ListViewStyle = Styled.div`
     border-top-left-radius: 3px;
     border-top-right-radius: 3px;
     background-color: ${Theme('mode', { day: constants.WHITE, night: constants.DARK_MODE_FOREGROUND, })};
-    box-shadow: 0px -1px 4px rgba(0, 0, 0, 0.3);
+    box-shadow: 0px -1px 25px rgba(0,0,0,0.1);
 `;
 
 const ListView = (props) => {
