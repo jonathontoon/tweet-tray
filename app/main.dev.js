@@ -231,6 +231,7 @@ const openImageDialog = (callback) => {
     ],
     properties,
   }, (filePaths) => {
+    isDialogOpen = false;
     if (filePaths !== undefined) {
       processFile(filePaths[0], (image) => {
         callback(image);
