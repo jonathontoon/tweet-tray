@@ -1,7 +1,7 @@
 export const XTRA_LARGE_FONT_SIZE = process.platform === 'darwin' ? 22 : 20;
-export const LARGE_FONT_SIZE = 17;
-export const REGULAR_FONT_SIZE = 16;
-export const SMALL_FONT_SIZE = 14;
+export const LARGE_FONT_SIZE = 16;
+export const REGULAR_FONT_SIZE = 15;
+export const SMALL_FONT_SIZE = 12;
 
 export const SPACING = 15;
 
