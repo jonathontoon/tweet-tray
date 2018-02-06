@@ -6,7 +6,7 @@
     "email": "jonathontoon@gmail.com",
     "url": "https://github.com/jonathontoon"
   },
-  "version": "1.0.2",
+  "version": "1.0.3",
   "private": true,
   "scripts": {
     "build": "concurrently \"npm run build-main\" \"npm run build-renderer\"",
