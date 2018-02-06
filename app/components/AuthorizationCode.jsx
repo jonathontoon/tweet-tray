@@ -152,7 +152,7 @@ class AuthorizationCode extends Component {
             onClick={this._onCodeEntered}
             style={{
               position: 'relative',
-              top: '212px',
+              top: '216px',
               height: '44px',
             }}
             disabled={authorizeCode.length < 7}
