@@ -66,8 +66,12 @@ class Composer extends Component {
     });
 
     ipcRenderer.on('postStatusError', (event, response) => {
-      const parsedResponse = JSON.parse(response);
-      Notifier('Oops, an error occured!', parsedResponse.errors[0].message, false, NotificationIcon, null);
+      if (response.length > 0) {
+        const parsedResponse = JSON.parse(response);
+        Notifier('Oops, an error occured!', parsedResponse.errors[0].message, false, NotificationIcon, null);
+      } else {
+        Notifier('Oops, an unknown error occured!', 'Sorry but your tweet wasn\'t sent', false, NotificationIcon, null);
+      }
     });
 
     ipcRenderer.on('postStatusComplete', (event, response) => {
@@ -78,22 +82,10 @@ class Composer extends Component {
   }
 
   _addImage(newImage) {
-    if (newImage.extension === '.gif') {
-      if (newImage.size <= 15.0) {
-        this.setState({
-          image: newImage,
-        });
-      } else {
-        Notifier('Oops, an error occured!', 'GIFs must be less than 15mb', false, NotificationIcon, null);
-      }
-    } else if (newImage.extension !== '.gif') {
-      if (newImage.size <= 5.0) {
-        this.setState({
-          image: newImage,
-        });
-      } else {
-        Notifier('Oops, an error occured!', 'Images must be less than 5mb', false, NotificationIcon, null);
-      }
+    if (newImage !== null) {
+      this.setState({
+        image: newImage,
+      });
     }
   }
 
