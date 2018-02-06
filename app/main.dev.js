@@ -14,7 +14,17 @@ import url from 'url';
 import fs from 'fs';
 import path from 'path';
 import Positioner from 'electron-positioner';
-import { app, ipcMain, BrowserWindow, Tray, dialog, screen, nativeImage, Menu, } from 'electron';
+import {
+  app,
+  ipcMain,
+  BrowserWindow,
+  Tray,
+  dialog,
+  screen,
+  nativeImage,
+  Menu,
+  globalShortcut,
+} from 'electron';
 
 import config from './utils/config';
 import OAuthManager from './utils/OAuthManager';
@@ -117,6 +127,9 @@ const showWindow = () => {
 };
 
 const hideWindow = () => {
+  if (oauthManager.isOAuthActive) return;
+  if (isDialogOpen) return;
+  if (!windowManager && !windowManager.isVisible()) return;
   trayManager.setHighlightMode('never');
   windowManager.hide();
 };
@@ -139,9 +152,6 @@ const createWindow = () => {
   Menu.setApplicationMenu(applicationMenu);
 
   window.on('blur', () => {
-    if (oauthManager.isOAuthActive) return;
-    if (isDialogOpen) return;
-    if (!window && !window.isVisible()) return;
     hideWindow();
   });
 
@@ -221,9 +231,9 @@ const openImageDialog = (callback) => {
     ],
     properties,
   }, (filePaths) => {
+    isDialogOpen = false;
     if (filePaths !== undefined) {
       processFile(filePaths[0], (image) => {
-        isDialogOpen = false;
         callback(image);
       });
     }
@@ -239,6 +249,14 @@ app.on('ready', async () => {
   if (process.platform === 'darwin') {
     app.dock.hide();
   }
+
+  globalShortcut.register('CmdOrCtrl+Alt+Shift+T', () => {
+    if (windowManager !== null && !windowManager.isVisible()) {
+      showWindow();
+    } else {
+      hideWindow();
+    }
+  });
 
   windowManager = createWindow();
   trayManager = createTray();
