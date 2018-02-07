@@ -124,6 +124,8 @@ const showWindow = () => {
 
   trayManager.setHighlightMode('always');
   windowManager.show();
+
+  windowManager.webContents.send('focus-textarea');
 };
 
 const hideWindow = () => {

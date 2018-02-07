@@ -1,6 +1,8 @@
 import React, { Component, } from 'react';
 import PropTypes from 'prop-types';
 
+const { ipcRenderer, } = window.require('electron');
+
 class ExpandingTextArea extends Component {
   static propTypes = {
     onChange: PropTypes.func.isRequired,
@@ -17,6 +19,10 @@ class ExpandingTextArea extends Component {
   componentDidMount() {
     this._adjustTextarea({});
     this._focusTextArea({});
+
+    ipcRenderer.on('focus-textarea', () => {
+      this._focusTextArea({});
+    });
   }
 
   _handleChange(e) {
