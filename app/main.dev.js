@@ -207,12 +207,15 @@ const createTray = () => {
 const processFile = (filePath, callback) => {
   const imageSize = fs.lstatSync(filePath).size / (1024 * 1024);
   const base64ImageData = fs.readFileSync(filePath).toString('base64');
-  callback({
+
+  const imageDataObject = {
     path: filePath,
     data: base64ImageData,
     size: imageSize,
     extension: path.extname(filePath),
-  });
+  };
+
+  callback(imageDataObject);
 };
 
 const openImageDialog = (callback) => {
@@ -231,9 +234,32 @@ const openImageDialog = (callback) => {
     ],
     properties,
   }, (filePaths) => {
-    isDialogOpen = false;
     if (filePaths !== undefined) {
       processFile(filePaths[0], (image) => {
+        if (image.extension === '.gif' && image.size >= 15.0) {
+          dialog.showMessageBox({
+            type: 'warning',
+            buttons: ['OK', ],
+            title: 'Warning',
+            message: 'Oops, sorry you can\'t do that',
+            detail: 'GIFs must be less than 15mb.',
+          }, () => {
+            callback(null);
+          });
+          return;
+        } else if (image.extension !== '.gif' && image.size >= 5.0) {
+          dialog.showMessageBox({
+            type: 'warning',
+            buttons: ['OK', ],
+            title: 'Warning',
+            message: 'Oops, sorry you can\'t do that',
+            detail: 'Images must be less than 5mb.',
+          }, () => {
+            callback(null);
+          });
+          return;
+        }
+
         callback(image);
       });
     }
@@ -385,6 +411,7 @@ ipcMain.on('quitApplication', () => {
 ipcMain.on('addImage', (addImageEvent) => {
   isDialogOpen = true;
   openImageDialog((image) => {
+    isDialogOpen = false;
     addImageEvent.sender.send('addImageComplete', image);
   });
 });
