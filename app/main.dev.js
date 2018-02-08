@@ -248,7 +248,6 @@ const openImageDialog = (callback) => {
           }, () => {
             callback(null);
           });
-          return;
         } else if (image.extension !== '.gif' && image.size >= 5.0) {
           dialog.showMessageBox({
             type: 'warning',
@@ -259,11 +258,12 @@ const openImageDialog = (callback) => {
           }, () => {
             callback(null);
           });
-          return;
+        } else {
+          callback(image);
         }
-
-        callback(image);
       });
+    } else {
+      isDialogOpen = false;
     }
     windowManager.show();
   });
