@@ -80,7 +80,7 @@ class Composer extends Component {
       });
     });
 
-    ipcRenderer.on('send-tweet-shortcut', (event) => {
+    ipcRenderer.on('send-tweet-shortcut', () => {
       this._postStatus();
     });
   }
