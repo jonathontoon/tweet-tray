@@ -79,6 +79,10 @@ class Composer extends Component {
         shell.openExternal(`https://twitter.com/${response.user.screen_name}/status/${response.id_str}`);
       });
     });
+
+    ipcRenderer.on('send-tweet-shortcut', (event) => {
+      this._postStatus();
+    });
   }
 
   _addImage(newImage) {
@@ -96,7 +100,9 @@ class Composer extends Component {
   }
 
   _postStatus(e) {
-    e.preventDefault();
+    if (e) {
+      e.preventDefault();
+    }
 
     const { image, } = this.state;
     const { accessTokenPair, weightedStatus, } = this.props;
