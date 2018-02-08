@@ -1,6 +1,6 @@
 # Change Log
 
-## v1.0.2
+## [v1.0.2](https://github.com/jonathontoon/tweet-tray/releases/tag/v1.0.2)
 
 A few clean up bugs and tweaks.
 
@@ -10,16 +10,16 @@ A few clean up bugs and tweaks.
 - Added extra fix for copy / paste keyboard shortcuts.
 - Added improved app icons thanks to @riotherio!
 
-## v1.0.1
+## [v1.0.1](https://github.com/jonathontoon/tweet-tray/releases/tag/v1.0.1)
 
 Thanks for downloading the previous release! The feedback so far for Tweet Tray has been overwhelming.
 I appreciate the support and hope we can begin to build up a great open source project.
 
-### Changes
+### Change
 
-- Added fix for input fields within the electron windows where right-click menus as well as copy and paste were not working. ((#29)[https://github.com/jonathontoon/tweet-tray/issues/29])
+- Added fix for input fields within the electron windows where right-click menus as well as copy and paste were not working. ([#29](https://github.com/jonathontoon/tweet-tray/issues/29))
 
-## v1.0.0b
+## [v1.0.0](https://github.com/jonathontoon/tweet-tray/releases/tag/v1.0.0b)
 
 The beginning and initial release of Tweet Tray! 🎉
 
