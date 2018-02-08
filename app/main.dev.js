@@ -286,6 +286,12 @@ app.on('ready', async () => {
     }
   });
 
+  globalShortcut.register('Ctrl+Enter', () => {
+    if (windowManager !== null && windowManager.isVisible()) {
+      windowManager.webContents.send('send-tweet-shortcut');
+    }
+  });
+
   windowManager = createWindow();
   trayManager = createTray();
 });
