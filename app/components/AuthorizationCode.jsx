@@ -17,8 +17,8 @@ const { ipcRenderer, } = window.require('electron');
 const AuthorizationCodeStyle = Styled.section`
   overflow: hidden;
   user-select: none;
-  width: ${window.innerWidth}px;
-  height: ${window.innerHeight}px;
+  width: 100%;
+  height: 100%;
   background-color: ${constants.WHITE};
   position: relative;
 `;

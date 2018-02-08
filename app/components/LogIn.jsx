@@ -18,8 +18,8 @@ const { ipcRenderer, } = window.require('electron');
 const LogInStyle = Styled.section`
   overflow: hidden;
   user-select: none;
-  width: ${window.innerWidth}px;
-  height: ${window.innerHeight}px;
+  width: 100%;
+  height: 100%;
   background-color: ${Theme('mode', { day: constants.WHITE, night: constants.DARK_MODE_BACKGROUND, })};
   position: relative;
 `;

@@ -11,10 +11,8 @@ const FooterStyle = Styled.footer`
   z-index: 99;
   left: 0px;
   bottom: 0px;
-  width: calc(100% - ${constants.SPACING * 2}px);
+  width: 100%;
   height: 38px;
-  padding-left: ${constants.SPACING}px;
-  padding-right: ${constants.SPACING}px;
   padding-top: 8px;
   padding-bottom: 8px;
   background-color: ${Theme('mode', { day: constants.WHITE, night: constants.DARK_MODE_FOREGROUND, })};
@@ -25,6 +23,7 @@ const LeftStyle = Styled.div`
   max-width: 50%;
   height: 100%;
   float: left;
+  padding-left: ${constants.SPACING}px;
 
   & > * {
     float: left;
@@ -35,6 +34,7 @@ const RightStyle = Styled.div`
   max-width: 50%;
   height: 100%;
   float: right;
+  padding-right: ${constants.SPACING}px;
 
   & > * {
     float: right;
