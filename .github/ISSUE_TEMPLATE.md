@@ -5,8 +5,6 @@ Thanks for filing an issue 😄 ! Before you submit, please read the following:
 - Note that by making a contribution, you agree to our Code of Conduct.
 -->
 
-**Choose one:** is this a 🐛 bug report, a 🙋 feature request, or a 🔦 question?
-
 <!-- Provide a general summary of the issue in the title above -->
 
 ## Expected Behavior
