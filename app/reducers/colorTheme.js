@@ -1,4 +1,4 @@
-import { TOGGLE_COLOR_THEME, } from '../actions';
+import { TOGGLE_COLOR_THEME, } from '../actions/actionTypes';
 
 const colorTheme = (state = 'day', action) => {
   switch (action.type) {

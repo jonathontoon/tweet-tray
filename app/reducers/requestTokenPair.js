@@ -1,4 +1,4 @@
-import { UPDATE_REQUEST_TOKEN_PAIR, } from '../actions';
+import { UPDATE_REQUEST_TOKEN_PAIR, } from '../actions/actionTypes';
 
 const requestTokenPair = (state = null, action) => {
   switch (action.type) {

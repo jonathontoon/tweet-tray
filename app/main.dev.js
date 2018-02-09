@@ -352,7 +352,7 @@ ipcMain.on('sendAuthorizeCode', (sendAuthorizeCodeEvent, data) => {
             utcOffset: credentials.utc_offset,
             timeZone: credentials.time_zone,
             geoEnabled: credentials.geo_enabled,
-            lang: credentials.land,
+            lang: credentials.lang,
             profileImageURL: credentials.profile_image_url_https,
           };
 

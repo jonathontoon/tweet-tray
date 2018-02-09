@@ -171,16 +171,6 @@ class OAuthManager {
         }
       }
     });
-
-    // const parameter = (params.isBase64) ? 'media_data' : 'media';
-
-    // // multipart/form-dauploadBaseUrlta
-    // const form = r.form();
-    // if (fs.existsSync(params.media)) {
-    //   form.append(parameter, fs.createReadStream(params.media));
-    // } else {
-    //   form.append(parameter, params.media);
-    // }
   }
 }
 
