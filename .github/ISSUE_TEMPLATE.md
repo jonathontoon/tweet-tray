@@ -2,7 +2,7 @@
 Thanks for filing an issue 😄 ! Before you submit, please read the following:
 
 - Please search open/closed issues before submitting since someone might have asked the same thing before!
-- Note that by making a contribution, you agree to our Developer Certificate of Origin.
+- Note that by making a contribution, you agree to our Code of Conduct.
 -->
 
 **Choose one:** is this a 🐛 bug report, a 🙋 feature request, or a 🔦 question?
