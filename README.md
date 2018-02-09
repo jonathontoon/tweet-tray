@@ -18,7 +18,7 @@ Tweet Tray is a small application which allows you to tweet from your desktop sy
 See [releases](https://github.com/jonathontoon/tweet-tray/releases) to find the specific download for your operating system.
 
 ## Report Bugs
-Please create a Github [issue](https://github.com/jonathontoon/tweet-tray/issues) and provide as much information as possible regarding the bug, including images or error codes. 
+Please create a Github [issue](https://github.com/jonathontoon/tweet-tray/issues) and provide as much information as possible regarding the bug, including images or error codes. To make things as uniform as possible please follow the guidelines set out in `ISSUE_TEMPLATE.md`.
 
 ## Installation
 
@@ -34,7 +34,7 @@ Please create a Github [issue](https://github.com/jonathontoon/tweet-tray/issues
 
 ## Development
 
-For all new features or bug fixes please create an issue in the main repository first (so we can track what goes into each release) then simply submit a pull request from your own fork into the original `develop` branch. Once your pull request has been successfully rebased and tested a separate request can then be made to merge into `master`.
+For all new features or bug fixes please create an issue in the main repository first (so we can track what goes into each release) then simply submit a pull request from your own fork into the original `develop` branch. To make sure the changes are easily reviewable please follow the format set out in `PULL_REQUEST_TEMPLATE.md`.
 
 ## Deployment
 
@@ -42,4 +42,4 @@ To create an installable build simply call `yarn package`, which will create an 
 
 ## Acknowledgements
 
-This project is based off [electron-react-boilerplate](https://github.com/chentsulin/electron-react-boilerplate), all methodloligies still apply, except for the removal of Flow and SASS.
+This project is based off [electron-react-boilerplate](https://github.com/chentsulin/electron-react-boilerplate), all methodloligies still apply, except for the removal of Flow and SASS. Issue and pull request templates based on formats by [yoshuawyts](https://raw.githubusercontent.com/yoshuawuyts/templates/master/github/).
