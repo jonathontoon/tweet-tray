@@ -1,7 +1,6 @@
 <!--
 Thanks for creating a Pull Request 😄 ! Before you submit, please read the following:
-- Read our CONTRIBUTING.md file before submitting a patch.
-- By making a contribution, you agree to our Developer Certificate of Origin.
+- By making a contribution, you agree to our Code Of Conduct.
 -->
 
 **Choose one:** is this a 🐛 bug fix, a 🙋 feature, or a 🔦 documentation change?
