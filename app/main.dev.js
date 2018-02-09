@@ -298,28 +298,29 @@ app.on('ready', async () => {
 
 // Start Twitter OAuth Flow
 ipcMain.on('startOAuth', (startOAuthEvent) => {
-  oauthManager.isOAuthActive = true;
-  oauthManager.getRequestTokenPair((requestTokenPairError, requestTokenPair) => {
-    if (requestTokenPairError) {
-      oauthManager.window.close();
-      startOAuthEvent.sender.send('startOAuthError');
-      return;
-    }
-
-    startOAuthEvent.sender.send('receivedRequestTokenPair', requestTokenPair);
-
-    oauthManager.window.on('close', () => {
-      oauthManager.isOAuthActive = false;
-      startOAuthEvent.sender.send('canceledOAuth');
-    });
-
-    oauthManager.window.webContents.on('did-navigate', (event, webContentsURL) => {
-      const urlInfo = url.parse(webContentsURL, true);
-      if (urlInfo.pathname === '/oauth/authenticate') {
-        startOAuthEvent.sender.send('startedAuthorizationCode');
+  if (!oauthManager.isOAuthActive) {
+    oauthManager.isOAuthActive = true;
+    oauthManager.getRequestTokenPair((requestTokenPairError, requestTokenPair) => {
+      if (requestTokenPairError) {
+        console.log(requestTokenPairError);
+        startOAuthEvent.sender.send('startOAuthError');
+        return;
       }
+
+      startOAuthEvent.sender.send('receivedRequestTokenPair', requestTokenPair);
+
+      oauthManager.window.on('close', () => {
+        startOAuthEvent.sender.send('canceledOAuth');
+      });
+
+      oauthManager.window.webContents.on('did-navigate', (event, webContentsURL) => {
+        const urlInfo = url.parse(webContentsURL, true);
+        if (urlInfo.pathname === '/oauth/authenticate') {
+          startOAuthEvent.sender.send('startedAuthorizationCode');
+        }
+      });
     });
-  });
+  }
 });
 
 // Get Authorize Code
@@ -329,7 +330,6 @@ ipcMain.on('sendAuthorizeCode', (sendAuthorizeCodeEvent, data) => {
     data.authorizeCode,
     (accessTokenPairError, accessTokenPair) => {
       if (accessTokenPairError) {
-        oauthManager.window.close();
         sendAuthorizeCodeEvent.sender.send('sendAuthorizeCodeError');
         return;
       }
@@ -338,7 +338,6 @@ ipcMain.on('sendAuthorizeCode', (sendAuthorizeCodeEvent, data) => {
         accessTokenPair,
         (credentialsError, credentials) => {
           if (credentialsError) {
-            oauthManager.window.close();
             sendAuthorizeCodeEvent.sender.send('verifyCredentialsError');
             return;
           }
