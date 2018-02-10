@@ -1,0 +1,12 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`reducers requestTokenPair should handle UPDATE_REQUEST_TOKEN_PAIR 1`] = `undefined`;
+
+exports[`reducers requestTokenPair should handle initial state 1`] = `null`;
+
+exports[`reducers requestTokenPair should handle unknown action type 1`] = `
+Object {
+  "secret": "YopgcfgT8xSGS4HaP3V71l3eFyFUY4NI",
+  "token": "2XvdJwMMMMMM31rrSSSUOPXn4wHA",
+}
+`;

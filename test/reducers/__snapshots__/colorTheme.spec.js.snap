@@ -1,0 +1,7 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`reducers toggleColorTheme should handle TOGGLE_COLOR_THEME 1`] = `undefined`;
+
+exports[`reducers toggleColorTheme should handle initial state 1`] = `null`;
+
+exports[`reducers toggleColorTheme should handle unknown action type 1`] = `"night"`;
