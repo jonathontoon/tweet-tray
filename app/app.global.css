@@ -5,6 +5,10 @@
   user-select: none !important;
 }
 
+body {
+  overflow: hidden;
+}
+
 #root {
   z-index: 99;
   overflow: hidden;
