@@ -3,8 +3,6 @@ Thanks for creating a Pull Request 😄 ! Before you submit, please read the fol
 - By making a contribution, you agree to our Code Of Conduct.
 -->
 
-**Choose one:** is this a 🐛 bug fix, a 🙋 feature, or a 🔦 documentation change?
-
 <!-- Provide a general summary of the changes in the title above -->
 
 ## Checklist
