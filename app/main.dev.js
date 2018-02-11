@@ -286,7 +286,7 @@ app.on('ready', async () => {
     }
   });
 
-  globalShortcut.register('CmdOrCtrl+Enter', () => {
+  globalShortcut.register(`${process.platform === 'darwin' ? 'Cmd' : 'Ctrl'}+Enter`, () => {
     if (windowManager !== null && windowManager.isVisible()) {
       windowManager.webContents.send('send-tweet-shortcut');
     }
