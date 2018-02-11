@@ -286,7 +286,7 @@ app.on('ready', async () => {
     }
   });
 
-  globalShortcut.register('Ctrl+Enter', () => {
+  globalShortcut.register('CmdOrCtrl+Enter', () => {
     if (windowManager !== null && windowManager.isVisible()) {
       windowManager.webContents.send('send-tweet-shortcut');
     }
