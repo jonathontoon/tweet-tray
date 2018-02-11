@@ -1,4 +1,4 @@
-import { UPDATE_WEIGHTED_STATUS, } from '../actions';
+import { UPDATE_WEIGHTED_STATUS, } from '../actions/actionTypes';
 
 const weightedStatus = (state = null, action) => {
   switch (action.type) {

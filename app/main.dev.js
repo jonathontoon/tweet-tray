@@ -14,7 +14,17 @@ import url from 'url';
 import fs from 'fs';
 import path from 'path';
 import Positioner from 'electron-positioner';
-import { app, ipcMain, BrowserWindow, Tray, dialog, screen, nativeImage, Menu, } from 'electron';
+import {
+  app,
+  ipcMain,
+  BrowserWindow,
+  Tray,
+  dialog,
+  screen,
+  nativeImage,
+  Menu,
+  globalShortcut,
+} from 'electron';
 
 import config from './utils/config';
 import OAuthManager from './utils/OAuthManager';
@@ -114,9 +124,14 @@ const showWindow = () => {
 
   trayManager.setHighlightMode('always');
   windowManager.show();
+
+  windowManager.webContents.send('focus-textarea');
 };
 
 const hideWindow = () => {
+  if (oauthManager.isOAuthActive) return;
+  if (isDialogOpen) return;
+  if (!windowManager && !windowManager.isVisible()) return;
   trayManager.setHighlightMode('never');
   windowManager.hide();
 };
@@ -139,9 +154,6 @@ const createWindow = () => {
   Menu.setApplicationMenu(applicationMenu);
 
   window.on('blur', () => {
-    if (oauthManager.isOAuthActive) return;
-    if (isDialogOpen) return;
-    if (!window && !window.isVisible()) return;
     hideWindow();
   });
 
@@ -197,12 +209,15 @@ const createTray = () => {
 const processFile = (filePath, callback) => {
   const imageSize = fs.lstatSync(filePath).size / (1024 * 1024);
   const base64ImageData = fs.readFileSync(filePath).toString('base64');
-  callback({
+
+  const imageDataObject = {
     path: filePath,
     data: base64ImageData,
     size: imageSize,
     extension: path.extname(filePath),
-  });
+  };
+
+  callback(imageDataObject);
 };
 
 const openImageDialog = (callback) => {
@@ -223,9 +238,32 @@ const openImageDialog = (callback) => {
   }, (filePaths) => {
     if (filePaths !== undefined) {
       processFile(filePaths[0], (image) => {
-        isDialogOpen = false;
-        callback(image);
+        if (image.extension === '.gif' && image.size >= 15.0) {
+          dialog.showMessageBox({
+            type: 'warning',
+            buttons: ['OK', ],
+            title: 'Warning',
+            message: 'Oops, sorry you can\'t do that',
+            detail: 'GIFs must be less than 15mb.',
+          }, () => {
+            callback(null);
+          });
+        } else if (image.extension !== '.gif' && image.size >= 5.0) {
+          dialog.showMessageBox({
+            type: 'warning',
+            buttons: ['OK', ],
+            title: 'Warning',
+            message: 'Oops, sorry you can\'t do that',
+            detail: 'Images must be less than 5mb.',
+          }, () => {
+            callback(null);
+          });
+        } else {
+          callback(image);
+        }
       });
+    } else {
+      isDialogOpen = false;
     }
     windowManager.show();
   });
@@ -240,33 +278,49 @@ app.on('ready', async () => {
     app.dock.hide();
   }
 
+  globalShortcut.register('CmdOrCtrl+Alt+Shift+T', () => {
+    if (windowManager !== null && !windowManager.isVisible()) {
+      showWindow();
+    } else {
+      hideWindow();
+    }
+  });
+
+  globalShortcut.register('Ctrl+Enter', () => {
+    if (windowManager !== null && windowManager.isVisible()) {
+      windowManager.webContents.send('send-tweet-shortcut');
+    }
+  });
+
   windowManager = createWindow();
   trayManager = createTray();
 });
 
 // Start Twitter OAuth Flow
 ipcMain.on('startOAuth', (startOAuthEvent) => {
-  oauthManager.isOAuthActive = true;
-  oauthManager.getRequestTokenPair((requestTokenPairError, requestTokenPair) => {
-    if (requestTokenPairError) {
-      oauthManager.window.close();
-      startOAuthEvent.sender.send('startOAuthError');
-      return;
-    }
-
-    startOAuthEvent.sender.send('receivedRequestTokenPair', requestTokenPair);
-
-    oauthManager.window.on('close', () => {
-      startOAuthEvent.sender.send('canceledOAuth');
-    });
-
-    oauthManager.window.webContents.on('did-navigate', (event, webContentsURL) => {
-      const urlInfo = url.parse(webContentsURL, true);
-      if (urlInfo.pathname === '/oauth/authenticate') {
-        startOAuthEvent.sender.send('startedAuthorizationCode');
+  if (!oauthManager.isOAuthActive) {
+    oauthManager.isOAuthActive = true;
+    oauthManager.getRequestTokenPair((requestTokenPairError, requestTokenPair) => {
+      if (requestTokenPairError) {
+        console.log(requestTokenPairError);
+        startOAuthEvent.sender.send('startOAuthError');
+        return;
       }
+
+      startOAuthEvent.sender.send('receivedRequestTokenPair', requestTokenPair);
+
+      oauthManager.window.on('close', () => {
+        startOAuthEvent.sender.send('canceledOAuth');
+      });
+
+      oauthManager.window.webContents.on('did-navigate', (event, webContentsURL) => {
+        const urlInfo = url.parse(webContentsURL, true);
+        if (urlInfo.pathname === '/oauth/authenticate') {
+          startOAuthEvent.sender.send('startedAuthorizationCode');
+        }
+      });
     });
-  });
+  }
 });
 
 // Get Authorize Code
@@ -276,7 +330,6 @@ ipcMain.on('sendAuthorizeCode', (sendAuthorizeCodeEvent, data) => {
     data.authorizeCode,
     (accessTokenPairError, accessTokenPair) => {
       if (accessTokenPairError) {
-        oauthManager.window.close();
         sendAuthorizeCodeEvent.sender.send('sendAuthorizeCodeError');
         return;
       }
@@ -285,7 +338,6 @@ ipcMain.on('sendAuthorizeCode', (sendAuthorizeCodeEvent, data) => {
         accessTokenPair,
         (credentialsError, credentials) => {
           if (credentialsError) {
-            oauthManager.window.close();
             sendAuthorizeCodeEvent.sender.send('verifyCredentialsError');
             return;
           }
@@ -300,7 +352,7 @@ ipcMain.on('sendAuthorizeCode', (sendAuthorizeCodeEvent, data) => {
             utcOffset: credentials.utc_offset,
             timeZone: credentials.time_zone,
             geoEnabled: credentials.geo_enabled,
-            lang: credentials.land,
+            lang: credentials.lang,
             profileImageURL: credentials.profile_image_url_https,
           };
 
@@ -326,7 +378,6 @@ ipcMain.on('postStatus', (postStatusEvent, response) => {
       media: response.imageData,
     }, accessToken, accessTokenSecret, (uploadMediaError, uploadResponse) => {
       if (uploadMediaError) {
-        oauthManager.window.close();
         postStatusEvent.sender.send('postStatusError', uploadResponse);
         return;
       }
@@ -336,7 +387,6 @@ ipcMain.on('postStatus', (postStatusEvent, response) => {
         media_ids: uploadResponse.media_id_string,
       }, accessToken, accessTokenSecret, (updateStatusError, statusResponse) => {
         if (updateStatusError) {
-          oauthManager.window.close();
           postStatusEvent.sender.send('postStatusError', statusResponse);
           return;
         }
@@ -348,7 +398,6 @@ ipcMain.on('postStatus', (postStatusEvent, response) => {
       status: response.statusText,
     }, accessToken, accessTokenSecret, (updateStatusError, statusResponse) => {
       if (updateStatusError) {
-        oauthManager.window.close();
         postStatusEvent.sender.send('postStatusError', statusResponse);
         return;
       }
@@ -369,6 +418,7 @@ ipcMain.on('quitApplication', () => {
 ipcMain.on('addImage', (addImageEvent) => {
   isDialogOpen = true;
   openImageDialog((image) => {
+    isDialogOpen = false;
     addImageEvent.sender.send('addImageComplete', image);
   });
 });

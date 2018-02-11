@@ -1,4 +1,4 @@
-import { TOGGLE_SETTINGS_VISIBILITY, } from '../actions';
+import { TOGGLE_SETTINGS_VISIBILITY, } from '../actions/actionTypes';
 
 const settingsVisibility = (state = false, action) => {
   switch (action.type) {

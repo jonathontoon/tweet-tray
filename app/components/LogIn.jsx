@@ -10,7 +10,7 @@ import RoundedButton from './RoundedButton';
 
 import * as constants from '../constants';
 
-import Logo from '../../resources/twitter-logo.svg';
+import Logo from '../../resources/tweet-tray-logo.svg';
 import NotificationIcon from '../../resources/notification.jpg';
 
 const { ipcRenderer, } = window.require('electron');
@@ -18,8 +18,8 @@ const { ipcRenderer, } = window.require('electron');
 const LogInStyle = Styled.section`
   overflow: hidden;
   user-select: none;
-  width: ${window.innerWidth}px;
-  height: ${window.innerHeight}px;
+  width: 100%;
+  height: 100%;
   background-color: ${Theme('mode', { day: constants.WHITE, night: constants.DARK_MODE_BACKGROUND, })};
   position: relative;
 `;
@@ -103,7 +103,7 @@ class LogIn extends Component {
             }}
             style={{
               position: 'relative',
-              top: '260px',
+              top: '264px',
               height: '44px',
             }}
             fullWidth

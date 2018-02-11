@@ -12,9 +12,6 @@ const HeaderStyle = Styled.header`
     top: 0px;
     width: 100%;
     height: 34px;
-    width: calc(100% - ${constants.SPACING * 2}px);
-    padding-left: ${constants.SPACING}px;
-    padding-right: ${constants.SPACING}px;
     padding-top: 8px;
     padding-bottom: 8px;
     background-color: ${Theme('mode', { day: constants.WHITE, night: constants.DARK_MODE_FOREGROUND, })};
@@ -25,7 +22,7 @@ const LeftStyle = Styled.div`
     width: 50%;
     height: 100%;
     float: left;
-
+    padding-left: ${constants.SPACING}px;
     & > * {
       float: left;
     }
@@ -37,6 +34,7 @@ const TitleStyle = Styled.div`
     color: ${Theme('mode', { day: constants.BLACK, night: constants.WHITE, })};
     line-height: 34px;
     float: left;
+    padding-left: ${constants.SPACING}px;
     height: 100%;
 `;
 
@@ -44,6 +42,7 @@ const RightStyle = Styled.div`
     width: 50%;
     height: 100%;
     float: right;
+    padding-right: ${constants.SPACING}px;
 
     & > * {
       float: right;

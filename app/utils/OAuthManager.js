@@ -21,7 +21,7 @@ class OAuthManager {
 
     this.authenticateURL = config.BASE_AUTHENTICATE_URL;
 
-    this.window = null;
+    this.window = this._createWindow();
     this.isOAuthActive = false;
     this._mainWindow = mainWindow;
 
@@ -82,6 +82,7 @@ class OAuthManager {
 
     window.on('closed', () => {
       this.isOAuthActive = false;
+      window == null;
     });
     return window;
   }
@@ -170,16 +171,6 @@ class OAuthManager {
         }
       }
     });
-
-    // const parameter = (params.isBase64) ? 'media_data' : 'media';
-
-    // // multipart/form-dauploadBaseUrlta
-    // const form = r.form();
-    // if (fs.existsSync(params.media)) {
-    //   form.append(parameter, fs.createReadStream(params.media));
-    // } else {
-    //   form.append(parameter, params.media);
-    // }
   }
 }
 

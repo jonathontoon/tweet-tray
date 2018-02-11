@@ -1,7 +1,6 @@
 import React, { Component, } from 'react';
 import { connect, } from 'react-redux';
 import PropTypes from 'prop-types';
-import ExpandedTextArea from 'react-expanding-textarea';
 import TwitterText from 'twitter-text';
 import Styled from 'styled-components';
 import Theme from 'styled-theming';
@@ -9,6 +8,8 @@ import Theme from 'styled-theming';
 import * as constants from '../constants';
 
 import { updateWeightedStatus, } from '../actions';
+
+const { ipcRenderer, } = window.require('electron');
 
 const StatusInputStyle = Styled.div`
     width: auto;
@@ -54,11 +55,35 @@ class StatusInput extends Component {
 
   constructor(props) {
     super(props);
+
+    this._adjustTextarea = this._adjustTextarea.bind(this);
+    this._focusTextArea = this._focusTextArea.bind(this);
     this._onTextAreaUpdate = this._onTextAreaUpdate.bind(this);
+  }
+
+  componentDidMount() {
+    this._adjustTextarea({});
+    this._focusTextArea({});
+
+    ipcRenderer.on('focus-textarea', () => {
+      this._focusTextArea({});
+    });
+  }
+
+  _adjustTextarea({ target = this.el, }) {
+    const textAreaRef = target;
+    textAreaRef.style.height = 0;
+    textAreaRef.style.height = `${target.scrollHeight}px`;
+  }
+
+  _focusTextArea({ target = this.el, }) {
+    const textAreaRef = target;
+    textAreaRef.focus();
   }
 
   _onTextAreaUpdate(e) {
     const { onUpdateWeightedStatus, } = this.props;
+    this._adjustTextarea(e);
 
     const textValue = e.target.value;
     const parsedProperties = TwitterText.parseTweet(textValue);
@@ -90,7 +115,8 @@ class StatusInput extends Component {
       <StatusInputStyle
         style={style}
       >
-        <ExpandedTextArea
+        <textarea
+          ref={(x) => { this.el = x; }}
           className="TextArea"
           autoCapitalize="sentences"
           placeholder="What's happening?"

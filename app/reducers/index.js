@@ -7,7 +7,7 @@ import weightedStatus from './weightedStatus';
 import requestTokenPair from './requestTokenPair';
 import accessTokenPair from './accessTokenPair';
 
-import { ON_LOGOUT, } from '../actions';
+import { ON_LOGOUT, } from '../actions/actionTypes';
 
 const appReducer = combineReducers({
   accessTokenPair,

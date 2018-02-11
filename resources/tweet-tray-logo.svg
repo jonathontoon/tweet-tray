@@ -1,0 +1,17 @@
+<svg width="34" height="34" viewBox="0 0 34 34" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<title>Feather Icon</title>
+<desc>Created using Figma</desc>
+<g id="Canvas" transform="matrix(0.265625 0 0 0.265625 162.828 739.766)">
+<clipPath id="clip-0" clip-rule="evenodd">
+<path d="M -613 -2785L -485 -2785L -485 -2657L -613 -2657L -613 -2785Z" fill="#FFFFFF"/>
+</clipPath>
+<g id="Icon/Feather Icon" clip-path="url(#clip-0)">
+<g id="Ellipse">
+<use xlink:href="#path0_fill" transform="translate(-613 -2785)" fill="#1DA1F2"/>
+</g>
+</g>
+</g>
+<defs>
+<path id="path0_fill" d="M 128 0C 61.0909 0 0 61.0909 0 128C 0 128 8.72727 104.727 29.0909 90.1818C 49.4545 75.6364 89.9174 87.5372 101.554 61.3554C 81.1901 61.3554 69.8182 52.8926 69.8182 52.8926C 93.0909 52.8926 128 33.9394 128 0Z"/>
+</defs>
+</svg>

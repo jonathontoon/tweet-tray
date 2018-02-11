@@ -9,7 +9,7 @@ import RoundedButton from './RoundedButton';
 
 import * as constants from '../constants';
 
-import Logo from '../../resources/twitter-logo.svg';
+import Logo from '../../resources/tweet-tray-logo.svg';
 import NotificationIcon from '../../resources/notification.jpg';
 
 const { ipcRenderer, } = window.require('electron');
@@ -17,8 +17,8 @@ const { ipcRenderer, } = window.require('electron');
 const AuthorizationCodeStyle = Styled.section`
   overflow: hidden;
   user-select: none;
-  width: ${window.innerWidth}px;
-  height: ${window.innerHeight}px;
+  width: 100%;
+  height: 100%;
   background-color: ${constants.WHITE};
   position: relative;
 `;
@@ -152,7 +152,7 @@ class AuthorizationCode extends Component {
             onClick={this._onCodeEntered}
             style={{
               position: 'relative',
-              top: '212px',
+              top: '216px',
               height: '44px',
             }}
             disabled={authorizeCode.length < 7}
