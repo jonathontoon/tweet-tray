@@ -16,12 +16,6 @@ Includes a number of bug fixes, keyboard shortcuts and a great new icon thanks t
 - Prevent multiple OAuth windows.
 - Work on a new logo to differentiate from Twitter's core branding
 
-### Changes
-
-- Fixed a typo in the right click menu.
-- Added extra fix for copy / paste keyboard shortcuts.
-- Added improved app icons thanks to @riotherio!
-
 ## [v1.0.2](https://github.com/jonathontoon/tweet-tray/releases/tag/v1.0.2)
 
 A few clean up bugs and tweaks.
