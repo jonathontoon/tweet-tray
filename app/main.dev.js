@@ -69,6 +69,10 @@ const trayIconImage = () => {
     trayIconImagePath = `${__dirname}/includes/icons/trayTemplate.png`;
   }
 
+  if (process.platform === 'linux') {
+    trayIconImagePath = `${__dirname}/includes/icons/trayTemplateWhite.png`;
+  }
+
   return nativeImage.createFromPath(trayIconImagePath);
 };
 
