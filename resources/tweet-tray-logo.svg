@@ -7,11 +7,11 @@
 </clipPath>
 <g id="Icon/Feather Icon" clip-path="url(#clip-0)">
 <g id="Ellipse">
-<use xlink:href="#path0_fill" transform="translate(-606 -2778)" fill="#1DA1F2"/>
+<use xlink:href="#path0_fill" transform="translate(-613 -2785)" fill="#1DA1F2"/>
 </g>
 </g>
 </g>
 <defs>
-<path id="path0_fill" d="M 121 0C 57.75 0 0 57.75 0 121C 0 121 8.25 99 27.5 85.25C 46.75 71.5 85 82.75 96 58C 76.75 58 66 50 66 50C 88 50 121 32.0833 121 0Z"/>
+<path id="path0_fill" d="M 128 0C 61.0909 0 0 61.0909 0 128C 0 128 8.72727 104.727 29.0909 90.1818C 49.4545 75.6364 89.9174 87.5372 101.554 61.3554C 81.1901 61.3554 69.8182 52.8926 69.8182 52.8926C 93.0909 52.8926 128 33.9394 128 0Z"/>
 </defs>
 </svg>

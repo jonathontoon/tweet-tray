@@ -10,7 +10,7 @@ import RoundedButton from './RoundedButton';
 
 import * as constants from '../constants';
 
-import Logo from '../../resources/twitter-logo.svg';
+import Logo from '../../resources/tweet-tray-logo.svg';
 import NotificationIcon from '../../resources/notification.jpg';
 
 const { ipcRenderer, } = window.require('electron');
