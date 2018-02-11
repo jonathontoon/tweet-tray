@@ -2,7 +2,7 @@ import path from 'path';
 import { OAuth, } from 'oauth';
 import electron, { BrowserWindow, nativeImage, } from 'electron';
 
-import { selectionMenu, inputMenu, } from './menu';
+import { selectionMenu, inputMenu, } from './Menu';
 
 class OAuthManager {
   constructor(config, mainWindow) {
