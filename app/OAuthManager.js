@@ -2,7 +2,7 @@ import path from 'path';
 import { OAuth, } from 'oauth';
 import electron, { BrowserWindow, nativeImage, } from 'electron';
 
-import { selectionMenu, inputMenu, } from './Menu';
+import { selectionMenu, inputMenu, } from './utils/Menu';
 
 class OAuthManager {
   constructor(config, mainWindow) {
@@ -37,13 +37,13 @@ class OAuthManager {
   }
 
   _appIconImage = () => {
-    let appIconImagePath = path.join(__dirname, '../../resources/1024x1024.png');
+    let appIconImagePath = path.join(__dirname, '../resources/1024x1024.png');
     if (process.platform === 'darwin') {
-      appIconImagePath = path.join(__dirname, '../../resources/icon.icns');
+      appIconImagePath = path.join(__dirname, '../resources/icon.icns');
     }
 
     if (process.platform === 'win32') {
-      appIconImagePath = path.join(__dirname, '../../resources/icon.ico');
+      appIconImagePath = path.join(__dirname, '../resources/icon.ico');
     }
 
     return nativeImage.createFromPath(appIconImagePath);

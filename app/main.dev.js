@@ -14,9 +14,9 @@ import {
   globalShortcut,
 } from 'electron';
 
-import config from './utils/Config';
-import MenuBarManager from './utils/MenuBarManager';
-import OAuthManager from './utils/OAuthManager';
+import config from './Config';
+import MenuBarManager from './MenuBarManager';
+import OAuthManager from './OAuthManager';
 
 /*
   Variables

@@ -1,7 +1,7 @@
 import Positioner from 'electron-positioner';
 import path from 'path';
 import { app, BrowserWindow, Tray, screen, nativeImage, Menu, } from 'electron';
-import { selectionMenu, inputMenu, applicationMenu, } from './Menu';
+import { selectionMenu, inputMenu, applicationMenu, } from './utils/Menu';
 
 class MenuBarManager {
   constructor() {
@@ -27,26 +27,26 @@ class MenuBarManager {
   }
 
   static _getTrayIcon() {
-    let trayIconImagePath = path.join(__dirname, '../includes/icons/tray.ico');
+    let trayIconImagePath = `${__dirname}/includes/icons/tray.ico`;
     if (process.platform === 'darwin') {
-      trayIconImagePath = path.join(__dirname, '../includes/icons/trayTemplate.png');
+      trayIconImagePath = `${__dirname}/includes/icons/trayTemplate.png`;
     }
 
     if (process.platform === 'linux') {
-      trayIconImagePath = path.join(__dirname, '../includes/icons/tray.png');
+      trayIconImagePath = `${__dirname}/includes/icons/tray.png`;
     }
 
     return nativeImage.createFromPath(trayIconImagePath);
   }
 
   static _getAppIcon() {
-    let appIconImagePath = path.join(__dirname, '../../resources/1024x1024.png');
+    let appIconImagePath = path.join(__dirname, '../resources/1024x1024.png');
     if (process.platform === 'darwin') {
-      appIconImagePath = path.join(__dirname, '../../resources/icon.icns');
+      appIconImagePath = path.join(__dirname, '../resources/icon.icns');
     }
 
     if (process.platform === 'win32') {
-      appIconImagePath = path.join(__dirname, '../../resources/icon.ico');
+      appIconImagePath = path.join(__dirname, '../resources/icon.ico');
     }
 
     return nativeImage.createFromPath(appIconImagePath);
@@ -64,7 +64,7 @@ class MenuBarManager {
       icon: MenuBarManager._getAppIcon(),
       backgroundThrottling: false,
     });
-    this.window.loadURL(path.join(__dirname, '../app.html'));
+    this.window.loadURL(`file://${__dirname}/app.html`);
     this.window.setMenu(null);
 
     Menu.setApplicationMenu(applicationMenu);
@@ -126,6 +126,7 @@ class MenuBarManager {
     if (this.isWindowVisible()) return;
 
     const screenSize = screen.getPrimaryDisplay().workAreaSize;
+    const windowSize = this.window.getBounds();
     const trayBounds = this._tray.getBounds();
 
     let trayPosition = null;
@@ -176,6 +177,11 @@ class MenuBarManager {
       trayPosition = 'trayCenter';
       windowPosition = this._windowPositioner.calculate(trayPosition, trayBounds);
       positionToSet = { x: windowPosition.x, y: windowPosition.y + 20, };
+    }
+
+    // Count for the window potentially getting clipped if it's too far right
+    if ((trayBounds.x + (trayBounds.width / 2)) + windowSize.width > screenSize.width) {
+      positionToSet = { x: positionToSet.x - 5, y: positionToSet.y, };
     }
 
     this.window.setPosition(positionToSet.x, positionToSet.y);
