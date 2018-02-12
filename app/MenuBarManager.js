@@ -181,7 +181,6 @@ class MenuBarManager {
       if (windowOutOfBounds) {
         positionToSet = { x: positionToSet.x - 7, y: positionToSet.y, };
       }
-
     } else {
       trayPosition = 'trayCenter';
       windowPosition = this._windowPositioner.calculate(trayPosition, trayBounds);
