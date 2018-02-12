@@ -11,9 +11,6 @@ class MenuBarManager {
 
     this._shouldWindowBeOpen = false;
 
-    this._getAppIcon = this._getAppIcon.bind(this);
-    this._getTrayIcon = this._getTrayIcon.bind(this);
-
     this._createWindow = this._createWindow.bind(this);
     this._createTray = this._createTray.bind(this);
 
@@ -64,7 +61,7 @@ class MenuBarManager {
       show: false,
       alwaysOnTop: true,
       skipTaskbar: true,
-      icon: null,
+      icon: MenuBarManager._getAppIcon(),
       backgroundThrottling: false,
     });
     this.window.loadURL(path.join(__dirname, '../app.html'));
@@ -105,7 +102,7 @@ class MenuBarManager {
   }
 
   _createTray() {
-    this._tray = new Tray(this._getTrayIcon());
+    this._tray = new Tray(MenuBarManager._getTrayIcon());
     this._tray.setToolTip(`Tweet Tray ${app.getVersion()}`);
 
 
@@ -130,39 +127,69 @@ class MenuBarManager {
 
     const screenSize = screen.getPrimaryDisplay().workAreaSize;
     const trayBounds = this._tray.getBounds();
+
+    const taskBarWidth = screenSize.width - (trayBounds.x + trayBounds.width);
+    const taskBarHeight = (trayBounds.y + trayBounds.height) - screenSize.height;
+
     let trayPosition = null;
     let windowPosition = null;
+    let positionToSet = null;
 
     const halfScreenWidth = screenSize.width / 2;
     const halfScreenHeight = screenSize.height / 2;
 
-    if (process.platform !== 'darwin') {
+    console.log('screenSize', screenSize);
+    console.log(`halfScreenWidth ${halfScreenWidth}`);
+    console.log(`halfScreenHeight ${halfScreenHeight}`);
+    console.log('trayBounds', trayBounds);
+
+    console.log('taskBarWidth', taskBarWidth);
+    console.log('taskBarHeight', taskBarHeight);
+
+    if (process.platform === 'win32') {
+      // Is vertical or horizontal
+
+      // Vertical Taskbar, small icon mode isn't applicable
       if (trayBounds.height === 32) {
-        if (trayBounds.x < halfScreenWidth && trayBounds.y > halfScreenHeight) {
+        if (trayBounds.x <= halfScreenWidth && trayBounds.y >= halfScreenHeight) {
+          // Vertical Left Bottom
+
           trayPosition = 'trayBottomLeft';
           windowPosition = this._windowPositioner.calculate(trayPosition, trayBounds);
-          this.window.setPosition(windowPosition.x + 78, windowPosition.y - 10);
-        } else if (trayBounds.x > halfScreenWidth && trayBounds.y > halfScreenHeight) {
+          positionToSet = { x: windowPosition.x + 78, y: windowPosition.y - 10, };
+        } else if (trayBounds.x >= halfScreenWidth && trayBounds.y >= halfScreenHeight) {
+          // Vertical Right Bottom
+
           trayPosition = 'trayBottomRight';
           windowPosition = this._windowPositioner.calculate(trayPosition, trayBounds);
-          this.window.setPosition(windowPosition.x - 8, windowPosition.y - 10);
+          positionToSet = { x: windowPosition.x - 8, y: windowPosition.y - 10, };
         }
-      } else if (trayBounds.height === 40) {
-        if (trayBounds.x > halfScreenWidth && trayBounds.y < halfScreenHeight) {
-          trayPosition = 'trayCenter';
-          windowPosition = this._windowPositioner.calculate(trayPosition, trayBounds);
-          this.window.setPosition(windowPosition.x, windowPosition.y + 6);
-        } else if (trayBounds.x > halfScreenWidth && trayBounds.y > halfScreenHeight) {
+
+        // Horizontal Taskbar
+        // Supporting small or regular sized icons
+      } else if (trayBounds.height === 30 || trayBounds.height === 40) {
+        // Is bottom or top
+        if (trayBounds.x >= halfScreenWidth && trayBounds.y >= halfScreenHeight) {
+          // Horizontal Bottom Left
+
           trayPosition = 'trayBottomCenter';
           windowPosition = this._windowPositioner.calculate(trayPosition, trayBounds);
-          this.window.setPosition(windowPosition.x, windowPosition.y - 6);
+          positionToSet = { x: windowPosition.x, y: windowPosition.y - 6, };
+        } else if (trayBounds.x >= halfScreenWidth && trayBounds.y === 0) {
+          // Horizontal Top Left
+
+          trayPosition = 'trayCenter';
+          windowPosition = this._windowPositioner.calculate(trayPosition, trayBounds);
+          positionToSet = { x: windowPosition.x, y: windowPosition.y + 6, };
         }
       }
     } else {
       trayPosition = 'trayCenter';
       windowPosition = this._windowPositioner.calculate(trayPosition, trayBounds);
-      this.window.setPosition(windowPosition.x, windowPosition.y + 20);
+      positionToSet = { x: windowPosition.x, y: windowPosition.y + 20, };
     }
+
+    this.window.setPosition(positionToSet.x, positionToSet.y);
 
     this._tray.setHighlightMode('always');
     this.window.show();
