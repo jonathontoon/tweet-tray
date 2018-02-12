@@ -176,7 +176,7 @@ class MenuBarManager {
         }
       }
 
-      // Count for the window potentially getting clipped if it's too far right
+      // Account for the window potentially getting clipped if it's too far right
       if (windowOutOfBounds) {
         positionToSet = { x: positionToSet.x - 5, y: positionToSet.y, };
       }
@@ -186,7 +186,7 @@ class MenuBarManager {
       windowPosition = this._windowPositioner.calculate(trayPosition, trayBounds);
       positionToSet = { x: windowPosition.x, y: windowPosition.y + 20, };
 
-      // Count for the window potentially getting clipped if it's too far right
+      // Account for the window potentially getting clipped if it's too far right
       if (windowOutOfBounds) {
         positionToSet = { x: positionToSet.x - 20, y: positionToSet.y, };
       }
