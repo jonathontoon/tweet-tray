@@ -128,9 +128,6 @@ class MenuBarManager {
     const screenSize = screen.getPrimaryDisplay().workAreaSize;
     const trayBounds = this._tray.getBounds();
 
-    const taskBarWidth = screenSize.width - (trayBounds.x + trayBounds.width);
-    const taskBarHeight = (trayBounds.y + trayBounds.height) - screenSize.height;
-
     let trayPosition = null;
     let windowPosition = null;
     let positionToSet = null;
@@ -138,16 +135,8 @@ class MenuBarManager {
     const halfScreenWidth = screenSize.width / 2;
     const halfScreenHeight = screenSize.height / 2;
 
-    console.log('screenSize', screenSize);
-    console.log(`halfScreenWidth ${halfScreenWidth}`);
-    console.log(`halfScreenHeight ${halfScreenHeight}`);
-    console.log('trayBounds', trayBounds);
-
-    console.log('taskBarWidth', taskBarWidth);
-    console.log('taskBarHeight', taskBarHeight);
-
     if (process.platform === 'win32') {
-      // Is vertical or horizontal
+      // Vertical or Horizontal Taskbar
 
       // Vertical Taskbar, small icon mode isn't applicable
       if (trayBounds.height === 32) {
@@ -191,7 +180,7 @@ class MenuBarManager {
 
     this.window.setPosition(positionToSet.x, positionToSet.y);
 
-    this._tray.setHighlightMode('always');
+    if (process.platform === 'darwin') { this._tray.setHighlightMode('always'); }
     this.window.show();
 
     this.window.webContents.send('focus-textarea');
