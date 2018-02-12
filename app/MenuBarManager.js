@@ -129,7 +129,8 @@ class MenuBarManager {
     const windowSize = this.window.getBounds();
     const trayBounds = this._tray.getBounds();
 
-    const windowOutOfBounds = ((trayBounds.x + (trayBounds.width / 2)) + windowSize.width > screenSize.width);
+    const windowLength = (trayBounds.x + (trayBounds.width / 2)) + windowSize.width;
+    const windowOutOfBounds = (windowLength > screenSize.width);
 
     let trayPosition = null;
     let windowPosition = null;
@@ -178,7 +179,7 @@ class MenuBarManager {
 
       // Account for the window potentially getting clipped if it's too far right
       if (windowOutOfBounds) {
-        positionToSet = { x: positionToSet.x - 5, y: positionToSet.y, };
+        positionToSet = { x: positionToSet.x - 7, y: positionToSet.y, };
       }
 
     } else {
