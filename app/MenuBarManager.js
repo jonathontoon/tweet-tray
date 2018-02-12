@@ -129,6 +129,8 @@ class MenuBarManager {
     const windowSize = this.window.getBounds();
     const trayBounds = this._tray.getBounds();
 
+    const windowOutOfBounds = ((trayBounds.x + (trayBounds.width / 2)) + windowSize.width > screenSize.width);
+
     let trayPosition = null;
     let windowPosition = null;
     let positionToSet = null;
@@ -173,15 +175,21 @@ class MenuBarManager {
           positionToSet = { x: windowPosition.x, y: windowPosition.y + 6, };
         }
       }
+
+      // Count for the window potentially getting clipped if it's too far right
+      if (windowOutOfBounds) {
+        positionToSet = { x: positionToSet.x - 5, y: positionToSet.y, };
+      }
+
     } else {
       trayPosition = 'trayCenter';
       windowPosition = this._windowPositioner.calculate(trayPosition, trayBounds);
       positionToSet = { x: windowPosition.x, y: windowPosition.y + 20, };
-    }
 
-    // Count for the window potentially getting clipped if it's too far right
-    if ((trayBounds.x + (trayBounds.width / 2)) + windowSize.width > screenSize.width) {
-      positionToSet = { x: positionToSet.x - 5, y: positionToSet.y, };
+      // Count for the window potentially getting clipped if it's too far right
+      if (windowOutOfBounds) {
+        positionToSet = { x: positionToSet.x - 20, y: positionToSet.y, };
+      }
     }
 
     this.window.setPosition(positionToSet.x, positionToSet.y);
