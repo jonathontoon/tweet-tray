@@ -78,7 +78,10 @@ class StatusInput extends Component {
 
   _focusTextArea({ target = this.el, }) {
     const textAreaRef = target;
-    textAreaRef.focus();
+
+    if (textAreaRef !== null) {
+      textAreaRef.focus();
+    }
   }
 
   _onTextAreaUpdate(e) {
