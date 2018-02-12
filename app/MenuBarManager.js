@@ -181,7 +181,7 @@ class MenuBarManager {
       if (windowOutOfBounds) {
         positionToSet = { x: positionToSet.x - 7, y: positionToSet.y, };
       }
-    } else {
+    } else if (process.platform === 'darwin') {
       trayPosition = 'trayCenter';
       windowPosition = this._windowPositioner.calculate(trayPosition, trayBounds);
       positionToSet = { x: windowPosition.x, y: windowPosition.y + 20, };
@@ -190,6 +190,10 @@ class MenuBarManager {
       if (windowOutOfBounds) {
         positionToSet = { x: positionToSet.x - 20, y: positionToSet.y, };
       }
+    } else {
+      trayPosition = 'topRight';
+      windowPosition = this._windowPositioner.calculate(trayPosition, trayBounds);
+      positionToSet = { x: windowPosition.x - 10, y: windowPosition.y + 35, };
     }
 
     this.window.setPosition(positionToSet.x, positionToSet.y);
