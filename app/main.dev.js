@@ -11,7 +11,6 @@ import {
   app,
   ipcMain,
   dialog,
-  nativeImage,
   globalShortcut,
 } from 'electron';
 
@@ -23,7 +22,7 @@ import OAuthManager from './utils/OAuthManager';
   Variables
 */
 
-let menuBarManager = null; 
+let menuBarManager = null;
 let oauthManager = null;
 
 /*
@@ -117,7 +116,7 @@ const openImageDialog = (callback) => {
         }
       });
     } else {
-      menuBarManager.toggleAlwaysShown(false);
+      menuBarManager.toggleAlwaysVisible(false);
     }
     menuBarManager.showWindow();
   });
@@ -156,28 +155,28 @@ app.on('ready', async () => {
 
 // Start Twitter OAuth Flow
 ipcMain.on('startOAuth', (startOAuthEvent) => {
-  menuBarManager.toggleAlwaysShown(true);
-    oauthManager.getRequestTokenPair((requestTokenPairError, requestTokenPair) => {
-      if (requestTokenPairError) {
-        console.log(requestTokenPairError);
-        startOAuthEvent.sender.send('startOAuthError');
-        return;
-      }
+  menuBarManager.toggleAlwaysVisible(true);
 
-      startOAuthEvent.sender.send('receivedRequestTokenPair', requestTokenPair);
+  oauthManager.getRequestTokenPair((requestTokenPairError, requestTokenPair) => {
+    if (requestTokenPairError) {
+      startOAuthEvent.sender.send('startOAuthError');
+      return;
+    }
 
-      oauthManager.window.on('close', () => {
-        menuBarManager.toggleAlwaysShown(false);
-        startOAuthEvent.sender.send('canceledOAuth');
-      });
+    startOAuthEvent.sender.send('receivedRequestTokenPair', requestTokenPair);
 
-      oauthManager.window.webContents.on('did-navigate', (event, webContentsURL) => {
-        const urlInfo = url.parse(webContentsURL, true);
-        if (urlInfo.pathname === '/oauth/authenticate') {
-          startOAuthEvent.sender.send('startedAuthorizationCode');
-        }
-      });
+    oauthManager.window.on('close', () => {
+      menuBarManager.toggleAlwaysVisible(false);
+      startOAuthEvent.sender.send('canceledOAuth');
     });
+
+    oauthManager.window.webContents.on('did-navigate', (event, webContentsURL) => {
+      const urlInfo = url.parse(webContentsURL, true);
+      if (urlInfo.pathname === '/oauth/authenticate') {
+        startOAuthEvent.sender.send('startedAuthorizationCode');
+      }
+    });
+  });
 });
 
 // Get Authorize Code
@@ -272,9 +271,9 @@ ipcMain.on('quitApplication', () => {
 });
 
 ipcMain.on('addImage', (addImageEvent) => {
-  menuBarManager.toggleAlwaysShown(true);
+  menuBarManager.toggleAlwaysVisible(true);
   openImageDialog((image) => {
-    menuBarManager.toggleAlwaysShown(false);
+    menuBarManager.toggleAlwaysVisible(false);
     addImageEvent.sender.send('addImageComplete', image);
   });
 });
