@@ -1,0 +1,64 @@
+{
+    "onboarding": {
+        "login": {
+            "platform": {
+                "darwin": "menu bar",
+                "win32": "taskbar",
+                "linux": "menu bar"
+            },
+            "title": "Tweet quickly from the desktop ${platform}, without any more distractions.",
+            "sign_in_button": "Sign in with Twitter",
+            "quit_button": "Quit Tweet Tray"
+        },
+        "authentication_code": {
+            "title": "Finish up by entering the 7 digit authorization PIN shown in the pop up window.",
+            "authorize_button": "Authorize my Account",
+            "return_button": "Return to Log In"
+        }
+    },
+    "composer": {
+        "title": "Compose Tweet",
+        "placeholder": "What's happening?",
+        "tweet_button": "Tweet"
+    },
+    "settings": {
+        "night_mode": {
+            "disabled": "Enable Night Mode",
+            "enabled": "Disable Night Mode"
+        },
+        "quit": "Quit Tweet Tray",
+        "log_out": "Log Out",
+        "cancel": "Cancel"
+    },
+    "image_dialog": {
+        "title": "Select an Image",
+        "file_type": "Images",
+        "add": "Add",
+        "error_dialogs": {
+            "title": "Warning",
+            "message": "Oops, sorry you can't do that.",
+            "details": {
+                "image": "Images must be less than 5mb.",
+                "gif": "GIFs must be less than 5mb."
+            }
+        }
+    },
+    "notification": {
+        "tweet": {
+            "success": {
+                "title": "Your Tweet was posted!",
+                "description": "Click here to view it."
+            },
+            "error": {
+                "title": "Oops, an unknown error occured!",
+                "description": "Sorry but your tweet wasn't sent."
+            }
+        },
+        "authorize": {
+            "error": {
+                "title": "Oops, an error occured!",
+                "description": "Your account could not be authorized."
+            }
+        }
+    }
+}
