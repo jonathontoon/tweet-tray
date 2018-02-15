@@ -1,18 +1,29 @@
 import React, { Component, } from 'react';
 import PropTypes from 'prop-types';
 import Styled from 'styled-components';
-
 import PinInput from 'react-pin-input';
+import Localize from 'localize';
 
 import InnerContent from './InnerContent';
 import RoundedButton from './RoundedButton';
+
+import Locale from '../utils/Locale';
 
 import * as constants from '../constants';
 
 import Logo from '../../resources/tweet-tray-logo.svg';
 import NotificationIcon from '../../resources/notification.jpg';
 
+import AuthorizationErrorStrings from '../translations/AuthorizationError';
+import AuthorizationCodeStrings from '../translations/AuthorizationCode';
+
 const { ipcRenderer, } = window.require('electron');
+
+const authorizationErrorLocalizations = new Localize(AuthorizationErrorStrings);
+authorizationErrorLocalizations.setLocale(Locale());
+
+const authorizationCodeLocalizations = new Localize(AuthorizationCodeStrings);
+authorizationCodeLocalizations.setLocale(Locale());
 
 const AuthorizationCodeStyle = Styled.section`
   overflow: hidden;
@@ -71,11 +82,11 @@ class AuthorizationCode extends Component {
 
   componentDidMount() {
     ipcRenderer.on('sendauthorizeCodeError', () => {
-      Notifier('Oops, an error occured!', 'Your account could not be authorized', false, NotificationIcon, null);
+      Notifier(authorizationErrorLocalizations.translate('title'), authorizationErrorLocalizations.translate('description'), false, NotificationIcon, null);
     });
 
     ipcRenderer.on('verifyCredentialsError', () => {
-      Notifier('Oops, an error occured!', 'Your account could not be authorized', false, NotificationIcon, null);
+      Notifier(authorizationErrorLocalizations.translate('title'), authorizationErrorLocalizations.translate('description'), false, NotificationIcon, null);
     });
 
     ipcRenderer.on('completedOAuth', (event, response) => {
@@ -118,7 +129,7 @@ class AuthorizationCode extends Component {
         >
           <TwitterLogoStyle src={Logo} alt="Twitter Logo" />
           <HeaderTextStyle>
-            Finish up by entering the 7 digit authorization PIN shown in the pop up window.
+            {authorizationCodeLocalizations.translate('title')}
           </HeaderTextStyle>
           <PinInput
             length={7}
@@ -157,7 +168,7 @@ class AuthorizationCode extends Component {
             }}
             disabled={authorizeCode.length < 7}
             fullWidth
-            title="Authorize my Account"
+            title={authorizationCodeLocalizations.translate('authorize_button')}
           />
           <RoundedButton
             onClick={this._onReturnToLogIn}
@@ -168,7 +179,7 @@ class AuthorizationCode extends Component {
             }}
             fullWidth
             borderButton
-            title="Return to Log In"
+            title={authorizationCodeLocalizations.translate('return_button')}
           />
         </InnerContent>
       </AuthorizationCodeStyle>

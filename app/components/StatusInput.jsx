@@ -43,12 +43,14 @@ const StatusInputStyle = Styled.div`
 
 class StatusInput extends Component {
   static propTypes = {
+    placeholder: PropTypes.string,
     style: PropTypes.object,
     weightedStatus: PropTypes.object,
     onUpdateWeightedStatus: PropTypes.func.isRequired,
   }
 
   static defaultProps = {
+    placeholder: '',
     style: null,
     weightedStatus: null,
   }
@@ -110,7 +112,7 @@ class StatusInput extends Component {
   }
 
   render() {
-    const { style, weightedStatus, } = this.props;
+    const { placeholder, style, weightedStatus, } = this.props;
 
     const defaultValue = weightedStatus === null ? '' : weightedStatus.text;
 
@@ -122,7 +124,7 @@ class StatusInput extends Component {
           ref={(x) => { this.el = x; }}
           className="TextArea"
           autoCapitalize="sentences"
-          placeholder="What's happening?"
+          placeholder={placeholder}
           rows={1}
           style={{
             minHeight: 58,

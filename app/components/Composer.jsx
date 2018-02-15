@@ -2,8 +2,10 @@ import React, { Component, Fragment, } from 'react';
 import PropTypes from 'prop-types';
 import Styled from 'styled-components';
 import Theme from 'styled-theming';
+import Localize from 'localize';
 
 import Notifier from '../utils/Notifier';
+import Locale from '../utils/Locale';
 
 import Header from './Header';
 import SettingsContainer from '../containers/SettingsContainer';
@@ -17,11 +19,24 @@ import Footer from './Footer';
 
 import * as constants from '../constants';
 
+import PostStatusErrorStrings from '../translations/PostStatusError';
+import PostStatusSuccessStrings from '../translations/PostStatusSuccess';
+import ComposerStrings from '../translations/Composer';
+
 import SettingsIcon from '../../resources/settings.svg';
 import PhotoIcon from '../../resources/photo.svg';
 import NotificationIcon from '../../resources/notification.jpg';
 
 const { ipcRenderer, shell, } = window.require('electron');
+
+const postStatusErrorLocalizations = new Localize(PostStatusErrorStrings);
+postStatusErrorLocalizations.setLocale(Locale());
+
+const postStatusSuccessLocalizations = new Localize(PostStatusSuccessStrings);
+postStatusSuccessLocalizations.setLocale(Locale());
+
+const composerLocalizations = new Localize(ComposerStrings);
+composerLocalizations.setLocale(Locale());
 
 const ComposerStyle = Styled.section`
   overflow: hidden;
@@ -66,16 +81,11 @@ class Composer extends Component {
     });
 
     ipcRenderer.on('postStatusError', (event, response) => {
-      if (response.length > 0) {
-        const parsedResponse = JSON.parse(response);
-        Notifier('Oops, an error occured!', parsedResponse.errors[0].message, false, NotificationIcon, null);
-      } else {
-        Notifier('Oops, an unknown error occured!', 'Sorry but your tweet wasn\'t sent', false, NotificationIcon, null);
-      }
+      Notifier(postStatusErrorLocalizations.translate('title'), postStatusErrorLocalizations.translate('description'), false, NotificationIcon, null);
     });
 
     ipcRenderer.on('postStatusComplete', (event, response) => {
-      Notifier('Your Tweet was posted!', 'Click here to view it', false, NotificationIcon, () => {
+      Notifier(postStatusSuccessLocalizations.translate('title'), postStatusSuccessLocalizations.translate('description'), false, NotificationIcon, () => {
         shell.openExternal(`https://twitter.com/${response.user.screen_name}/status/${response.id_str}`);
       });
     });
@@ -134,11 +144,11 @@ class Composer extends Component {
     return (
       <ComposerStyle>
         <Header
-          title="Compose Tweet"
+          title={composerLocalizations.translate('title')}
           right={
             <IconButton
               iconSrc={SettingsIcon}
-              altText="Open Settings"
+              altText={composerLocalizations.translate('settings_alt')}
               onClick={() => {
                 onToggleSettingsVisibility(true);
               }}
@@ -164,7 +174,7 @@ class Composer extends Component {
             }}
           >
             <UserProfilePhoto />
-            <StatusInput />
+            <StatusInput placeholder={composerLocalizations.translate('status_placeholder')}/>
             <MediaListView
               dataSource={imageDataSource}
               onRemoveImage={() => {
@@ -178,7 +188,7 @@ class Composer extends Component {
                 <IconButton
                   disabled={image !== null}
                   iconSrc={PhotoIcon}
-                  altText="Add Photo"
+                  altText={composerLocalizations.translate('add_photo_alt')}
                   onClick={(e) => {
                     e.preventDefault();
                     ipcRenderer.send('addImage');
@@ -189,7 +199,7 @@ class Composer extends Component {
             right={
               <RoundedButton
                 disabled={weightedStatus === null && image === null}
-                title="Tweet"
+                title={composerLocalizations.translate('tweet_button')}
                 fullWidth={false}
                 type="submit"
               />

@@ -2,18 +2,31 @@ import React, { Component, } from 'react';
 import PropTypes from 'prop-types';
 import Styled from 'styled-components';
 import Theme from 'styled-theming';
+import Localize from 'localize';
 
 import Notifier from '../utils/Notifier';
+import Locale from '../utils/Locale';
 
 import InnerContent from './InnerContent';
 import RoundedButton from './RoundedButton';
 
 import * as constants from '../constants';
 
+import LoginStrings from '../translations/Login';
+import AuthorizationErrorStrings from '../translations/AuthorizationError';
+
 import Logo from '../../resources/tweet-tray-logo.svg';
 import NotificationIcon from '../../resources/notification.jpg';
 
+console.log(Locale());
+
 const { ipcRenderer, } = window.require('electron');
+
+const loginLocalizations = new Localize(LoginStrings);
+loginLocalizations.setLocale(Locale());
+
+const authorizationErrorLocalizations = new Localize(AuthorizationErrorStrings);
+authorizationErrorLocalizations.setLocale(Locale());
 
 const LogInStyle = Styled.section`
   overflow: hidden;
@@ -68,7 +81,7 @@ class LogIn extends Component {
 
   componentDidMount() {
     ipcRenderer.on('startOAuthError', () => {
-      Notifier('Oops, an error occured!', 'Your account could not be authorized', false, NotificationIcon, null);
+      Notifier(authenticationErrorLocalizations.translate('title'), authenticationErrorLocalizations.translate('description'), false, NotificationIcon, null);
     });
 
     ipcRenderer.on('receivedRequestTokenPair', (event, requestTokenPair) => {
@@ -95,7 +108,7 @@ class LogIn extends Component {
         >
           <TwitterLogoStyle src={Logo} alt="Twitter Logo" />
           <HeaderTextStyle>
-            Tweet quickly from the desktop {process.platform === 'darwin' ? 'menu bar' : 'system tray'}, without any more distractions.
+            {loginLocalizations.translate('title', process.platform === 'win32' ? loginLocalizations.translate('taskbar') : localizations.translate('menubar'))}
           </HeaderTextStyle>
           <RoundedButton
             onClick={() => {
@@ -107,7 +120,7 @@ class LogIn extends Component {
               height: '44px',
             }}
             fullWidth
-            title="Sign in with Twitter"
+            title={loginLocalizations.translate('sign_in_button')}
           />
           <RoundedButton
             onClick={() => {
@@ -120,7 +133,7 @@ class LogIn extends Component {
             }}
             fullWidth
             borderButton
-            title="Quit Tweet Tray"
+            title={loginLocalizations.translate('quit_button')}
           />
         </InnerContent>
       </LogInStyle>

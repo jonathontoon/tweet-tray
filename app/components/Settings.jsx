@@ -1,13 +1,21 @@
 import React, { Component, } from 'react';
 import PropTypes from 'prop-types';
 import Styled from 'styled-components';
+import Localize from 'localize';
 
 import InnerContent from './InnerContent';
 import ListView from './ListView';
 
+import Locale from '../utils/Locale';
+
 import * as constants from '../constants';
 
+import SettingsStrings from '../translations/Settings';
+
 const { ipcRenderer, } = window.require('electron');
+
+const settingsLocalizations = new Localize(SettingsStrings);
+settingsLocalizations.setLocale(Locale());
 
 const SettingsStyle = Styled.section`
     overflow: hidden;
@@ -67,20 +75,20 @@ class Settings extends Component {
           <ListView
             dataSource={
               [{
-                title: `${colorTheme === 'day' ? 'Enable' : 'Disable'} Night Mode`,
+                title: colorTheme === 'day' ? settingsLocalizations.translate('night_mode_enable_action') : settingsLocalizations.translate('night_mode_disable_action'),
                 action: (e) => {
                   e.stopPropagation();
                   onToggleColorTheme(colorTheme === 'day' ? 'night' : 'day');
                   onToggleSettingsVisibility(false);
                 },
               }, {
-                title: 'Quit Tweet Tray',
+                title: settingsLocalizations.translate('quit_action'),
                 action: (e) => {
                   e.stopPropagation();
                   ipcRenderer.send('quitApplication');
                 },
               }, {
-                title: 'Log Out',
+                title: settingsLocalizations.translate('log_out_action'),
                 action: (e) => {
                   e.stopPropagation();
                   onToggleSettingsVisibility(false);
@@ -89,7 +97,7 @@ class Settings extends Component {
                 },
                 type: 'warning',
               }, {
-                title: 'Cancel',
+                title: settingsLocalizations.translate('cancel_action'),
                 action: (e) => {
                   e.stopPropagation();
                   onToggleSettingsVisibility(false);
