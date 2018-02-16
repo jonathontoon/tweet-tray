@@ -7,6 +7,7 @@
 import url from 'url';
 import fs from 'fs';
 import path from 'path';
+import Localize from 'localize';
 import {
   app,
   ipcMain,
@@ -18,12 +19,18 @@ import config from './Config';
 import MenuBarManager from './MenuBarManager';
 import OAuthManager from './OAuthManager';
 
+import ParseLocale from './utils/ParseLocale';
+
+import ImageDialogStrings from './translations/ImageDialog.json';
+
 /*
   Variables
 */
 
 let menuBarManager = null;
 let oauthManager = null;
+
+let imageDialogLocalizations = null;
 
 /*
   Developer Tools Setup
@@ -82,10 +89,10 @@ const openImageDialog = (callback) => {
   }
 
   dialog.showOpenDialog({
-    title: 'Select an Image',
-    buttonLabel: 'Add',
+    title: imageDialogLocalizations.translate('title'),
+    buttonLabel: imageDialogLocalizations.translate('add_button'),
     filters: [
-      { name: 'Images', extensions: ['jpeg', 'jpg', 'png', 'gif', ], },
+      { name: imageDialogLocalizations.translate('file_type'), extensions: ['jpeg', 'jpg', 'png', 'gif', ], },
     ],
     properties,
   }, (filePaths) => {
@@ -94,20 +101,20 @@ const openImageDialog = (callback) => {
         if (image.extension === '.gif' && image.size >= 15.0) {
           dialog.showMessageBox({
             type: 'warning',
-            buttons: ['OK', ],
-            title: 'Warning',
-            message: 'Oops, sorry you can\'t do that',
-            detail: 'GIFs must be less than 15mb.',
+            buttons: [imageDialogLocalizations.translate('warning_confirm_button'), ],
+            title: imageDialogLocalizations.translate('warning_title'),
+            message: imageDialogLocalizations.translate('warning_message'),
+            detail: imageDialogLocalizations.translate('warning_detail_gifs'),
           }, () => {
             callback(null);
           });
         } else if (image.extension !== '.gif' && image.size >= 5.0) {
           dialog.showMessageBox({
             type: 'warning',
-            buttons: ['OK', ],
-            title: 'Warning',
-            message: 'Oops, sorry you can\'t do that',
-            detail: 'Images must be less than 5mb.',
+            buttons: [imageDialogLocalizations.translate('warning_confirm_button'), ],
+            title: imageDialogLocalizations.translate('warning_title'),
+            message: imageDialogLocalizations.translate('warning_message'),
+            detail: imageDialogLocalizations.translate('warning_detail_images'),
           }, () => {
             callback(null);
           });
@@ -133,6 +140,11 @@ app.on('ready', async () => {
 
   menuBarManager = new MenuBarManager();
   oauthManager = new OAuthManager(config, menuBarManager);
+
+  imageDialogLocalizations = new Localize(ImageDialogStrings);
+
+  const locale = ParseLocale(app.getLocale());
+  imageDialogLocalizations.setLocale(locale);
 
   if (process.platform === 'darwin') {
     app.dock.hide();

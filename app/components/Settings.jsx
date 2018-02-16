@@ -6,16 +6,19 @@ import Localize from 'localize';
 import InnerContent from './InnerContent';
 import ListView from './ListView';
 
-import Locale from '../utils/Locale';
+import ParseLocale from '../utils/ParseLocale';
 
 import * as constants from '../constants';
 
-import SettingsStrings from '../translations/Settings';
+import SettingsStrings from '../translations/Settings.json';
 
-const { ipcRenderer, } = window.require('electron');
+const { ipcRenderer, remote, } = window.require('electron');
+const { app, } = remote;
+
+const locale = ParseLocale(app.getLocale());
 
 const settingsLocalizations = new Localize(SettingsStrings);
-settingsLocalizations.setLocale(Locale());
+settingsLocalizations.setLocale(locale);
 
 const SettingsStyle = Styled.section`
     overflow: hidden;

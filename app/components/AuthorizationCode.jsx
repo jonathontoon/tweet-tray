@@ -7,23 +7,26 @@ import Localize from 'localize';
 import InnerContent from './InnerContent';
 import RoundedButton from './RoundedButton';
 
-import Locale from '../utils/Locale';
+import ParseLocale from '../utils/ParseLocale';
 
 import * as constants from '../constants';
 
 import Logo from '../../resources/tweet-tray-logo.svg';
 import NotificationIcon from '../../resources/notification.jpg';
 
-import AuthorizationErrorStrings from '../translations/AuthorizationError';
-import AuthorizationCodeStrings from '../translations/AuthorizationCode';
+import AuthorizationErrorStrings from '../translations/AuthorizationError.json';
+import AuthorizationCodeStrings from '../translations/AuthorizationCode.json';
 
-const { ipcRenderer, } = window.require('electron');
+const { ipcRenderer, remote, } = window.require('electron');
+const { app, } = remote;
+
+const locale = ParseLocale(app.getLocale());
 
 const authorizationErrorLocalizations = new Localize(AuthorizationErrorStrings);
-authorizationErrorLocalizations.setLocale(Locale());
+authorizationErrorLocalizations.setLocale(locale);
 
 const authorizationCodeLocalizations = new Localize(AuthorizationCodeStrings);
-authorizationCodeLocalizations.setLocale(Locale());
+authorizationCodeLocalizations.setLocale(locale);
 
 const AuthorizationCodeStyle = Styled.section`
   overflow: hidden;

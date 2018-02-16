@@ -5,28 +5,29 @@ import Theme from 'styled-theming';
 import Localize from 'localize';
 
 import Notifier from '../utils/Notifier';
-import Locale from '../utils/Locale';
+import ParseLocale from '../utils/ParseLocale';
 
 import InnerContent from './InnerContent';
 import RoundedButton from './RoundedButton';
 
 import * as constants from '../constants';
 
-import LoginStrings from '../translations/Login';
-import AuthorizationErrorStrings from '../translations/AuthorizationError';
+import LoginStrings from '../translations/Login.json';
+import AuthorizationErrorStrings from '../translations/AuthorizationError.json';
 
 import Logo from '../../resources/tweet-tray-logo.svg';
 import NotificationIcon from '../../resources/notification.jpg';
 
-console.log(Locale());
+const { ipcRenderer, remote, } = window.require('electron');
+const { app, } = remote;
 
-const { ipcRenderer, } = window.require('electron');
+const locale = ParseLocale(app.getLocale());
 
 const loginLocalizations = new Localize(LoginStrings);
-loginLocalizations.setLocale(Locale());
+loginLocalizations.setLocale(locale);
 
 const authorizationErrorLocalizations = new Localize(AuthorizationErrorStrings);
-authorizationErrorLocalizations.setLocale(Locale());
+authorizationErrorLocalizations.setLocale(locale);
 
 const LogInStyle = Styled.section`
   overflow: hidden;

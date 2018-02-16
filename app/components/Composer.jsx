@@ -5,7 +5,7 @@ import Theme from 'styled-theming';
 import Localize from 'localize';
 
 import Notifier from '../utils/Notifier';
-import Locale from '../utils/Locale';
+import ParseLocale from '../utils/ParseLocale';
 
 import Header from './Header';
 import SettingsContainer from '../containers/SettingsContainer';
@@ -19,24 +19,27 @@ import Footer from './Footer';
 
 import * as constants from '../constants';
 
-import PostStatusErrorStrings from '../translations/PostStatusError';
-import PostStatusSuccessStrings from '../translations/PostStatusSuccess';
-import ComposerStrings from '../translations/Composer';
+import PostStatusErrorStrings from '../translations/PostStatusError.json';
+import PostStatusSuccessStrings from '../translations/PostStatusSuccess.json';
+import ComposerStrings from '../translations/Composer.json';
 
 import SettingsIcon from '../../resources/settings.svg';
 import PhotoIcon from '../../resources/photo.svg';
 import NotificationIcon from '../../resources/notification.jpg';
 
-const { ipcRenderer, shell, } = window.require('electron');
+const { ipcRenderer, shell, remote, } = window.require('electron');
+const { app, } = remote;
+
+const locale = ParseLocale(app.getLocale());
 
 const postStatusErrorLocalizations = new Localize(PostStatusErrorStrings);
-postStatusErrorLocalizations.setLocale(Locale());
+postStatusErrorLocalizations.setLocale(locale);
 
 const postStatusSuccessLocalizations = new Localize(PostStatusSuccessStrings);
-postStatusSuccessLocalizations.setLocale(Locale());
+postStatusSuccessLocalizations.setLocale(locale);
 
 const composerLocalizations = new Localize(ComposerStrings);
-composerLocalizations.setLocale(Locale());
+composerLocalizations.setLocale(locale);
 
 const ComposerStyle = Styled.section`
   overflow: hidden;
@@ -174,7 +177,7 @@ class Composer extends Component {
             }}
           >
             <UserProfilePhoto />
-            <StatusInput placeholder={composerLocalizations.translate('status_placeholder')}/>
+            <StatusInput placeholder={composerLocalizations.translate('status_placeholder')} />
             <MediaListView
               dataSource={imageDataSource}
               onRemoveImage={() => {
