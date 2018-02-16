@@ -12,8 +12,8 @@ import RoundedButton from './RoundedButton';
 
 import * as constants from '../constants';
 
-import LoginStrings from '../translations/Login.json';
-import AuthorizationErrorStrings from '../translations/AuthorizationError.json';
+import LoginStrings from '../localizations/Login.json';
+import AuthorizationErrorStrings from '../localizations/AuthorizationError.json';
 
 import Logo from '../../resources/tweet-tray-logo.svg';
 import NotificationIcon from '../../resources/notification.jpg';

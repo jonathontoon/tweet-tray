@@ -10,7 +10,7 @@ import ParseLocale from '../utils/ParseLocale';
 
 import * as constants from '../constants';
 
-import SettingsStrings from '../translations/Settings.json';
+import SettingsStrings from '../localizations/Settings.json';
 
 const { ipcRenderer, remote, } = window.require('electron');
 const { app, } = remote;
