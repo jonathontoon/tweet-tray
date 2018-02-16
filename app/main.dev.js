@@ -21,7 +21,7 @@ import OAuthManager from './OAuthManager';
 
 import ParseLocale from './utils/ParseLocale';
 
-import ImageDialogStrings from './translations/ImageDialog.json';
+import ImageDialogStrings from './localizations/ImageDialog.json';
 
 /*
   Variables
