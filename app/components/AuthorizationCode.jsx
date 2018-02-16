@@ -14,8 +14,8 @@ import * as constants from '../constants';
 import Logo from '../../resources/tweet-tray-logo.svg';
 import NotificationIcon from '../../resources/notification.jpg';
 
-import AuthorizationErrorStrings from '../translations/AuthorizationError.json';
-import AuthorizationCodeStrings from '../translations/AuthorizationCode.json';
+import AuthorizationErrorStrings from '../localizations/AuthorizationError.json';
+import AuthorizationCodeStrings from '../localizations/AuthorizationCode.json';
 
 const { ipcRenderer, remote, } = window.require('electron');
 const { app, } = remote;

@@ -19,9 +19,9 @@ import Footer from './Footer';
 
 import * as constants from '../constants';
 
-import PostStatusErrorStrings from '../translations/PostStatusError.json';
-import PostStatusSuccessStrings from '../translations/PostStatusSuccess.json';
-import ComposerStrings from '../translations/Composer.json';
+import PostStatusErrorStrings from '../localizations/PostStatusError.json';
+import PostStatusSuccessStrings from '../localizations/PostStatusSuccess.json';
+import ComposerStrings from '../localizations/Composer.json';
 
 import SettingsIcon from '../../resources/settings.svg';
 import PhotoIcon from '../../resources/photo.svg';
