@@ -66,7 +66,7 @@ class OAuthManager {
       },
       alwaysOnTop: true,
       resizable: true,
-      title: 'Twitter / Authorize an application',
+      title: 'Tweet Tray',
       icon: this._appIconImage(),
     });
     window.setMenu(null);
