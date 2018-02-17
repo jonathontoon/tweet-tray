@@ -1,0 +1,50 @@
+{
+    "post_status_success": {
+        "title": "Dein Tweet wurde gesandt!",
+        "description": "Klicke hier um es zu sehen."
+    },
+    "post_status_error": {
+        "title": "Entschuldigung, ein Fehler ist aufgetreten!",
+        "description": "Dein Tweet konnte nicht gesendet werden."
+    },
+    "login": {
+        "title": "Sende Tweets schnell und unkompliziert von deinem Desktop {0}.",
+        "taskbar": "Taskleiste",
+        "menubar": "Menüleiste",
+        "log_in_button": "Mit Twitter anmelden",
+        "quit_button": "Tweet Tray schließen"
+    },
+    "authorization_code": {
+        "title": "Bitte gebe als letzten Schritt die im Dialogfenster angezeigte 7-stellige Zahl ein.",
+        "authorize_button": "Mein Konto autorisieren",
+        "return_button": "Zurück zur Anmeldung"
+    },
+    "authorization_error": {
+        "title": "Entschuldigung, ein Fehler ist aufgetreten.",
+        "description": "Dein Konto konnte nicht autorisiert werden."
+    },
+    "composer": {
+        "title": "Tweet verfassen",
+        "placeholder": "Was gibt's Neues?",
+        "settings_alt_text": "Einstellungen öffnen",
+        "image_alt_text": "Foto hinzufügen",
+        "tweet_button": "Twittern"
+    },
+    "image_dialog": {
+        "title": "Wähle ein Foto",
+        "add_button": "Hinzufügen",
+        "file_type": "Fotos",
+        "warning_title": "Warnung",
+        "warning_message": "Entschuldigung, das kannst du nicht machen.",
+        "warning_detail_images": "Fotos müssen kleiner als 5MB sein.",
+        "warning_detail_gif": "GIFs müssen kleiner als 15MB sein.",
+        "warning_confirm_button": "OK"
+    },
+    "settings": {
+        "night_mode_disable_action": "Nachtmodus deaktivieren",
+        "night_mode_enable_action": "Nachtmodus aktivieren",
+        "quit_action": "Tweet Tray schließen",
+        "log_out_action": "Abmelden",
+        "cancel_action": "Abbrechen"
+    }
+}
