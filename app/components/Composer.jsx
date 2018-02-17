@@ -2,10 +2,6 @@ import React, { Component, Fragment, } from 'react';
 import PropTypes from 'prop-types';
 import Styled from 'styled-components';
 import Theme from 'styled-theming';
-import Localize from 'localize';
-
-import Notifier from '../utils/Notifier';
-import ParseLocale from '../utils/ParseLocale';
 
 import Header from './Header';
 import SettingsContainer from '../containers/SettingsContainer';
@@ -19,27 +15,17 @@ import Footer from './Footer';
 
 import * as constants from '../constants';
 
-import PostStatusErrorStrings from '../localizations/PostStatusError.json';
-import PostStatusSuccessStrings from '../localizations/PostStatusSuccess.json';
-import ComposerStrings from '../localizations/Composer.json';
+import Notifier from '../utils/Notifier';
+import ImageDialog from '../utils/ImageDialog';
+import Locales from '../utils/Locales';
 
 import SettingsIcon from '../../resources/settings.svg';
 import PhotoIcon from '../../resources/photo.svg';
 import NotificationIcon from '../../resources/notification.jpg';
 
-const { ipcRenderer, shell, remote, } = window.require('electron');
-const { app, } = remote;
+const localeStrings = Locales();
 
-const locale = ParseLocale(app.getLocale());
-
-const postStatusErrorLocalizations = new Localize(PostStatusErrorStrings);
-postStatusErrorLocalizations.setLocale(locale);
-
-const postStatusSuccessLocalizations = new Localize(PostStatusSuccessStrings);
-postStatusSuccessLocalizations.setLocale(locale);
-
-const composerLocalizations = new Localize(ComposerStrings);
-composerLocalizations.setLocale(locale);
+const { ipcRenderer, shell, } = window.require('electron');
 
 const ComposerStyle = Styled.section`
   overflow: hidden;
@@ -83,14 +69,26 @@ class Composer extends Component {
       this._addImage(response);
     });
 
-    ipcRenderer.on('postStatusError', (event, response) => {
-      Notifier(postStatusErrorLocalizations.translate('title'), postStatusErrorLocalizations.translate('description'), false, NotificationIcon, null);
+    ipcRenderer.on('postStatusError', () => {
+      Notifier(
+        localeStrings.post_status_error.title,
+        localeStrings.post_status_error.description,
+        false,
+        NotificationIcon,
+        null
+      );
     });
 
     ipcRenderer.on('postStatusComplete', (event, response) => {
-      Notifier(postStatusSuccessLocalizations.translate('title'), postStatusSuccessLocalizations.translate('description'), false, NotificationIcon, () => {
-        shell.openExternal(`https://twitter.com/${response.user.screen_name}/status/${response.id_str}`);
-      });
+      Notifier(
+        localeStrings.post_status_success.title,
+        localeStrings.post_status_success.description,
+        false,
+        NotificationIcon,
+        () => {
+          shell.openExternal(`https://twitter.com/${response.user.screen_name}/status/${response.id_str}`);
+        }
+      );
     });
 
     ipcRenderer.on('send-tweet-shortcut', () => {
@@ -98,12 +96,12 @@ class Composer extends Component {
     });
   }
 
-  _addImage(newImage) {
-    if (newImage !== null) {
+  _addImage() {
+    ImageDialog((newImage) => {
       this.setState({
         image: newImage,
       });
-    }
+    });
   }
 
   _removeImage() {
@@ -147,11 +145,11 @@ class Composer extends Component {
     return (
       <ComposerStyle>
         <Header
-          title={composerLocalizations.translate('title')}
+          title={localeStrings.composer.title}
           right={
             <IconButton
               iconSrc={SettingsIcon}
-              altText={composerLocalizations.translate('settings_alt')}
+              altText={localeStrings.composer.settings_alt_text}
               onClick={() => {
                 onToggleSettingsVisibility(true);
               }}
@@ -177,7 +175,7 @@ class Composer extends Component {
             }}
           >
             <UserProfilePhoto />
-            <StatusInput placeholder={composerLocalizations.translate('status_placeholder')} />
+            <StatusInput placeholder={localeStrings.composer.placeholder} />
             <MediaListView
               dataSource={imageDataSource}
               onRemoveImage={() => {
@@ -191,10 +189,10 @@ class Composer extends Component {
                 <IconButton
                   disabled={image !== null}
                   iconSrc={PhotoIcon}
-                  altText={composerLocalizations.translate('add_photo_alt')}
+                  altText={localeStrings.composer.image_alt_text}
                   onClick={(e) => {
                     e.preventDefault();
-                    ipcRenderer.send('addImage');
+                    this._addImage();
                   }}
                 />
               </Fragment>
@@ -202,7 +200,7 @@ class Composer extends Component {
             right={
               <RoundedButton
                 disabled={weightedStatus === null && image === null}
-                title={composerLocalizations.translate('tweet_button')}
+                title={localeStrings.composer.tweet_button}
                 fullWidth={false}
                 type="submit"
               />

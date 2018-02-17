@@ -2,32 +2,21 @@ import React, { Component, } from 'react';
 import PropTypes from 'prop-types';
 import Styled from 'styled-components';
 import Theme from 'styled-theming';
-import Localize from 'localize';
-
-import Notifier from '../utils/Notifier';
-import ParseLocale from '../utils/ParseLocale';
 
 import InnerContent from './InnerContent';
 import RoundedButton from './RoundedButton';
 
 import * as constants from '../constants';
 
-import LoginStrings from '../localizations/Login.json';
-import AuthorizationErrorStrings from '../localizations/AuthorizationError.json';
+import Notifier from '../utils/Notifier';
+import Locales from '../utils/Locales';
 
 import Logo from '../../resources/tweet-tray-logo.svg';
 import NotificationIcon from '../../resources/notification.jpg';
 
-const { ipcRenderer, remote, } = window.require('electron');
-const { app, } = remote;
+const { ipcRenderer, } = window.require('electron');
 
-const locale = ParseLocale(app.getLocale());
-
-const loginLocalizations = new Localize(LoginStrings);
-loginLocalizations.setLocale(locale);
-
-const authorizationErrorLocalizations = new Localize(AuthorizationErrorStrings);
-authorizationErrorLocalizations.setLocale(locale);
+const localeStrings = Locales();
 
 const LogInStyle = Styled.section`
   overflow: hidden;
@@ -82,7 +71,13 @@ class LogIn extends Component {
 
   componentDidMount() {
     ipcRenderer.on('startOAuthError', () => {
-      Notifier(authenticationErrorLocalizations.translate('title'), authenticationErrorLocalizations.translate('description'), false, NotificationIcon, null);
+      Notifier(
+        localeStrings.authorization_error.title,
+        localeStrings.authorization_error.description,
+        false,
+        NotificationIcon,
+        null
+      );
     });
 
     ipcRenderer.on('receivedRequestTokenPair', (event, requestTokenPair) => {
@@ -109,7 +104,7 @@ class LogIn extends Component {
         >
           <TwitterLogoStyle src={Logo} alt="Twitter Logo" />
           <HeaderTextStyle>
-            {loginLocalizations.translate('title', process.platform === 'win32' ? loginLocalizations.translate('taskbar') : localizations.translate('menubar'))}
+            {localeStrings.formatString(localeStrings.login.title, process.platform === 'win32' ? localeStrings.login.taskbar : localeStrings.login.menubar)}
           </HeaderTextStyle>
           <RoundedButton
             onClick={() => {
@@ -121,7 +116,7 @@ class LogIn extends Component {
               height: '44px',
             }}
             fullWidth
-            title={loginLocalizations.translate('sign_in_button')}
+            title={localeStrings.login.log_in_button}
           />
           <RoundedButton
             onClick={() => {
@@ -134,7 +129,7 @@ class LogIn extends Component {
             }}
             fullWidth
             borderButton
-            title={loginLocalizations.translate('quit_button')}
+            title={localeStrings.login.quit_button}
           />
         </InnerContent>
       </LogInStyle>

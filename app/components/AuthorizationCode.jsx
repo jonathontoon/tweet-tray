@@ -2,31 +2,20 @@ import React, { Component, } from 'react';
 import PropTypes from 'prop-types';
 import Styled from 'styled-components';
 import PinInput from 'react-pin-input';
-import Localize from 'localize';
 
 import InnerContent from './InnerContent';
 import RoundedButton from './RoundedButton';
 
-import ParseLocale from '../utils/ParseLocale';
-
 import * as constants from '../constants';
+
+import Locales from '../utils/Locales';
 
 import Logo from '../../resources/tweet-tray-logo.svg';
 import NotificationIcon from '../../resources/notification.jpg';
 
-import AuthorizationErrorStrings from '../localizations/AuthorizationError.json';
-import AuthorizationCodeStrings from '../localizations/AuthorizationCode.json';
+const localeStrings = Locales();
 
-const { ipcRenderer, remote, } = window.require('electron');
-const { app, } = remote;
-
-const locale = ParseLocale(app.getLocale());
-
-const authorizationErrorLocalizations = new Localize(AuthorizationErrorStrings);
-authorizationErrorLocalizations.setLocale(locale);
-
-const authorizationCodeLocalizations = new Localize(AuthorizationCodeStrings);
-authorizationCodeLocalizations.setLocale(locale);
+const { ipcRenderer, } = window.require('electron');
 
 const AuthorizationCodeStyle = Styled.section`
   overflow: hidden;
@@ -85,11 +74,23 @@ class AuthorizationCode extends Component {
 
   componentDidMount() {
     ipcRenderer.on('sendauthorizeCodeError', () => {
-      Notifier(authorizationErrorLocalizations.translate('title'), authorizationErrorLocalizations.translate('description'), false, NotificationIcon, null);
+      Notifier(
+        localeStrings.authorization_error.title,
+        localeStrings.authorization_error.description,
+        false,
+        NotificationIcon,
+        null
+      );
     });
 
     ipcRenderer.on('verifyCredentialsError', () => {
-      Notifier(authorizationErrorLocalizations.translate('title'), authorizationErrorLocalizations.translate('description'), false, NotificationIcon, null);
+      Notifier(
+        localeStrings.authorization_error.title,
+        localeStrings.authorization_error.description,
+        false,
+        NotificationIcon,
+        null
+      );
     });
 
     ipcRenderer.on('completedOAuth', (event, response) => {
@@ -132,7 +133,7 @@ class AuthorizationCode extends Component {
         >
           <TwitterLogoStyle src={Logo} alt="Twitter Logo" />
           <HeaderTextStyle>
-            {authorizationCodeLocalizations.translate('title')}
+            {localeStrings.authorization_code.title}
           </HeaderTextStyle>
           <PinInput
             length={7}
@@ -171,7 +172,7 @@ class AuthorizationCode extends Component {
             }}
             disabled={authorizeCode.length < 7}
             fullWidth
-            title={authorizationCodeLocalizations.translate('authorize_button')}
+            title={localeStrings.authorization_code.authorize_button}
           />
           <RoundedButton
             onClick={this._onReturnToLogIn}
@@ -182,7 +183,7 @@ class AuthorizationCode extends Component {
             }}
             fullWidth
             borderButton
-            title={authorizationCodeLocalizations.translate('return_button')}
+            title={localeStrings.authorization_code.return_button}
           />
         </InnerContent>
       </AuthorizationCodeStyle>

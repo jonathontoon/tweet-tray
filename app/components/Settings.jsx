@@ -1,24 +1,17 @@
 import React, { Component, } from 'react';
 import PropTypes from 'prop-types';
 import Styled from 'styled-components';
-import Localize from 'localize';
 
 import InnerContent from './InnerContent';
 import ListView from './ListView';
 
-import ParseLocale from '../utils/ParseLocale';
+import Locales from '../utils/Locales';
 
 import * as constants from '../constants';
 
-import SettingsStrings from '../localizations/Settings.json';
+const { ipcRenderer, } = window.require('electron');
 
-const { ipcRenderer, remote, } = window.require('electron');
-const { app, } = remote;
-
-const locale = ParseLocale(app.getLocale());
-
-const settingsLocalizations = new Localize(SettingsStrings);
-settingsLocalizations.setLocale(locale);
+const localeStrings = Locales();
 
 const SettingsStyle = Styled.section`
     overflow: hidden;
@@ -78,20 +71,20 @@ class Settings extends Component {
           <ListView
             dataSource={
               [{
-                title: colorTheme === 'day' ? settingsLocalizations.translate('night_mode_enable_action') : settingsLocalizations.translate('night_mode_disable_action'),
+                title: colorTheme === 'day' ? localeStrings.settings.night_mode_enable_action : localeStrings.settings.night_mode_disable_action,
                 action: (e) => {
                   e.stopPropagation();
                   onToggleColorTheme(colorTheme === 'day' ? 'night' : 'day');
                   onToggleSettingsVisibility(false);
                 },
               }, {
-                title: settingsLocalizations.translate('quit_action'),
+                title: localeStrings.settings.quit_action,
                 action: (e) => {
                   e.stopPropagation();
                   ipcRenderer.send('quitApplication');
                 },
               }, {
-                title: settingsLocalizations.translate('log_out_action'),
+                title: localeStrings.settings.log_out_action,
                 action: (e) => {
                   e.stopPropagation();
                   onToggleSettingsVisibility(false);
@@ -100,7 +93,7 @@ class Settings extends Component {
                 },
                 type: 'warning',
               }, {
-                title: settingsLocalizations.translate('cancel_action'),
+                title: localeStrings.settings.cancel_action,
                 action: (e) => {
                   e.stopPropagation();
                   onToggleSettingsVisibility(false);
