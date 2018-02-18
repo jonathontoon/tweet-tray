@@ -8,9 +8,8 @@
         "description": "Your Tweet was unable to be sent."
     },
     "login": {
-        "title": "Send tweets quickly from your desktop {0}, without any distractions.",
-        "taskbar": "taskbar",
-        "menubar": "menubar",
+        "title_taskbar": "Send tweets quickly from your desktop taskbar, without any distractions.",
+        "title_menubar": "Send tweets quickly from your desktop menubar, without any distractions.",
         "log_in_button": "Log In with Twitter",
         "quit_button": "Quit Tweet Tray"
     },

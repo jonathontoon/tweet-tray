@@ -8,9 +8,8 @@
         "description": "Dein Tweet konnte nicht gesendet werden."
     },
     "login": {
-        "title": "Sende Tweets schnell und unkompliziert von deinem Desktop {0}.",
-        "taskbar": "Taskleiste",
-        "menubar": "Menüleiste",
+        "title_taskbar": "Sende Tweets schnell und unkompliziert von deinem Desktop Taskleiste.",
+        "title_menubar": "Sende Tweets schnell und unkompliziert von deinem Desktop Menüleiste.",
         "log_in_button": "Mit Twitter anmelden",
         "quit_button": "Tweet Tray schließen"
     },

@@ -106,7 +106,7 @@ class LogIn extends Component {
         >
           <TwitterLogoStyle src={Logo} alt="Twitter Logo" />
           <HeaderTextStyle>
-            {locales.formatString(locales.login.title, process.platform === 'win32' ? locales.login.taskbar : locales.login.menubar)}
+            {process.platform === 'win32' ? locales.login.title_taskbar : locales.login.title_menubuar }
           </HeaderTextStyle>
           <RoundedButton
             onClick={() => {
