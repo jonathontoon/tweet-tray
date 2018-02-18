@@ -1,6 +1,6 @@
 import { connect, } from 'react-redux';
 
-import RendererContainer from './RendererContainer';
+import withRenderer from './withRenderer';
 
 import { toggleSettingsVisibility, toggleColorTheme, onLogout, } from '../actions/index';
 import Settings from '../components/Settings';
@@ -26,4 +26,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(RendererContainer(Settings));
+export default connect(mapStateToProps, mapDispatchToProps)(withRenderer(Settings));
