@@ -2,7 +2,6 @@ import React, { Component, } from 'react';
 import PropTypes from 'prop-types';
 import Styled from 'styled-components';
 
-import withRenderer from '../containers/withRenderer';
 import InnerContent from './InnerContent';
 import ListView from './ListView';
 
@@ -107,5 +106,5 @@ class Settings extends Component {
   }
 }
 
-export default withRenderer(Settings);
+export default Settings;
 
