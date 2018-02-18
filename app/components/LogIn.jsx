@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import Styled from 'styled-components';
 import Theme from 'styled-theming';
 
+import withRenderer from '../containers/withRenderer';
+
 import InnerContent from './InnerContent';
 import RoundedButton from './RoundedButton';
 
@@ -137,4 +139,4 @@ class LogIn extends Component {
   }
 }
 
-export default LogIn;
+export default withRenderer(LogIn);

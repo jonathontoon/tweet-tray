@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import Styled from 'styled-components';
 import PinInput from 'react-pin-input';
 
+import withRenderer from '../containers/withRenderer';
+
 import InnerContent from './InnerContent';
 import RoundedButton from './RoundedButton';
 
@@ -190,4 +192,4 @@ class AuthorizationCode extends Component {
   }
 }
 
-export default AuthorizationCode;
+export default withRenderer(AuthorizationCode);

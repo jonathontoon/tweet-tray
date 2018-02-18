@@ -1,7 +1,5 @@
 import { connect, } from 'react-redux';
 
-import withRenderer from './withRenderer';
-
 import { toggleSettingsVisibility, toggleColorTheme, onLogout, } from '../actions/index';
 import Settings from '../components/Settings';
 
@@ -26,4 +24,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(withRenderer(Settings));
+export default connect(mapStateToProps, mapDispatchToProps)(Settings);

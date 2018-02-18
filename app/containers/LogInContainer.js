@@ -1,8 +1,6 @@
 import { connect, } from 'react-redux';
 import { withRouter, } from 'react-router-dom';
 
-import withRenderer from './withRenderer';
-
 import { updateRequestTokenPair, } from '../actions';
 import LogIn from '../components/LogIn';
 
@@ -22,4 +20,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(withRenderer(LogIn)));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(LogIn));
