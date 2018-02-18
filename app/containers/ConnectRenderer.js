@@ -7,7 +7,7 @@ const locales = Locales();
 const { ipcRenderer, } = window.require('electron');
 const notifier = new Notifier();
 
-const withRenderer = (WrappedComponent) => {
+const ConnectRenderer = (WrappedComponent) => {
   return class extends Component {
     constructor(props) {
       super(props);
@@ -31,4 +31,4 @@ const withRenderer = (WrappedComponent) => {
   };
 };
 
-export default withRenderer;
+export default ConnectRenderer;

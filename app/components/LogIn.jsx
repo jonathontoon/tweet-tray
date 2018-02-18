@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import Styled from 'styled-components';
 import Theme from 'styled-theming';
 
-import withRenderer from '../containers/withRenderer';
+import ConnectRenderer from '../containers/ConnectRenderer';
 
 import InnerContent from './InnerContent';
 import RoundedButton from './RoundedButton';
@@ -139,4 +139,4 @@ class LogIn extends Component {
   }
 }
 
-export default withRenderer(LogIn);
+export default ConnectRenderer(LogIn);

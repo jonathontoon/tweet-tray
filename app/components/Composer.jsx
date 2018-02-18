@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import Styled from 'styled-components';
 import Theme from 'styled-theming';
 
-import withRenderer from '../containers/withRenderer';
+import ConnectRenderer from '../containers/ConnectRenderer';
 
 import Header from './Header';
 import SettingsContainer from '../containers/SettingsContainer';
@@ -208,5 +208,5 @@ class Composer extends Component {
   }
 }
 
-export default withRenderer(Composer);
+export default ConnectRenderer(Composer);
 
