@@ -1,16 +1,21 @@
 const { remote, } = window.require('electron');
 const { app, } = remote;
 
-const Notifier = (title, body, isSilent = false, iconImage, callback) => {
-  app.setAppUserModelId('org.jonathontoon.tweettray');
-  const notification = new Notification(title, {
-    body,
-    silent: isSilent,
-    icon: process.platform === 'darwin' ? null : iconImage,
-  });
-  notification.onclick = () => {
-    callback();
-  };
-};
+class Notifier {
+  constructor() {
+    app.setAppUserModelId('org.jonathontoon.tweettray');
+  }
+
+  static send(title, body, isSilent = false, callback = null) {
+    const notification = new Notification(title, {
+      body,
+      silent: isSilent,
+      icon: process.platform === 'darwin' ? null : '../../resources/notification.jpg',
+    });
+    notification.onclick = () => {
+      callback();
+    };
+  }
+}
 
 export default Notifier;

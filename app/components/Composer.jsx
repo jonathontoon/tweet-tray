@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import Styled from 'styled-components';
 import Theme from 'styled-theming';
 
+import withRenderer from '../containers/withRenderer';
 import Header from './Header';
 import SettingsContainer from '../containers/SettingsContainer';
 import InnerContent from './InnerContent';
@@ -15,17 +16,10 @@ import Footer from './Footer';
 
 import * as constants from '../constants';
 
-import Notifier from '../utils/Notifier';
 import ImageDialog from '../utils/ImageDialog';
-import Locales from '../utils/Locales';
 
 import SettingsIcon from '../../resources/settings.svg';
 import PhotoIcon from '../../resources/photo.svg';
-import NotificationIcon from '../../resources/notification.jpg';
-
-const localeStrings = Locales();
-
-const { ipcRenderer, shell, } = window.require('electron');
 
 const ComposerStyle = Styled.section`
   overflow: hidden;
@@ -42,6 +36,9 @@ class Composer extends Component {
     accessTokenPair: PropTypes.object,
     onToggleSettingsVisibility: PropTypes.func.isRequired,
     onUpdateWeightedStatus: PropTypes.func.isRequired,
+    notifier: PropTypes.object.isRequired,
+    locales: PropTypes.object.isRequired,
+    renderer: PropTypes.object.isRequired,
   };
 
   static defaultProps = {
@@ -61,37 +58,34 @@ class Composer extends Component {
   }
 
   componentDidMount() {
-    ipcRenderer.on('addImageComplete', (event, response) => {
+    const { notifier, locales, renderer, } = this.props;
+
+    renderer.on('addImageComplete', (event, response) => {
       this._addImage(response);
     });
 
-    ipcRenderer.on('addGIFComplete', (event, response) => {
+    renderer.on('addGIFComplete', (event, response) => {
       this._addImage(response);
     });
 
-    ipcRenderer.on('postStatusError', () => {
-      Notifier(
-        localeStrings.post_status_error.title,
-        localeStrings.post_status_error.description,
-        false,
-        NotificationIcon,
-        null
+    renderer.on('postStatusError', () => {
+      notifier.send(
+        locales.post_status_error.title,
+        locales.post_status_error.description,
       );
     });
 
-    ipcRenderer.on('postStatusComplete', (event, response) => {
-      Notifier(
-        localeStrings.post_status_success.title,
-        localeStrings.post_status_success.description,
-        false,
-        NotificationIcon,
+    renderer.on('postStatusComplete', (event, response) => {
+      notifier.send(
+        locales.post_status_success.title,
+        locales.post_status_success.description,
         () => {
           shell.openExternal(`https://twitter.com/${response.user.screen_name}/status/${response.id_str}`);
         }
       );
     });
 
-    ipcRenderer.on('send-tweet-shortcut', () => {
+    renderer.on('send-tweet-shortcut', () => {
       this._postStatus();
     });
   }
@@ -138,18 +132,18 @@ class Composer extends Component {
 
   render() {
     const { image, } = this.state;
-    const { weightedStatus, onToggleSettingsVisibility, } = this.props;
+    const { weightedStatus, onToggleSettingsVisibility, locales, } = this.props;
 
     const imageDataSource = image !== null ? [image, ] : null;
 
     return (
       <ComposerStyle>
         <Header
-          title={localeStrings.composer.title}
+          title={locales.composer.title}
           right={
             <IconButton
               iconSrc={SettingsIcon}
-              altText={localeStrings.composer.settings_alt_text}
+              altText={locales.composer.settings_alt_text}
               onClick={() => {
                 onToggleSettingsVisibility(true);
               }}
@@ -175,7 +169,7 @@ class Composer extends Component {
             }}
           >
             <UserProfilePhoto />
-            <StatusInput placeholder={localeStrings.composer.placeholder} />
+            <StatusInput placeholder={locales.composer.placeholder} />
             <MediaListView
               dataSource={imageDataSource}
               onRemoveImage={() => {
@@ -189,7 +183,7 @@ class Composer extends Component {
                 <IconButton
                   disabled={image !== null}
                   iconSrc={PhotoIcon}
-                  altText={localeStrings.composer.image_alt_text}
+                  altText={locales.composer.image_alt_text}
                   onClick={(e) => {
                     e.preventDefault();
                     this._addImage();
@@ -200,7 +194,7 @@ class Composer extends Component {
             right={
               <RoundedButton
                 disabled={weightedStatus === null && image === null}
-                title={localeStrings.composer.tweet_button}
+                title={locales.composer.tweet_button}
                 fullWidth={false}
                 type="submit"
               />
@@ -213,5 +207,5 @@ class Composer extends Component {
   }
 }
 
-export default Composer;
+export default withRenderer(Composer);
 

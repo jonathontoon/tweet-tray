@@ -2,16 +2,11 @@ import React, { Component, } from 'react';
 import PropTypes from 'prop-types';
 import Styled from 'styled-components';
 
+import withRenderer from '../containers/withRenderer';
 import InnerContent from './InnerContent';
 import ListView from './ListView';
 
-import Locales from '../utils/Locales';
-
 import * as constants from '../constants';
-
-const { ipcRenderer, } = window.require('electron');
-
-const localeStrings = Locales();
 
 const SettingsStyle = Styled.section`
     overflow: hidden;
@@ -39,6 +34,8 @@ class Settings extends Component {
     colorTheme: PropTypes.string.isRequired,
     onToggleColorTheme: PropTypes.func.isRequired,
     shouldLogout: PropTypes.func.isRequired,
+    locales: PropTypes.object.isRequired,
+    renderer: PropTypes.object.isRequired,
   };
 
   static contextTypes = {
@@ -52,6 +49,8 @@ class Settings extends Component {
       colorTheme,
       onToggleColorTheme,
       shouldLogout,
+      locales,
+      renderer,
     } = this.props;
 
     return (
@@ -71,20 +70,20 @@ class Settings extends Component {
           <ListView
             dataSource={
               [{
-                title: colorTheme === 'day' ? localeStrings.settings.night_mode_enable_action : localeStrings.settings.night_mode_disable_action,
+                title: colorTheme === 'day' ? locales.settings.night_mode_enable_action : locales.settings.night_mode_disable_action,
                 action: (e) => {
                   e.stopPropagation();
                   onToggleColorTheme(colorTheme === 'day' ? 'night' : 'day');
                   onToggleSettingsVisibility(false);
                 },
               }, {
-                title: localeStrings.settings.quit_action,
+                title: locales.settings.quit_action,
                 action: (e) => {
                   e.stopPropagation();
-                  ipcRenderer.send('quitApplication');
+                  renderer.send('quitApplication');
                 },
               }, {
-                title: localeStrings.settings.log_out_action,
+                title: locales.settings.log_out_action,
                 action: (e) => {
                   e.stopPropagation();
                   onToggleSettingsVisibility(false);
@@ -93,7 +92,7 @@ class Settings extends Component {
                 },
                 type: 'warning',
               }, {
-                title: localeStrings.settings.cancel_action,
+                title: locales.settings.cancel_action,
                 action: (e) => {
                   e.stopPropagation();
                   onToggleSettingsVisibility(false);
@@ -108,5 +107,5 @@ class Settings extends Component {
   }
 }
 
-export default Settings;
+export default withRenderer(Settings);
 

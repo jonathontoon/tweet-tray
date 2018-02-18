@@ -54,6 +54,7 @@ class RoundedButton extends Component {
     onClick: PropTypes.func,
     type: PropTypes.string,
   };
+
   static defaultProps = {
     disabled: false,
     borderButton: false,

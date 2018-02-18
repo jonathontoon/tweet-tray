@@ -3,7 +3,6 @@ import path from 'path';
 import { app, BrowserWindow, Tray, screen, nativeImage, Menu, } from 'electron';
 
 import { selectionMenu, inputMenu, applicationMenu, } from './utils/Menu';
-import Locales from './utils/Locales';
 
 class MenuBarManager {
   constructor() {

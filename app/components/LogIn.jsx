@@ -8,15 +8,7 @@ import RoundedButton from './RoundedButton';
 
 import * as constants from '../constants';
 
-import Notifier from '../utils/Notifier';
-import Locales from '../utils/Locales';
-
 import Logo from '../../resources/tweet-tray-logo.svg';
-import NotificationIcon from '../../resources/notification.jpg';
-
-const { ipcRenderer, } = window.require('electron');
-
-const localeStrings = Locales();
 
 const LogInStyle = Styled.section`
   overflow: hidden;
@@ -51,6 +43,9 @@ class LogIn extends Component {
     accessTokenPair: PropTypes.object,
     userCredentials: PropTypes.object,
     onUpdateRequestTokenPair: PropTypes.func.isRequired,
+    notifier: PropTypes.object.isRequired,
+    locales: PropTypes.object.isRequired,
+    renderer: PropTypes.object.isRequired,
   };
 
   static defaultProps = {
@@ -70,31 +65,36 @@ class LogIn extends Component {
   }
 
   componentDidMount() {
-    ipcRenderer.on('startOAuthError', () => {
-      Notifier(
-        localeStrings.authorization_error.title,
-        localeStrings.authorization_error.description,
-        false,
-        NotificationIcon,
-        null
+    const {
+      notifier,
+      locales,
+      renderer,
+      onUpdateRequestTokenPair,
+    } = this.props;
+
+    renderer.on('startOAuthError', () => {
+      notifier.send(
+        locales.authorization_error.title,
+        locales.authorization_error.description,
       );
     });
 
-    ipcRenderer.on('receivedRequestTokenPair', (event, requestTokenPair) => {
-      const { onUpdateRequestTokenPair, } = this.props;
+    renderer.on('receivedRequestTokenPair', (event, requestTokenPair) => {
       onUpdateRequestTokenPair(requestTokenPair);
     });
 
-    ipcRenderer.on('startedAuthorizationCode', () => {
+    renderer.on('startedAuthorizationCode', () => {
       this.context.router.history.replace('/authorization');
     });
 
-    ipcRenderer.on('canceledOAuth', () => {
+    renderer.on('canceledOAuth', () => {
       this.context.router.history.replace('/');
     });
   }
 
   render() {
+    const { locales, renderer, } = this.props;
+
     return (
       <LogInStyle>
         <InnerContent
@@ -104,11 +104,11 @@ class LogIn extends Component {
         >
           <TwitterLogoStyle src={Logo} alt="Twitter Logo" />
           <HeaderTextStyle>
-            {localeStrings.formatString(localeStrings.login.title, process.platform === 'win32' ? localeStrings.login.taskbar : localeStrings.login.menubar)}
+            {locales.formatString(locales.login.title, process.platform === 'win32' ? locales.login.taskbar : locales.login.menubar)}
           </HeaderTextStyle>
           <RoundedButton
             onClick={() => {
-              ipcRenderer.send('startOAuth');
+              renderer.send('startOAuth');
             }}
             style={{
               position: 'relative',
@@ -116,11 +116,11 @@ class LogIn extends Component {
               height: '44px',
             }}
             fullWidth
-            title={localeStrings.login.log_in_button}
+            title={locales.login.log_in_button}
           />
           <RoundedButton
             onClick={() => {
-              ipcRenderer.send('quitApplication');
+              renderer.send('quitApplication');
             }}
             style={{
               position: 'relative',
@@ -129,7 +129,7 @@ class LogIn extends Component {
             }}
             fullWidth
             borderButton
-            title={localeStrings.login.quit_button}
+            title={locales.login.quit_button}
           />
         </InnerContent>
       </LogInStyle>
