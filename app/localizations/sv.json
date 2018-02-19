@@ -1,0 +1,49 @@
+{
+    "post_status_success": {
+        "title": "Din Tweet skickades!",
+        "description": "Klicka här för att se den."
+    },
+    "post_status_error": {
+        "title": "Ursäkta, ett fel har uppstått!",
+        "description": "Din Tweet kunde inte skickas"
+    },
+    "login": {
+        "title_taskbar": "Skicka snabbare tweets ifrån desktopen Aktivitetsfältet, utan distraktion.",
+        "title_menubar": "Skicka snabbare tweets ifrån desktopen Menyfältet, utan distraktion.",
+        "log_in_button": "Logga in med Twitter",
+        "quit_button": "Avsluta Tweet Tray"
+    },
+    "authorization_code": {
+        "title": "Avsluta genom att ange den 7-siffriga PIN-koden som visas i popup-fönstret.",
+        "authorize_button": "Godkänna mitt konto",
+        "return_button": "Tillbaka till Logga in"
+    },
+    "authorization_error": {
+        "title": "Ursäkta, ett fel har uppstått",
+        "description": "Ditt konto kan inte godkänna"
+    },
+    "composer": {
+        "title": "Skriv en Tweet",
+        "placeholder": "Vad händer?",
+        "settings_alt_text": "Öppna Inställningar",
+        "image_alt_text": "Lägg till en bild",
+        "tweet_button": "Tweeta"
+    },
+    "image_dialog": {
+        "title": "Välj en bild",
+        "add_button": "Tillägga",
+        "file_type": "Bilder",
+        "warning_title": "Varning",
+        "warning_message": "Förlåt, du kan inte gör den",
+        "warning_detail_images": "Bilder måste vara under 5mb",
+        "warning_detail_gif": "GIFs måste vara under 15mb",
+        "warning_confirm_button": "OK"
+    },
+    "settings": {
+        "night_mode_disable_action": "Inaktivera Nattläge",
+        "night_mode_enable_action": "Aktivera Nattläge",
+        "quit_action": "Avsluta Tweet Tray",
+        "log_out_action": "Logga ut",
+        "cancel_action": "Avbryt"
+    }
+}
