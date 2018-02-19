@@ -5,23 +5,12 @@
 */
 
 import url from 'url';
-import fs from 'fs';
 import path from 'path';
-import Localize from 'localize';
-import {
-  app,
-  ipcMain,
-  dialog,
-  globalShortcut,
-} from 'electron';
+import { app, ipcMain, globalShortcut, } from 'electron';
 
 import config from './Config';
 import MenuBarManager from './MenuBarManager';
 import OAuthManager from './OAuthManager';
-
-import ParseLocale from './utils/ParseLocale';
-
-import ImageDialogStrings from './localizations/ImageDialog.json';
 
 /*
   Variables
@@ -29,8 +18,6 @@ import ImageDialogStrings from './localizations/ImageDialog.json';
 
 let menuBarManager = null;
 let oauthManager = null;
-
-let imageDialogLocalizations = null;
 
 /*
   Developer Tools Setup
@@ -63,73 +50,6 @@ const installExtensions = async () => {
 };
 
 /*
-  File Access Functions
-*/
-
-const processFile = (filePath, callback) => {
-  const imageSize = fs.lstatSync(filePath).size / (1024 * 1024);
-  const base64ImageData = fs.readFileSync(filePath).toString('base64');
-
-  const imageDataObject = {
-    path: filePath,
-    data: base64ImageData,
-    size: imageSize,
-    extension: path.extname(filePath),
-  };
-
-  callback(imageDataObject);
-};
-
-const openImageDialog = (callback) => {
-  const properties = ['openFile', ];
-
-  // Only Mac OSX supports the openDirectory option for file dialogs
-  if (process.platform === 'darwin') {
-    properties.push('openDirectory');
-  }
-
-  dialog.showOpenDialog({
-    title: imageDialogLocalizations.translate('title'),
-    buttonLabel: imageDialogLocalizations.translate('add_button'),
-    filters: [
-      { name: imageDialogLocalizations.translate('file_type'), extensions: ['jpeg', 'jpg', 'png', 'gif', ], },
-    ],
-    properties,
-  }, (filePaths) => {
-    if (filePaths !== undefined) {
-      processFile(filePaths[0], (image) => {
-        if (image.extension === '.gif' && image.size >= 15.0) {
-          dialog.showMessageBox({
-            type: 'warning',
-            buttons: [imageDialogLocalizations.translate('warning_confirm_button'), ],
-            title: imageDialogLocalizations.translate('warning_title'),
-            message: imageDialogLocalizations.translate('warning_message'),
-            detail: imageDialogLocalizations.translate('warning_detail_gifs'),
-          }, () => {
-            callback(null);
-          });
-        } else if (image.extension !== '.gif' && image.size >= 5.0) {
-          dialog.showMessageBox({
-            type: 'warning',
-            buttons: [imageDialogLocalizations.translate('warning_confirm_button'), ],
-            title: imageDialogLocalizations.translate('warning_title'),
-            message: imageDialogLocalizations.translate('warning_message'),
-            detail: imageDialogLocalizations.translate('warning_detail_images'),
-          }, () => {
-            callback(null);
-          });
-        } else {
-          callback(image);
-        }
-      });
-    } else {
-      menuBarManager.toggleAlwaysVisible(false);
-    }
-    menuBarManager.showWindow();
-  });
-};
-
-/*
   App Events
 */
 
@@ -140,11 +60,6 @@ app.on('ready', async () => {
 
   menuBarManager = new MenuBarManager();
   oauthManager = new OAuthManager(config, menuBarManager);
-
-  imageDialogLocalizations = new Localize(ImageDialogStrings);
-
-  const locale = ParseLocale(app.getLocale());
-  imageDialogLocalizations.setLocale(locale);
 
   if (process.platform === 'darwin') {
     app.dock.hide();
@@ -282,11 +197,10 @@ ipcMain.on('quitApplication', () => {
   app.quit();
 });
 
-ipcMain.on('addImage', (addImageEvent) => {
-  menuBarManager.toggleAlwaysVisible(true);
-  openImageDialog((image) => {
-    menuBarManager.toggleAlwaysVisible(false);
-    addImageEvent.sender.send('addImageComplete', image);
-  });
+ipcMain.on('toggleVisible', (addImageEvent, bool) => {
+  menuBarManager.toggleAlwaysVisible(bool);
 });
 
+ipcMain.on('showWindow', () => {
+  menuBarManager.showWindow();
+});

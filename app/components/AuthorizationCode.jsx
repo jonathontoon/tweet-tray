@@ -2,31 +2,15 @@ import React, { Component, } from 'react';
 import PropTypes from 'prop-types';
 import Styled from 'styled-components';
 import PinInput from 'react-pin-input';
-import Localize from 'localize';
+
+import ConnectRenderer from '../containers/ConnectRenderer';
 
 import InnerContent from './InnerContent';
 import RoundedButton from './RoundedButton';
 
-import ParseLocale from '../utils/ParseLocale';
-
 import * as constants from '../constants';
 
 import Logo from '../../resources/tweet-tray-logo.svg';
-import NotificationIcon from '../../resources/notification.jpg';
-
-import AuthorizationErrorStrings from '../localizations/AuthorizationError.json';
-import AuthorizationCodeStrings from '../localizations/AuthorizationCode.json';
-
-const { ipcRenderer, remote, } = window.require('electron');
-const { app, } = remote;
-
-const locale = ParseLocale(app.getLocale());
-
-const authorizationErrorLocalizations = new Localize(AuthorizationErrorStrings);
-authorizationErrorLocalizations.setLocale(locale);
-
-const authorizationCodeLocalizations = new Localize(AuthorizationCodeStrings);
-authorizationCodeLocalizations.setLocale(locale);
 
 const AuthorizationCodeStyle = Styled.section`
   overflow: hidden;
@@ -61,6 +45,9 @@ class AuthorizationCode extends Component {
     requestTokenPair: PropTypes.object,
     onUpdateAccessTokenPair: PropTypes.func.isRequired,
     onSetUserCredentials: PropTypes.func.isRequired,
+    notifier: PropTypes.object.isRequired,
+    locales: PropTypes.object.isRequired,
+    renderer: PropTypes.object.isRequired,
   };
 
   static defaultProps = {
@@ -84,16 +71,29 @@ class AuthorizationCode extends Component {
   }
 
   componentDidMount() {
-    ipcRenderer.on('sendauthorizeCodeError', () => {
-      Notifier(authorizationErrorLocalizations.translate('title'), authorizationErrorLocalizations.translate('description'), false, NotificationIcon, null);
+    const {
+      notifier,
+      locales,
+      renderer,
+      onUpdateAccessTokenPair,
+      onSetUserCredentials,
+    } = this.props;
+
+    renderer.on('sendauthorizeCodeError', () => {
+      notifier.send(
+        locales.authorization_error.title,
+        locales.authorization_error.description,
+      );
     });
 
-    ipcRenderer.on('verifyCredentialsError', () => {
-      Notifier(authorizationErrorLocalizations.translate('title'), authorizationErrorLocalizations.translate('description'), false, NotificationIcon, null);
+    renderer.on('verifyCredentialsError', () => {
+      notifier.send(
+        locales.authorization_error.title,
+        locales.authorization_error.description,
+      );
     });
 
-    ipcRenderer.on('completedOAuth', (event, response) => {
-      const { onUpdateAccessTokenPair, onSetUserCredentials, } = this.props;
+    renderer.on('completedOAuth', (event, response) => {
       onUpdateAccessTokenPair(response.accessTokenPair);
       onSetUserCredentials(response.userCredentials);
       this.context.router.history.replace('/composer');
@@ -108,20 +108,22 @@ class AuthorizationCode extends Component {
 
   _onCodeEntered() {
     const { authorizeCode, } = this.state;
-    const { requestTokenPair, } = this.props;
-    ipcRenderer.send('sendAuthorizeCode', {
+    const { requestTokenPair, renderer, } = this.props;
+    renderer.send('sendAuthorizeCode', {
       authorizeCode,
       requestTokenPair,
     });
   }
 
   _onReturnToLogIn() {
-    ipcRenderer.send('returnToLogin');
+    const { renderer, } = this.props;
+    renderer.send('returnToLogin');
     this.context.router.history.replace('/');
   }
 
   render() {
     const { authorizeCode, } = this.state;
+    const { locales, } = this.props;
 
     return (
       <AuthorizationCodeStyle>
@@ -132,7 +134,7 @@ class AuthorizationCode extends Component {
         >
           <TwitterLogoStyle src={Logo} alt="Twitter Logo" />
           <HeaderTextStyle>
-            {authorizationCodeLocalizations.translate('title')}
+            {locales.authorization_code.title}
           </HeaderTextStyle>
           <PinInput
             length={7}
@@ -171,7 +173,7 @@ class AuthorizationCode extends Component {
             }}
             disabled={authorizeCode.length < 7}
             fullWidth
-            title={authorizationCodeLocalizations.translate('authorize_button')}
+            title={locales.authorization_code.authorize_button}
           />
           <RoundedButton
             onClick={this._onReturnToLogIn}
@@ -182,7 +184,7 @@ class AuthorizationCode extends Component {
             }}
             fullWidth
             borderButton
-            title={authorizationCodeLocalizations.translate('return_button')}
+            title={locales.authorization_code.return_button}
           />
         </InnerContent>
       </AuthorizationCodeStyle>
@@ -190,4 +192,4 @@ class AuthorizationCode extends Component {
   }
 }
 
-export default AuthorizationCode;
+export default ConnectRenderer(AuthorizationCode);

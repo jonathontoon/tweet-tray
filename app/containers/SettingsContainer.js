@@ -1,4 +1,5 @@
 import { connect, } from 'react-redux';
+
 import { toggleSettingsVisibility, toggleColorTheme, onLogout, } from '../actions/index';
 import Settings from '../components/Settings';
 

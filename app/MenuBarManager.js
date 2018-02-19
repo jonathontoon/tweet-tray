@@ -1,6 +1,7 @@
 import Positioner from 'electron-positioner';
 import path from 'path';
 import { app, BrowserWindow, Tray, screen, nativeImage, Menu, } from 'electron';
+
 import { selectionMenu, inputMenu, applicationMenu, } from './utils/Menu';
 
 class MenuBarManager {
@@ -82,7 +83,6 @@ class MenuBarManager {
     });
 
     this.window.once('ready-to-show', () => {
-
       if (this.window === null) {
         throw new Error('"window" is not defined');
       }

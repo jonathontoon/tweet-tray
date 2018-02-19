@@ -188,6 +188,7 @@
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-hot-loader": "^4.0.0-beta.13",
+    "react-localization": "^0.1.7",
     "react-pin-input": "^0.6.5",
     "react-redux": "^5.0.6",
     "react-router": "^4.2.0",

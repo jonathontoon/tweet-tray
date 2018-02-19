@@ -2,32 +2,15 @@ import React, { Component, } from 'react';
 import PropTypes from 'prop-types';
 import Styled from 'styled-components';
 import Theme from 'styled-theming';
-import Localize from 'localize';
 
-import Notifier from '../utils/Notifier';
-import ParseLocale from '../utils/ParseLocale';
+import ConnectRenderer from '../containers/ConnectRenderer';
 
 import InnerContent from './InnerContent';
 import RoundedButton from './RoundedButton';
 
 import * as constants from '../constants';
 
-import LoginStrings from '../localizations/Login.json';
-import AuthorizationErrorStrings from '../localizations/AuthorizationError.json';
-
 import Logo from '../../resources/tweet-tray-logo.svg';
-import NotificationIcon from '../../resources/notification.jpg';
-
-const { ipcRenderer, remote, } = window.require('electron');
-const { app, } = remote;
-
-const locale = ParseLocale(app.getLocale());
-
-const loginLocalizations = new Localize(LoginStrings);
-loginLocalizations.setLocale(locale);
-
-const authorizationErrorLocalizations = new Localize(AuthorizationErrorStrings);
-authorizationErrorLocalizations.setLocale(locale);
 
 const LogInStyle = Styled.section`
   overflow: hidden;
@@ -62,6 +45,9 @@ class LogIn extends Component {
     accessTokenPair: PropTypes.object,
     userCredentials: PropTypes.object,
     onUpdateRequestTokenPair: PropTypes.func.isRequired,
+    notifier: PropTypes.object.isRequired,
+    locales: PropTypes.object.isRequired,
+    renderer: PropTypes.object.isRequired,
   };
 
   static defaultProps = {
@@ -81,25 +67,36 @@ class LogIn extends Component {
   }
 
   componentDidMount() {
-    ipcRenderer.on('startOAuthError', () => {
-      Notifier(authenticationErrorLocalizations.translate('title'), authenticationErrorLocalizations.translate('description'), false, NotificationIcon, null);
+    const {
+      notifier,
+      locales,
+      renderer,
+      onUpdateRequestTokenPair,
+    } = this.props;
+
+    renderer.on('startOAuthError', () => {
+      notifier.send(
+        locales.authorization_error.title,
+        locales.authorization_error.description,
+      );
     });
 
-    ipcRenderer.on('receivedRequestTokenPair', (event, requestTokenPair) => {
-      const { onUpdateRequestTokenPair, } = this.props;
+    renderer.on('receivedRequestTokenPair', (event, requestTokenPair) => {
       onUpdateRequestTokenPair(requestTokenPair);
     });
 
-    ipcRenderer.on('startedAuthorizationCode', () => {
+    renderer.on('startedAuthorizationCode', () => {
       this.context.router.history.replace('/authorization');
     });
 
-    ipcRenderer.on('canceledOAuth', () => {
+    renderer.on('canceledOAuth', () => {
       this.context.router.history.replace('/');
     });
   }
 
   render() {
+    const { locales, renderer, } = this.props;
+
     return (
       <LogInStyle>
         <InnerContent
@@ -109,11 +106,11 @@ class LogIn extends Component {
         >
           <TwitterLogoStyle src={Logo} alt="Twitter Logo" />
           <HeaderTextStyle>
-            {loginLocalizations.translate('title', process.platform === 'win32' ? loginLocalizations.translate('taskbar') : localizations.translate('menubar'))}
+            {process.platform === 'win32' ? locales.login.title_taskbar : locales.login.title_menubuar }
           </HeaderTextStyle>
           <RoundedButton
             onClick={() => {
-              ipcRenderer.send('startOAuth');
+              renderer.send('startOAuth');
             }}
             style={{
               position: 'relative',
@@ -121,11 +118,11 @@ class LogIn extends Component {
               height: '44px',
             }}
             fullWidth
-            title={loginLocalizations.translate('sign_in_button')}
+            title={locales.login.log_in_button}
           />
           <RoundedButton
             onClick={() => {
-              ipcRenderer.send('quitApplication');
+              renderer.send('quitApplication');
             }}
             style={{
               position: 'relative',
@@ -134,7 +131,7 @@ class LogIn extends Component {
             }}
             fullWidth
             borderButton
-            title={loginLocalizations.translate('quit_button')}
+            title={locales.login.quit_button}
           />
         </InnerContent>
       </LogInStyle>
@@ -142,4 +139,4 @@ class LogIn extends Component {
   }
 }
 
-export default LogIn;
+export default ConnectRenderer(LogIn);
