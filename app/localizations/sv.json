@@ -8,8 +8,8 @@
         "description": "Din Tweet kunde inte skickas"
     },
     "login": {
-        "title_taskbar": "Skicka snabbare tweets ifrån desktopen Aktivitetsfältet, utan distraktion.",
-        "title_menubar": "Skicka snabbare tweets ifrån desktopen Menyfältet, utan distraktion.",
+        "title_taskbar": "Skicka snabbare tweets ifrån desktopens aktivitetsfältet, utan distraktion.",
+        "title_menubar": "Skicka snabbare tweets ifrån desktopens menyfältet, utan distraktion.",
         "log_in_button": "Logga in med Twitter",
         "quit_button": "Avsluta Tweet Tray"
     },
