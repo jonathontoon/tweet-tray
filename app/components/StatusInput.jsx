@@ -50,7 +50,7 @@ class StatusInput extends Component {
 
   static defaultProps = {
     placeholder: '',
-    weightedStatusText: null,
+    weightedStatusText: '',
   }
 
   constructor(props) {
@@ -62,8 +62,6 @@ class StatusInput extends Component {
   }
 
   componentDidMount() {
-    const { renderer, } = this.props;
-
     this._adjustTextarea({});
     this._focusTextArea({});
   }
@@ -110,15 +108,12 @@ class StatusInput extends Component {
   }
 
   render() {
-    const { placeholder, style, weightedStatusText, } = this.props;
-
-    const defaultValue = weightedStatusText === null ? '' : weightedStatusText;
-
+    const { placeholder, weightedStatusText, } = this.props;
     return (
       <StatusInputStyle>
         <textarea
           ref={(x) => { this.el = x; }}
-          className="TextArea"
+          className="textArea"
           autoCapitalize="sentences"
           placeholder={placeholder}
           rows={1}
@@ -128,7 +123,7 @@ class StatusInput extends Component {
           onInput={this._onTextAreaUpdate}
           onKeyUp={this._onTextAreaUpdate}
           onChange={this._onTextAreaUpdate}
-          defaultValue={defaultValue}
+          defaultValue={weightedStatusText}
         />
       </StatusInputStyle>
     );
