@@ -21,6 +21,6 @@ function setup() {
 describe('StatusInput component', () => {
   it('should display textarea value', () => {
     const { textarea, } = setup();
-    expect(textarea.prop("defaultValue")).toMatchSnapshot();
+    expect(textarea.prop('defaultValue')).toMatchSnapshot();
   });
 });

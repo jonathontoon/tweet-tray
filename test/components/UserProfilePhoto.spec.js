@@ -21,7 +21,7 @@ function setup() {
 describe('UserProfilePhoto component', () => {
   it('should display profile image with src', () => {
     const { image, } = setup();
-    expect(image.find("img").prop("src")).toMatchSnapshot();
+    expect(image.find('img').prop('src')).toMatchSnapshot();
   });
 
   it('should display word counter arc with 74% filled', () => {
