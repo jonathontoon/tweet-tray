@@ -136,7 +136,7 @@ ipcMain.on('sendAuthorizeCode', (sendAuthorizeCodeEvent, data) => {
             timeZone: credentials.time_zone,
             geoEnabled: credentials.geo_enabled,
             lang: credentials.lang,
-            profileImageURL: credentials.profile_image_url_https,
+            profileImageURL: credentials.profile_image_url_https.replace('_normal.jpg', '.jpg'),
           };
 
           sendAuthorizeCodeEvent.sender.send('completedOAuth', {

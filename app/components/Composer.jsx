@@ -34,6 +34,7 @@ const ComposerStyle = Styled.section`
 class Composer extends Component {
   static propTypes = {
     weightedStatus: PropTypes.object,
+    userCredentials: PropTypes.object,
     accessTokenPair: PropTypes.object,
     onToggleSettingsVisibility: PropTypes.func.isRequired,
     onUpdateWeightedStatus: PropTypes.func.isRequired,
@@ -44,6 +45,7 @@ class Composer extends Component {
 
   static defaultProps = {
     weightedStatus: null,
+    userCredentials: null,
     accessTokenPair: null,
   };
 
@@ -133,8 +135,10 @@ class Composer extends Component {
 
   render() {
     const { image, } = this.state;
-    const { weightedStatus, onToggleSettingsVisibility, locales, } = this.props;
+    const { userCredentials, weightedStatus, onToggleSettingsVisibility, locales, } = this.props;
 
+    const profilePhotoURL = userCredentials !== null ? userCredentials.profileImageURL : null;
+    const weightedTextAmount = weightedStatus !== null ? weightedStatus.permillage : null
     const imageDataSource = image !== null ? [image, ] : null;
 
     return (
@@ -169,7 +173,10 @@ class Composer extends Component {
               height: 'calc(100% - 136px)',
             }}
           >
-            <UserProfilePhoto />
+            <UserProfilePhoto
+              profilePhotoURL={profilePhotoURL}
+              weightedTextAmount={weightedTextAmount}
+            />
             <StatusInput placeholder={locales.composer.placeholder} />
             <MediaListView
               dataSource={imageDataSource}

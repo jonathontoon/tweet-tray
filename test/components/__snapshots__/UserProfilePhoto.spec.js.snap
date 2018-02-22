@@ -1,0 +1,5 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`UserProfilePhoto component should display profile image 1`] = `"https://pbs.twimg.com/profile_images/960374717726130182/AS3TkK0J_normal.jpg"`;
+
+exports[`UserProfilePhoto component should display word counter arc with 74% filled 1`] = `74`;
