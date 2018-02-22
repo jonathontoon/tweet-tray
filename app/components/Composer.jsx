@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import Styled from 'styled-components';
 import Theme from 'styled-theming';
 
-import ConnectRenderer from '../containers/ConnectRenderer';
+import ConnectUtilities from '../containers/ConnectUtilities';
 
 import Header from './Header';
 import SettingsContainer from '../containers/SettingsContainer';
@@ -34,16 +34,18 @@ const ComposerStyle = Styled.section`
 class Composer extends Component {
   static propTypes = {
     weightedStatus: PropTypes.object,
+    userCredentials: PropTypes.object,
     accessTokenPair: PropTypes.object,
     onToggleSettingsVisibility: PropTypes.func.isRequired,
     onUpdateWeightedStatus: PropTypes.func.isRequired,
-    notifier: PropTypes.object.isRequired,
-    locales: PropTypes.object.isRequired,
     renderer: PropTypes.object.isRequired,
+    notificationManager: PropTypes.object.isRequired,
+    localeManager: PropTypes.object.isRequired,
   };
 
   static defaultProps = {
     weightedStatus: null,
+    userCredentials: null,
     accessTokenPair: null,
   };
 
@@ -59,7 +61,27 @@ class Composer extends Component {
   }
 
   componentDidMount() {
-    const { notifier, locales, renderer, } = this.props;
+    const { renderer, notificationManager, localeManager, } = this.props;
+
+    renderer.on('postStatusError', () => {
+      notificationManager.send(
+        localeManager.post_status_error.title,
+        localeManager.post_status_error.description,
+        false,
+        null,
+      );
+    });
+
+    renderer.on('postStatusComplete', (event, response) => {
+      notificationManager.send(
+        localeManager.post_status_success.title,
+        localeManager.post_status_success.description,
+        false,
+        () => {
+          shell.openExternal(`https://twitter.com/${response.user.screen_name}/status/${response.id_str}`);
+        }
+      );
+    });
 
     renderer.on('addImageComplete', (event, response) => {
       this._addImage(response);
@@ -67,23 +89,6 @@ class Composer extends Component {
 
     renderer.on('addGIFComplete', (event, response) => {
       this._addImage(response);
-    });
-
-    renderer.on('postStatusError', () => {
-      notifier.send(
-        locales.post_status_error.title,
-        locales.post_status_error.description,
-      );
-    });
-
-    renderer.on('postStatusComplete', (event, response) => {
-      notifier.send(
-        locales.post_status_success.title,
-        locales.post_status_success.description,
-        () => {
-          shell.openExternal(`https://twitter.com/${response.user.screen_name}/status/${response.id_str}`);
-        }
-      );
     });
 
     renderer.on('send-tweet-shortcut', () => {
@@ -111,102 +116,108 @@ class Composer extends Component {
     }
 
     const { image, } = this.state;
-    const { accessTokenPair, weightedStatus, } = this.props;
+    const { renderer, accessTokenPair, weightedStatus, } = this.props;
 
     const statusText = weightedStatus === null ? '' : weightedStatus.text;
     const imageData = image ? image.data : null;
 
-    const statusData = {
+    renderer.send('postStatus', {
       accessTokenPair,
       statusText,
       imageData,
-    };
-
-    this.setState({
-      image: null,
     });
+
+    this.setState({ image: null, });
     this.props.onUpdateWeightedStatus(null);
-    this._composerForm.reset();
-    ipcRenderer.send('postStatus', statusData);
     this.forceUpdate();
   }
 
   render() {
     const { image, } = this.state;
-    const { weightedStatus, onToggleSettingsVisibility, locales, } = this.props;
+    const {
+      userCredentials,
+      weightedStatus,
+      onUpdateWeightedStatus,
+      onToggleSettingsVisibility,
+      localeManager,
+    } = this.props;
 
+    const profilePhotoURL = userCredentials !== null ? userCredentials.profileImageURL : null;
+    const weightedStatusText = weightedStatus === null ? null : weightedStatus.text;
+    const weightedTextAmount = weightedStatus !== null ? weightedStatus.permillage : null;
     const imageDataSource = image !== null ? [image, ] : null;
 
     return (
       <ComposerStyle>
         <Header
-          title={locales.composer.title}
+          title={localeManager.composer.title}
           right={
             <IconButton
               iconSrc={SettingsIcon}
-              altText={locales.composer.settings_alt_text}
+              altText={localeManager.composer.settings_alt_text}
               onClick={() => {
                 onToggleSettingsVisibility(true);
               }}
             />
           }
         />
-        <form
-          onSubmit={this._postStatus}
+        <InnerContent
           style={{
-            display: 'inline',
-          }}
-          ref={(el) => {
-            this._composerForm = el;
+            position: 'relative',
+            top: '51px',
+            left: '0px',
+            minHeight: '180px',
+            height: 'calc(100% - 136px)',
           }}
         >
-          <InnerContent
-            style={{
-              position: 'relative',
-              top: '51px',
-              left: '0px',
-              minHeight: '180px',
-              height: 'calc(100% - 136px)',
+          <UserProfilePhoto
+            profilePhotoURL={profilePhotoURL}
+            weightedTextAmount={weightedTextAmount}
+          />
+          <StatusInput
+            placeholder={localeManager.composer.placeholder}
+            weightedStatusText={weightedStatusText}
+            updateWeightedStatus={onUpdateWeightedStatus}
+          />
+          <MediaListView
+            dataSource={imageDataSource}
+            onRemoveImage={() => {
+              this._removeImage();
             }}
-          >
-            <UserProfilePhoto />
-            <StatusInput placeholder={locales.composer.placeholder} />
-            <MediaListView
-              dataSource={imageDataSource}
-              onRemoveImage={() => {
-                this._removeImage();
+          />
+        </InnerContent>
+        <Footer
+          left={
+            <Fragment>
+              <IconButton
+                disabled={image !== null}
+                iconSrc={PhotoIcon}
+                altText={localeManager.composer.image_alt_text}
+                onClick={(e) => {
+                  e.preventDefault();
+                  this._addImage();
+                }}
+              />
+            </Fragment>
+            }
+          right={
+            <RoundedButton
+              disabled={weightedStatus === null && image === null}
+              title={localeManager.composer.tweet_button}
+              fullWidth={false}
+              type="submit"
+              onClick={(e) => {
+                e.preventDefault();
+                this._postStatus();
               }}
             />
-          </InnerContent>
-          <Footer
-            left={
-              <Fragment>
-                <IconButton
-                  disabled={image !== null}
-                  iconSrc={PhotoIcon}
-                  altText={locales.composer.image_alt_text}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    this._addImage();
-                  }}
-                />
-              </Fragment>
             }
-            right={
-              <RoundedButton
-                disabled={weightedStatus === null && image === null}
-                title={locales.composer.tweet_button}
-                fullWidth={false}
-                type="submit"
-              />
-            }
-          />
-        </form>
+        />
         <SettingsContainer />
       </ComposerStyle>
     );
   }
 }
 
-export default ConnectRenderer(Composer);
+export default ConnectUtilities(Composer);
 

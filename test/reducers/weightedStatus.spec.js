@@ -4,7 +4,6 @@ import * as testData from '../testData';
 
 describe('reducers', () => {
   describe('weightedStatus', () => {
-
     it('should handle initial state', () => {
       expect(weightedStatus(null, {})).toMatchSnapshot();
     });

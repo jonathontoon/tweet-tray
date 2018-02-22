@@ -6,6 +6,7 @@ import Composer from '../components/Composer';
 const mapStateToProps = (store) => {
   return {
     weightedStatus: store.weightedStatus,
+    userCredentials: store.userCredentials,
     accessTokenPair: store.accessTokenPair,
   };
 };

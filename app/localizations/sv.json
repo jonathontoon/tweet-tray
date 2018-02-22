@@ -36,7 +36,7 @@
         "warning_title": "Varning",
         "warning_message": "Förlåt, du kan inte gör den",
         "warning_detail_images": "Bilder måste vara under 5mb",
-        "warning_detail_gif": "GIFs måste vara under 15mb",
+        "warning_detail_gif": "GIFs måste vara under 10mb",
         "warning_confirm_button": "OK"
     },
     "settings": {

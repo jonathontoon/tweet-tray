@@ -7,7 +7,7 @@ import englishNZ from '../localizations/en-NZ.json';
 import englishUS from '../localizations/en-US.json';
 import englishZA from '../localizations/en-ZA.json';
 
-const Locales = () => {
+const LocaleManager = () => {
   return new LocalizedStrings({
     'en-AU': englishAU,
     'en-CA': englishCA,
@@ -18,4 +18,4 @@ const Locales = () => {
   });
 };
 
-export default Locales;
+export default LocaleManager;

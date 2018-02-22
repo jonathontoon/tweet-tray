@@ -200,8 +200,6 @@ class MenuBarManager {
 
     if (process.platform === 'darwin') { this._tray.setHighlightMode('always'); }
     this.window.show();
-
-    this.window.webContents.send('focus-textarea');
   }
 
   hideWindow() {

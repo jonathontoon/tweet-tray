@@ -2,7 +2,7 @@ import React, { Component, } from 'react';
 import PropTypes from 'prop-types';
 import Styled from 'styled-components';
 
-import ConnectRenderer from '../containers/ConnectRenderer';
+import ConnectUtilities from '../containers/ConnectUtilities';
 
 import InnerContent from './InnerContent';
 import ListView from './ListView';
@@ -35,8 +35,7 @@ class Settings extends Component {
     colorTheme: PropTypes.string.isRequired,
     onToggleColorTheme: PropTypes.func.isRequired,
     shouldLogout: PropTypes.func.isRequired,
-    locales: PropTypes.object.isRequired,
-    renderer: PropTypes.object.isRequired,
+    localeManager: PropTypes.object.isRequired,
   };
 
   static contextTypes = {
@@ -50,8 +49,7 @@ class Settings extends Component {
       colorTheme,
       onToggleColorTheme,
       shouldLogout,
-      locales,
-      renderer,
+      localeManager,
     } = this.props;
 
     return (
@@ -71,20 +69,20 @@ class Settings extends Component {
           <ListView
             dataSource={
               [{
-                title: colorTheme === 'day' ? locales.settings.night_mode_enable_action : locales.settings.night_mode_disable_action,
+                title: colorTheme === 'day' ? localeManager.settings.night_mode_enable_action : localeManager.settings.night_mode_disable_action,
                 action: (e) => {
                   e.stopPropagation();
                   onToggleColorTheme(colorTheme === 'day' ? 'night' : 'day');
                   onToggleSettingsVisibility(false);
                 },
               }, {
-                title: locales.settings.quit_action,
+                title: localeManager.settings.quit_action,
                 action: (e) => {
                   e.stopPropagation();
                   renderer.send('quitApplication');
                 },
               }, {
-                title: locales.settings.log_out_action,
+                title: localeManager.settings.log_out_action,
                 action: (e) => {
                   e.stopPropagation();
                   onToggleSettingsVisibility(false);
@@ -93,7 +91,7 @@ class Settings extends Component {
                 },
                 type: 'warning',
               }, {
-                title: locales.settings.cancel_action,
+                title: localeManager.settings.cancel_action,
                 action: (e) => {
                   e.stopPropagation();
                   onToggleSettingsVisibility(false);
@@ -108,5 +106,5 @@ class Settings extends Component {
   }
 }
 
-export default ConnectRenderer(Settings);
+export default ConnectUtilities(Settings);
 

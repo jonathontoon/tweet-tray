@@ -4,7 +4,6 @@ import * as testData from '../testData';
 
 describe('reducers', () => {
   describe('userCredentials', () => {
-
     it('should handle initial state', () => {
       expect(userCredentials(null, {})).toMatchSnapshot();
     });

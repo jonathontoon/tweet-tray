@@ -1,5 +1,4 @@
 import React, { Component, } from 'react';
-import { connect, } from 'react-redux';
 import PropTypes from 'prop-types';
 import Styled from 'styled-components';
 import Theme from 'styled-theming';
@@ -35,7 +34,7 @@ const WordCounterStyle = Styled.div`
     top: -1px;
     left: -1px;
 
-    .SVG {
+    .progressArc {
         height: 100%;
         width: 100%;
         margin: 0px;
@@ -50,35 +49,34 @@ const WordCounterStyle = Styled.div`
 
 class UserProfilePhoto extends Component {
   static propTypes = {
-    userCredentials: PropTypes.object,
-    weightedStatus: PropTypes.object,
+    profilePhotoURL: PropTypes.string,
+    weightedTextAmount: PropTypes.number,
   }
 
   static defaultProps = {
-    userCredentials: null,
-    weightedStatus: null,
+    profilePhotoURL: null,
+    weightedTextAmount: null,
   }
 
   constructor(props) {
     super(props);
 
-    this._profileImageURL = this._profileImageURL.bind(this);
     this._calculateArcValue = this._calculateArcValue.bind(this);
     this._calculateArcColor = this._calculateArcColor.bind(this);
   }
 
   _calculateArcColor() {
-    const { weightedStatus, } = this.props;
+    const { weightedTextAmount, } = this.props;
 
     let color = null;
 
-    if (weightedStatus !== null) {
-      if (weightedStatus.permillage > 1000) {
+    if (weightedTextAmount !== null) {
+      if (weightedTextAmount > 1000) {
         color = constants.RED;
       } else {
         color = constants.BLUE;
 
-        if (weightedStatus.permillage >= 900) {
+        if (weightedTextAmount >= 900) {
           color = constants.YELLOW;
         }
       }
@@ -90,36 +88,28 @@ class UserProfilePhoto extends Component {
   }
 
   _calculateArcValue() {
-    const { weightedStatus, } = this.props;
+    const { weightedTextAmount, } = this.props;
 
     let arcValue = 0;
 
-    if (weightedStatus !== null) {
-      if (weightedStatus.permillage > 1000) {
+    if (weightedTextAmount !== null) {
+      if (weightedTextAmount > 1000) {
         arcValue = parseInt(100, 10);
       } else {
-        arcValue = parseInt((weightedStatus.permillage / 10), 10);
+        arcValue = parseInt((weightedTextAmount / 10), 10);
       }
     }
 
     return arcValue;
   }
 
-  _profileImageURL() {
-    const { userCredentials, } = this.props;
-
-    if (userCredentials !== null) {
-      return userCredentials.profileImageURL.replace('_normal.jpg', '.jpg');
-    }
-
-    return null;
-  }
-
   render() {
+    const { profilePhotoURL, } = this.props;
+
     return (
       <UserProfilePhotoStyle>
         <ProfilePhotoImageStyle>
-          <img src={this._profileImageURL()} alt="Profile" width="52" height="52" />
+          <img src={profilePhotoURL} alt="Profile" width="52" height="52" />
         </ProfilePhotoImageStyle>
         <WordCounterStyle>
           <ProgressArc
@@ -127,7 +117,7 @@ class UserProfilePhoto extends Component {
             arcColor={this._calculateArcColor()}
             rounded
             arcBackgroundColor="transparent"
-            className="SVG"
+            className="progressArc"
             value={this._calculateArcValue()}
           />
         </WordCounterStyle>
@@ -136,12 +126,4 @@ class UserProfilePhoto extends Component {
   }
 }
 
-const mapStateToProps = (store) => {
-  return {
-    weightedStatus: store.weightedStatus,
-    userCredentials: store.userCredentials,
-  };
-};
-
-export default connect(mapStateToProps, null)(UserProfilePhoto);
-
+export default UserProfilePhoto;

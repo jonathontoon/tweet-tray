@@ -57,14 +57,12 @@ const ProgressArc = (props) => {
       viewBox="0 0 200 200"
     >
       <circle className="arc-background" r={radius} />
-
       <circle
         className="arc"
         r={radius}
         strokeDashoffset={((max - value) / max) * p}
         strokeDasharray={p}
       />
-
       {textVisible &&
         <text
           x="100"

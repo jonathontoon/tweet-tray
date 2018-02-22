@@ -83,8 +83,9 @@ class RoundedButton extends Component {
         className={`${fullWidth ? 'fullWidth' : ''} ${borderButton ? 'borderButton' : ''}`}
         onClick={onClick}
         disabled={disabled}
+        value={title}
       >
-        { title }
+        {title}
       </RoundedButtonStyle>
     );
   }

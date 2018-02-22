@@ -58,6 +58,8 @@ app.on('ready', async () => {
     await installExtensions();
   }
 
+  app.setAppUserModelId('org.jonathontoon.tweettray');
+
   menuBarManager = new MenuBarManager();
   oauthManager = new OAuthManager(config, menuBarManager);
 
@@ -75,7 +77,7 @@ app.on('ready', async () => {
 
   globalShortcut.register(`${process.platform === 'darwin' ? 'Cmd' : 'Ctrl'}+Enter`, () => {
     if (menuBarManager.window !== null && menuBarManager.isWindowVisible()) {
-      windowManager.window.webContents.send('send-tweet-shortcut');
+      menuBarManager.window.webContents.send('send-tweet-shortcut');
     }
   });
 });
@@ -136,7 +138,7 @@ ipcMain.on('sendAuthorizeCode', (sendAuthorizeCodeEvent, data) => {
             timeZone: credentials.time_zone,
             geoEnabled: credentials.geo_enabled,
             lang: credentials.lang,
-            profileImageURL: credentials.profile_image_url_https,
+            profileImageURL: credentials.profile_image_url_https.replace('_normal.jpg', '.jpg'),
           };
 
           sendAuthorizeCodeEvent.sender.send('completedOAuth', {
@@ -173,6 +175,7 @@ ipcMain.on('postStatus', (postStatusEvent, response) => {
           postStatusEvent.sender.send('postStatusError', statusResponse);
           return;
         }
+        console.log('postStatusComplete 1');
         postStatusEvent.sender.send('postStatusComplete', statusResponse);
       });
     });
@@ -184,6 +187,7 @@ ipcMain.on('postStatus', (postStatusEvent, response) => {
         postStatusEvent.sender.send('postStatusError', statusResponse);
         return;
       }
+      console.log('postStatusComplete 2');
       postStatusEvent.sender.send('postStatusComplete', statusResponse);
     });
   }

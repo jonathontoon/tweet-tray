@@ -3,14 +3,13 @@ import PropTypes from 'prop-types';
 import Styled from 'styled-components';
 import PinInput from 'react-pin-input';
 
-import ConnectRenderer from '../containers/ConnectRenderer';
+import ConnectUtilities from '../containers/ConnectUtilities';
 
 import InnerContent from './InnerContent';
+import Logo from './Logo';
 import RoundedButton from './RoundedButton';
 
 import * as constants from '../constants';
-
-import Logo from '../../resources/tweet-tray-logo.svg';
 
 const AuthorizationCodeStyle = Styled.section`
   overflow: hidden;
@@ -19,13 +18,6 @@ const AuthorizationCodeStyle = Styled.section`
   height: 100%;
   background-color: ${constants.WHITE};
   position: relative;
-`;
-
-const TwitterLogoStyle = Styled.img`
-    width: 34px;
-    height: 28px;
-    position: relative;
-    top: 40px;
 `;
 
 const HeaderTextStyle = Styled.h1`
@@ -45,9 +37,9 @@ class AuthorizationCode extends Component {
     requestTokenPair: PropTypes.object,
     onUpdateAccessTokenPair: PropTypes.func.isRequired,
     onSetUserCredentials: PropTypes.func.isRequired,
-    notifier: PropTypes.object.isRequired,
-    locales: PropTypes.object.isRequired,
     renderer: PropTypes.object.isRequired,
+    notificationManager: PropTypes.object.isRequired,
+    localeManager: PropTypes.object.isRequired,
   };
 
   static defaultProps = {
@@ -72,24 +64,28 @@ class AuthorizationCode extends Component {
 
   componentDidMount() {
     const {
-      notifier,
-      locales,
       renderer,
+      notificationManager,
+      localeManager,
       onUpdateAccessTokenPair,
       onSetUserCredentials,
     } = this.props;
 
     renderer.on('sendauthorizeCodeError', () => {
-      notifier.send(
-        locales.authorization_error.title,
-        locales.authorization_error.description,
+      notificationManager.send(
+        localeManager.authorization_error.title,
+        localeManager.authorization_error.description,
+        false,
+        null,
       );
     });
 
     renderer.on('verifyCredentialsError', () => {
-      notifier.send(
-        locales.authorization_error.title,
-        locales.authorization_error.description,
+      notificationManager.send(
+        localeManager.authorization_error.title,
+        localeManager.authorization_error.description,
+        false,
+        null,
       );
     });
 
@@ -123,7 +119,7 @@ class AuthorizationCode extends Component {
 
   render() {
     const { authorizeCode, } = this.state;
-    const { locales, } = this.props;
+    const { localeManager, } = this.props;
 
     return (
       <AuthorizationCodeStyle>
@@ -132,9 +128,9 @@ class AuthorizationCode extends Component {
             height: 'calc(100% - 30px)',
           }}
         >
-          <TwitterLogoStyle src={Logo} alt="Twitter Logo" />
+          <Logo />
           <HeaderTextStyle>
-            {locales.authorization_code.title}
+            {localeManager.authorization_code.title}
           </HeaderTextStyle>
           <PinInput
             length={7}
@@ -173,7 +169,7 @@ class AuthorizationCode extends Component {
             }}
             disabled={authorizeCode.length < 7}
             fullWidth
-            title={locales.authorization_code.authorize_button}
+            title={localeManager.authorization_code.authorize_button}
           />
           <RoundedButton
             onClick={this._onReturnToLogIn}
@@ -184,7 +180,7 @@ class AuthorizationCode extends Component {
             }}
             fullWidth
             borderButton
-            title={locales.authorization_code.return_button}
+            title={localeManager.authorization_code.return_button}
           />
         </InnerContent>
       </AuthorizationCodeStyle>
@@ -192,4 +188,4 @@ class AuthorizationCode extends Component {
   }
 }
 
-export default ConnectRenderer(AuthorizationCode);
+export default ConnectUtilities(AuthorizationCode);

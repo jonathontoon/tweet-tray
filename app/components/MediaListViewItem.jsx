@@ -1,4 +1,3 @@
-import path from 'path';
 import React from 'react';
 import PropTypes from 'prop-types';
 import Styled from 'styled-components';
@@ -62,7 +61,7 @@ const MediaListViewItem = (props) => {
   return (
     <MediaListViewItemStyle>
       <MediaImageStyle src={`data:image/jpeg;base64,${media.data}`} alt="To Upload" />
-      {path.extname(media.path) === '.gif' && (
+      {media.path.includes('.gif') && (
         <MediaGIFLabelStyle src={GIFLabelIcon} alt="GIF" />
       )}
       <MediaCloseButtonStyle onClick={action}>

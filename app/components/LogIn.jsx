@@ -3,14 +3,13 @@ import PropTypes from 'prop-types';
 import Styled from 'styled-components';
 import Theme from 'styled-theming';
 
-import ConnectRenderer from '../containers/ConnectRenderer';
+import ConnectUtilities from '../containers/ConnectUtilities';
 
 import InnerContent from './InnerContent';
+import Logo from './Logo';
 import RoundedButton from './RoundedButton';
 
 import * as constants from '../constants';
-
-import Logo from '../../resources/tweet-tray-logo.svg';
 
 const LogInStyle = Styled.section`
   overflow: hidden;
@@ -19,13 +18,6 @@ const LogInStyle = Styled.section`
   height: 100%;
   background-color: ${Theme('mode', { day: constants.WHITE, night: constants.DARK_MODE_BACKGROUND, })};
   position: relative;
-`;
-
-const TwitterLogoStyle = Styled.img`
-  width: 34px;
-  height: 28px;
-  position: relative;
-  top: 40px;
 `;
 
 const HeaderTextStyle = Styled.h1`
@@ -45,9 +37,9 @@ class LogIn extends Component {
     accessTokenPair: PropTypes.object,
     userCredentials: PropTypes.object,
     onUpdateRequestTokenPair: PropTypes.func.isRequired,
-    notifier: PropTypes.object.isRequired,
-    locales: PropTypes.object.isRequired,
     renderer: PropTypes.object.isRequired,
+    notificationManager: PropTypes.object.isRequired,
+    localeManager: PropTypes.object.isRequired,
   };
 
   static defaultProps = {
@@ -68,16 +60,18 @@ class LogIn extends Component {
 
   componentDidMount() {
     const {
-      notifier,
-      locales,
       renderer,
+      notificationManager,
+      localeManager,
       onUpdateRequestTokenPair,
     } = this.props;
 
     renderer.on('startOAuthError', () => {
-      notifier.send(
-        locales.authorization_error.title,
-        locales.authorization_error.description,
+      notificationManager.send(
+        localeManager.authorization_error.title,
+        localeManager.authorization_error.description,
+        false,
+        null,
       );
     });
 
@@ -95,7 +89,7 @@ class LogIn extends Component {
   }
 
   render() {
-    const { locales, renderer, } = this.props;
+    const { localeManager, renderer, } = this.props;
 
     return (
       <LogInStyle>
@@ -104,9 +98,9 @@ class LogIn extends Component {
             height: 'calc(100% - 30px)',
           }}
         >
-          <TwitterLogoStyle src={Logo} alt="Twitter Logo" />
+          <Logo />
           <HeaderTextStyle>
-            {process.platform === 'win32' ? locales.login.title_taskbar : locales.login.title_menubuar }
+            {process.platform === 'win32' ? localeManager.login.title_taskbar : localeManager.login.title_menubuar }
           </HeaderTextStyle>
           <RoundedButton
             onClick={() => {
@@ -118,7 +112,7 @@ class LogIn extends Component {
               height: '44px',
             }}
             fullWidth
-            title={locales.login.log_in_button}
+            title={localeManager.login.log_in_button}
           />
           <RoundedButton
             onClick={() => {
@@ -131,7 +125,7 @@ class LogIn extends Component {
             }}
             fullWidth
             borderButton
-            title={locales.login.quit_button}
+            title={localeManager.login.quit_button}
           />
         </InnerContent>
       </LogInStyle>
@@ -139,4 +133,4 @@ class LogIn extends Component {
   }
 }
 
-export default ConnectRenderer(LogIn);
+export default ConnectUtilities(LogIn);

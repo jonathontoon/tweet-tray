@@ -56,7 +56,7 @@ ListViewItem.propTypes = {
 };
 
 ListViewItem.defaultProps = {
-  type: '',
+  type: null,
 };
 
 export default ListViewItem;
