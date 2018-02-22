@@ -34,7 +34,7 @@ const WordCounterStyle = Styled.div`
     top: -1px;
     left: -1px;
 
-    .SVG {
+    .progressArc {
         height: 100%;
         width: 100%;
         margin: 0px;
@@ -117,7 +117,7 @@ class UserProfilePhoto extends Component {
             arcColor={this._calculateArcColor()}
             rounded
             arcBackgroundColor="transparent"
-            className="SVG"
+            className="progressArc"
             value={this._calculateArcValue()}
           />
         </WordCounterStyle>

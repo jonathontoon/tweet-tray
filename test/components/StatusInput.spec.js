@@ -1,5 +1,4 @@
 import React from 'react';
-import { spy } from 'sinon';
 import Enzyme, { shallow, } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 import StatusInput from '../../app/components/StatusInput';
@@ -11,17 +10,17 @@ function setup() {
   const component = shallow(<StatusInput
     placeholder={'What\'s happening?'}
     weightedStatusText={testData.weightedStatus.text}
-    updateWeightedStatus={() => { return true; }}
+    updateWeightedStatus={(status) => { return status; }}
   />);
   return {
     component,
-    textArea: component.find('textarea'),
+    textarea: component.find('textarea'),
   };
 }
 
 describe('StatusInput component', () => {
-  it('should display textarea', () => {
-    const { textArea, } = setup();
-    expect(textArea.prop("defaultValue")).toMatchSnapshot();
+  it('should display textarea value', () => {
+    const { textarea, } = setup();
+    expect(textarea.prop("defaultValue")).toMatchSnapshot();
   });
 });

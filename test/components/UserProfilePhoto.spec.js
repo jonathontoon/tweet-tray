@@ -14,12 +14,12 @@ function setup() {
   return {
     component,
     image: component.find('img'),
-    arc: component.find('.SVG'),
+    arc: component.find('.progressArc'),
   };
 }
 
 describe('UserProfilePhoto component', () => {
-  it('should display profile image', () => {
+  it('should display profile image with src', () => {
     const { image, } = setup();
     expect(image.find("img").prop("src")).toMatchSnapshot();
   });

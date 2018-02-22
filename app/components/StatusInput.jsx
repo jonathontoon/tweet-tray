@@ -17,7 +17,7 @@ const StatusInputStyle = Styled.div`
     margin-bottom: ${constants.SPACING}px;
     background-color: transparent;
 
-    .TextArea {
+    & > textarea {
         line-height: 26px;
         outline: 0;
         border: 0;
