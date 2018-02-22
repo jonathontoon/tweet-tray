@@ -1,12 +1,11 @@
 import React, { Component, } from 'react';
-import { ipcRenderer, remote, } from 'electron';
+import { ipcRenderer, shell, } from 'electron';
+
 import NotificationManager from '../utils/NotificationManager';
 import LocaleManager from '../utils/LocaleManager';
 
 const notificationManager = new NotificationManager();
 const localeManager = LocaleManager();
-
-const renderer = ipcRenderer;
 
 const ConnectUtilities = (WrappedComponent) => {
   return class extends Component {
@@ -15,7 +14,8 @@ const ConnectUtilities = (WrappedComponent) => {
       this.state = {
         notificationManager,
         localeManager,
-        renderer,
+        renderer: ipcRenderer,
+        shell,
       };
     }
 
@@ -25,6 +25,7 @@ const ConnectUtilities = (WrappedComponent) => {
           notificationManager={this.state.notificationManager}
           localeManager={this.state.localeManager}
           renderer={this.state.renderer}
+          shell={this.state.shell}
           {...this.props}
         />
       );

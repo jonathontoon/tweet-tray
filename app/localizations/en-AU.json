@@ -36,7 +36,7 @@
         "warning_title": "Warning",
         "warning_message": "Sorry, you can't do that",
         "warning_detail_images": "Images must be less than 5mb.",
-        "warning_detail_gif": "GIFs must be less than 15mb.",
+        "warning_detail_gif": "GIFs must be less than 10mb.",
         "warning_confirm_button": "OK"
     },
     "settings": {

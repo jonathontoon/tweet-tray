@@ -47,8 +47,8 @@ class StatusInput extends Component {
   }
 
   static defaultProps = {
-    placeholder: '',
-    weightedStatusText: '',
+    placeholder: null,
+    weightedStatusText: null,
   }
 
   constructor(props) {
@@ -121,7 +121,7 @@ class StatusInput extends Component {
           onInput={this._onTextAreaUpdate}
           onKeyUp={this._onTextAreaUpdate}
           onChange={this._onTextAreaUpdate}
-          defaultValue={weightedStatusText}
+          value={weightedStatusText === null ? '' : weightedStatusText}
         />
       </StatusInputStyle>
     );

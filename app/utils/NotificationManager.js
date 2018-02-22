@@ -1,10 +1,15 @@
-class NotificationManager {
+import NotificationIcon from '../../resources/notification.jpg';
 
-  static send(title, body, isSilent = false, callback = null) {
+class NotificationManager {
+  constructor() {
+    this.send = this.send.bind(this);
+  }
+
+  send(title, body, isSilent, callback) {
     const notification = new Notification(title, {
       body,
       silent: isSilent,
-      icon: process.platform === 'darwin' ? null : '../../resources/notification.jpg',
+      icon: NotificationIcon,
     });
     notification.onclick = () => {
       callback();

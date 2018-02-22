@@ -36,7 +36,7 @@
         "warning_title": "Warnung",
         "warning_message": "Entschuldigung, das kannst du nicht machen.",
         "warning_detail_images": "Fotos müssen kleiner als 5MB sein.",
-        "warning_detail_gif": "GIFs müssen kleiner als 15MB sein.",
+        "warning_detail_gif": "GIFs müssen kleiner als 10MB sein.",
         "warning_confirm_button": "OK"
     },
     "settings": {

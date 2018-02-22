@@ -42,7 +42,7 @@ const ImageDialog = (callback) => {
   }, (filePaths) => {
     if (filePaths !== undefined) {
       processFile(filePaths[0], (image) => {
-        if (image.extension === '.gif' && image.size >= 15.0) {
+        if (image.extension === '.gif' && image.size >= 10.0) {
           dialog.showMessageBox({
             type: 'warning',
             buttons: [localeManager.image_dialog.warning_confirm_button, ],

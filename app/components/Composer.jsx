@@ -41,6 +41,7 @@ class Composer extends Component {
     renderer: PropTypes.object.isRequired,
     notificationManager: PropTypes.object.isRequired,
     localeManager: PropTypes.object.isRequired,
+    shell: PropTypes.object.isRequired,
   };
 
   static defaultProps = {
@@ -61,7 +62,7 @@ class Composer extends Component {
   }
 
   componentDidMount() {
-    const { notificationManager, localeManager, renderer, } = this.props;
+    const { notificationManager, localeManager, renderer, shell, } = this.props;
 
     renderer.on('addImageComplete', (event, response) => {
       this._addImage(response);
@@ -75,6 +76,8 @@ class Composer extends Component {
       notificationManager.send(
         localeManager.post_status_error.title,
         localeManager.post_status_error.description,
+        false,
+        null,
       );
     });
 
@@ -82,6 +85,7 @@ class Composer extends Component {
       notificationManager.send(
         localeManager.post_status_success.title,
         localeManager.post_status_success.description,
+        false,
         () => {
           shell.openExternal(`https://twitter.com/${response.user.screen_name}/status/${response.id_str}`);
         }
@@ -124,12 +128,11 @@ class Composer extends Component {
       imageData,
     };
 
+    renderer.send('postStatus', statusData);
     this.setState({
       image: null,
     });
     this.props.onUpdateWeightedStatus(null);
-    this._composerForm.reset();
-    renderer.send('postStatus', statusData);
     this.forceUpdate();
   }
 
@@ -143,10 +146,12 @@ class Composer extends Component {
       localeManager,
     } = this.props;
 
-    const profilePhotoURL = userCredentials !== null ? userCredentials.profileImageURL : null;
-    const weightedStatusText = weightedStatus === null ? '' : weightedStatus.text;
-    const weightedTextAmount = weightedStatus !== null ? weightedStatus.permillage : null
-    const imageDataSource = image !== null ? [image, ] : null;
+    let profilePhotoURL = userCredentials !== null ? userCredentials.profileImageURL : null;
+    let weightedStatusText = weightedStatus === null ? null : weightedStatus.text;
+    let weightedTextAmount = weightedStatus !== null ? weightedStatus.permillage : null
+    let imageDataSource = image !== null ? [image, ] : null;
+
+    console.log(weightedStatusText);
 
     return (
       <ComposerStyle>
@@ -162,15 +167,6 @@ class Composer extends Component {
             />
           }
         />
-        <form
-          onSubmit={this._postStatus}
-          style={{
-            display: 'inline',
-          }}
-          ref={(el) => {
-            this._composerForm = el;
-          }}
-        >
           <InnerContent
             style={{
               position: 'relative',
@@ -216,10 +212,13 @@ class Composer extends Component {
                 title={localeManager.composer.tweet_button}
                 fullWidth={false}
                 type="submit"
+                onClick={(e) => {
+                  e.preventDefault();
+                  this._postStatus();
+                }}
               />
             }
           />
-        </form>
         <SettingsContainer />
       </ComposerStyle>
     );
