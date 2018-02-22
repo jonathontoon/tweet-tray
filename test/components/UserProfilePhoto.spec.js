@@ -4,7 +4,7 @@ import Adapter from 'enzyme-adapter-react-16';
 import UserProfilePhoto from '../../app/components/UserProfilePhoto';
 import * as testData from '../testData';
 
-Enzyme.configure({adapter: new Adapter()});
+Enzyme.configure({ adapter: new Adapter(), });
 
 function setup() {
   const component = shallow(<UserProfilePhoto

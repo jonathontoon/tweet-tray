@@ -4,7 +4,6 @@ import * as testData from '../testData';
 
 describe('reducers', () => {
   describe('settingsVisibility', () => {
-
     it('should handle initial state', () => {
       expect(settingsVisibility(null, {})).toMatchSnapshot();
     });

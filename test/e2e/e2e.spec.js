@@ -22,13 +22,6 @@ describe('main window', function spec() {
     }
   });
 
-  const findCounter = () => { return this.app.client.element('[data-tid="counter"]'); };
-
-  const findButtons = async () => {
-    const { value, } = await this.app.client.elements('[data-tclass="btn"]');
-    return value.map(btn => { return btn.ELEMENT; });
-  };
-
   it('should open window', async () => {
     const { client, browserWindow, } = this.app;
 

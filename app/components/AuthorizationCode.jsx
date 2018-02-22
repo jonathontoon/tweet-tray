@@ -64,9 +64,9 @@ class AuthorizationCode extends Component {
 
   componentDidMount() {
     const {
+      renderer,
       notificationManager,
       localeManager,
-      renderer,
       onUpdateAccessTokenPair,
       onSetUserCredentials,
     } = this.props;

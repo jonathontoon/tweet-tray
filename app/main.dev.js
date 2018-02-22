@@ -175,6 +175,7 @@ ipcMain.on('postStatus', (postStatusEvent, response) => {
           postStatusEvent.sender.send('postStatusError', statusResponse);
           return;
         }
+        console.log('postStatusComplete 1');
         postStatusEvent.sender.send('postStatusComplete', statusResponse);
       });
     });
@@ -186,6 +187,7 @@ ipcMain.on('postStatus', (postStatusEvent, response) => {
         postStatusEvent.sender.send('postStatusError', statusResponse);
         return;
       }
+      console.log('postStatusComplete 2');
       postStatusEvent.sender.send('postStatusComplete', statusResponse);
     });
   }

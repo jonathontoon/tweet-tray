@@ -1,13 +1,10 @@
 import React, { Component, } from 'react';
-import { connect, } from 'react-redux';
 import PropTypes from 'prop-types';
 import TwitterText from 'twitter-text';
 import Styled from 'styled-components';
 import Theme from 'styled-theming';
 
 import * as constants from '../constants';
-
-import { updateWeightedStatus, } from '../actions';
 
 const StatusInputStyle = Styled.div`
     width: auto;

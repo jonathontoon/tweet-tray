@@ -60,9 +60,9 @@ class LogIn extends Component {
 
   componentDidMount() {
     const {
+      renderer,
       notificationManager,
       localeManager,
-      renderer,
       onUpdateRequestTokenPair,
     } = this.props;
 

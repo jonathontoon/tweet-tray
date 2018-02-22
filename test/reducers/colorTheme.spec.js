@@ -4,7 +4,6 @@ import * as testData from '../testData';
 
 describe('reducers', () => {
   describe('toggleColorTheme', () => {
-
     it('should handle initial state', () => {
       expect(colorTheme(null, {})).toMatchSnapshot();
     });

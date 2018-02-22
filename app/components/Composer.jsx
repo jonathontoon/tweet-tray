@@ -41,7 +41,6 @@ class Composer extends Component {
     renderer: PropTypes.object.isRequired,
     notificationManager: PropTypes.object.isRequired,
     localeManager: PropTypes.object.isRequired,
-    shell: PropTypes.object.isRequired,
   };
 
   static defaultProps = {
@@ -62,17 +61,7 @@ class Composer extends Component {
   }
 
   componentDidMount() {
-    const {
-      notificationManager, localeManager, renderer, shell,
-    } = this.props;
-
-    renderer.on('addImageComplete', (event, response) => {
-      this._addImage(response);
-    });
-
-    renderer.on('addGIFComplete', (event, response) => {
-      this._addImage(response);
-    });
+    const { renderer, notificationManager, localeManager, } = this.props;
 
     renderer.on('postStatusError', () => {
       notificationManager.send(
@@ -92,6 +81,14 @@ class Composer extends Component {
           shell.openExternal(`https://twitter.com/${response.user.screen_name}/status/${response.id_str}`);
         }
       );
+    });
+
+    renderer.on('addImageComplete', (event, response) => {
+      this._addImage(response);
+    });
+
+    renderer.on('addGIFComplete', (event, response) => {
+      this._addImage(response);
     });
 
     renderer.on('send-tweet-shortcut', () => {
@@ -124,16 +121,13 @@ class Composer extends Component {
     const statusText = weightedStatus === null ? '' : weightedStatus.text;
     const imageData = image ? image.data : null;
 
-    const statusData = {
+    renderer.send('postStatus', {
       accessTokenPair,
       statusText,
       imageData,
-    };
-
-    renderer.send('postStatus', statusData);
-    this.setState({
-      image: null,
     });
+
+    this.setState({ image: null, });
     this.props.onUpdateWeightedStatus(null);
     this.forceUpdate();
   }
@@ -167,7 +161,8 @@ class Composer extends Component {
             />
           }
         />
-        <InnerContent style={{
+        <InnerContent
+          style={{
             position: 'relative',
             top: '51px',
             left: '0px',

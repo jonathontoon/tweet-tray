@@ -50,7 +50,6 @@ class Settings extends Component {
       onToggleColorTheme,
       shouldLogout,
       localeManager,
-      renderer,
     } = this.props;
 
     return (

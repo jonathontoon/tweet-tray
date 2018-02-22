@@ -4,7 +4,6 @@ import * as testData from '../testData';
 
 describe('reducers', () => {
   describe('accessTokenPair', () => {
-
     it('should handle initial state', () => {
       expect(accessTokenPair(null, {})).toMatchSnapshot();
     });
