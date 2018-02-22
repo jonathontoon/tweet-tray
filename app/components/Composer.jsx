@@ -151,8 +151,6 @@ class Composer extends Component {
     let weightedTextAmount = weightedStatus !== null ? weightedStatus.permillage : null
     let imageDataSource = image !== null ? [image, ] : null;
 
-    console.log(weightedStatusText);
-
     return (
       <ComposerStyle>
         <Header
