@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import Styled from 'styled-components';
 import Theme from 'styled-theming';
 
-import ConnectRenderer from '../containers/ConnectRenderer';
+import ConnectUtilities from '../containers/ConnectUtilities';
 
 import Header from './Header';
 import SettingsContainer from '../containers/SettingsContainer';
@@ -38,9 +38,6 @@ class Composer extends Component {
     accessTokenPair: PropTypes.object,
     onToggleSettingsVisibility: PropTypes.func.isRequired,
     onUpdateWeightedStatus: PropTypes.func.isRequired,
-    notifier: PropTypes.object.isRequired,
-    locales: PropTypes.object.isRequired,
-    renderer: PropTypes.object.isRequired,
   };
 
   static defaultProps = {
@@ -61,7 +58,7 @@ class Composer extends Component {
   }
 
   componentDidMount() {
-    const { notifier, locales, renderer, } = this.props;
+    const { notificationManager, localeManager, renderer, } = this.props;
 
     renderer.on('addImageComplete', (event, response) => {
       this._addImage(response);
@@ -72,16 +69,16 @@ class Composer extends Component {
     });
 
     renderer.on('postStatusError', () => {
-      notifier.send(
-        locales.post_status_error.title,
-        locales.post_status_error.description,
+      notificationManager.send(
+        localeManager.post_status_error.title,
+        localeManager.post_status_error.description,
       );
     });
 
     renderer.on('postStatusComplete', (event, response) => {
-      notifier.send(
-        locales.post_status_success.title,
-        locales.post_status_success.description,
+      notificationManager.send(
+        localeManager.post_status_success.title,
+        localeManager.post_status_success.description,
         () => {
           shell.openExternal(`https://twitter.com/${response.user.screen_name}/status/${response.id_str}`);
         }
@@ -129,26 +126,33 @@ class Composer extends Component {
     });
     this.props.onUpdateWeightedStatus(null);
     this._composerForm.reset();
-    ipcRenderer.send('postStatus', statusData);
+    renderer.send('postStatus', statusData);
     this.forceUpdate();
   }
 
   render() {
     const { image, } = this.state;
-    const { userCredentials, weightedStatus, onToggleSettingsVisibility, locales, } = this.props;
+    const {
+      userCredentials,
+      weightedStatus,
+      onUpdateWeightedStatus,
+      onToggleSettingsVisibility,
+      localeManager,
+    } = this.props;
 
     const profilePhotoURL = userCredentials !== null ? userCredentials.profileImageURL : null;
+    const weightedStatusText = weightedStatus === null ? '' : weightedStatus.text;
     const weightedTextAmount = weightedStatus !== null ? weightedStatus.permillage : null
     const imageDataSource = image !== null ? [image, ] : null;
 
     return (
       <ComposerStyle>
         <Header
-          title={locales.composer.title}
+          title={localeManager.composer.title}
           right={
             <IconButton
               iconSrc={SettingsIcon}
-              altText={locales.composer.settings_alt_text}
+              altText={localeManager.composer.settings_alt_text}
               onClick={() => {
                 onToggleSettingsVisibility(true);
               }}
@@ -177,7 +181,11 @@ class Composer extends Component {
               profilePhotoURL={profilePhotoURL}
               weightedTextAmount={weightedTextAmount}
             />
-            <StatusInput placeholder={locales.composer.placeholder} />
+            <StatusInput
+              placeholder={localeManager.composer.placeholder}
+              weightedStatusText={weightedStatusText}
+              updateWeightedStatus={onUpdateWeightedStatus}
+            />
             <MediaListView
               dataSource={imageDataSource}
               onRemoveImage={() => {
@@ -191,7 +199,7 @@ class Composer extends Component {
                 <IconButton
                   disabled={image !== null}
                   iconSrc={PhotoIcon}
-                  altText={locales.composer.image_alt_text}
+                  altText={localeManager.composer.image_alt_text}
                   onClick={(e) => {
                     e.preventDefault();
                     this._addImage();
@@ -202,7 +210,7 @@ class Composer extends Component {
             right={
               <RoundedButton
                 disabled={weightedStatus === null && image === null}
-                title={locales.composer.tweet_button}
+                title={localeManager.composer.tweet_button}
                 fullWidth={false}
                 type="submit"
               />
@@ -215,5 +223,5 @@ class Composer extends Component {
   }
 }
 
-export default ConnectRenderer(Composer);
+export default ConnectUtilities(Composer);
 

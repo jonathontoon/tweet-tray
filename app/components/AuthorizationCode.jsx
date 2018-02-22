@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import Styled from 'styled-components';
 import PinInput from 'react-pin-input';
 
-import ConnectRenderer from '../containers/ConnectRenderer';
+import ConnectUtilities from '../containers/ConnectUtilities';
 
 import InnerContent from './InnerContent';
 import RoundedButton from './RoundedButton';
@@ -45,9 +45,6 @@ class AuthorizationCode extends Component {
     requestTokenPair: PropTypes.object,
     onUpdateAccessTokenPair: PropTypes.func.isRequired,
     onSetUserCredentials: PropTypes.func.isRequired,
-    notifier: PropTypes.object.isRequired,
-    locales: PropTypes.object.isRequired,
-    renderer: PropTypes.object.isRequired,
   };
 
   static defaultProps = {
@@ -72,24 +69,24 @@ class AuthorizationCode extends Component {
 
   componentDidMount() {
     const {
-      notifier,
-      locales,
+      notificationManager,
+      localeManager,
       renderer,
       onUpdateAccessTokenPair,
       onSetUserCredentials,
     } = this.props;
 
     renderer.on('sendauthorizeCodeError', () => {
-      notifier.send(
-        locales.authorization_error.title,
-        locales.authorization_error.description,
+      notificationManager.send(
+        localeManager.authorization_error.title,
+        localeManager.authorization_error.description,
       );
     });
 
     renderer.on('verifyCredentialsError', () => {
-      notifier.send(
-        locales.authorization_error.title,
-        locales.authorization_error.description,
+      notificationManager.send(
+        localeManager.authorization_error.title,
+        localeManager.authorization_error.description,
       );
     });
 
@@ -123,7 +120,7 @@ class AuthorizationCode extends Component {
 
   render() {
     const { authorizeCode, } = this.state;
-    const { locales, } = this.props;
+    const { localeManager, } = this.props;
 
     return (
       <AuthorizationCodeStyle>
@@ -134,7 +131,7 @@ class AuthorizationCode extends Component {
         >
           <TwitterLogoStyle src={Logo} alt="Twitter Logo" />
           <HeaderTextStyle>
-            {locales.authorization_code.title}
+            {localeManager.authorization_code.title}
           </HeaderTextStyle>
           <PinInput
             length={7}
@@ -173,7 +170,7 @@ class AuthorizationCode extends Component {
             }}
             disabled={authorizeCode.length < 7}
             fullWidth
-            title={locales.authorization_code.authorize_button}
+            title={localeManager.authorization_code.authorize_button}
           />
           <RoundedButton
             onClick={this._onReturnToLogIn}
@@ -184,7 +181,7 @@ class AuthorizationCode extends Component {
             }}
             fullWidth
             borderButton
-            title={locales.authorization_code.return_button}
+            title={localeManager.authorization_code.return_button}
           />
         </InnerContent>
       </AuthorizationCodeStyle>
@@ -192,4 +189,4 @@ class AuthorizationCode extends Component {
   }
 }
 
-export default ConnectRenderer(AuthorizationCode);
+export default ConnectUtilities(AuthorizationCode);

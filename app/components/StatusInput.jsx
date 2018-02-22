@@ -5,11 +5,11 @@ import TwitterText from 'twitter-text';
 import Styled from 'styled-components';
 import Theme from 'styled-theming';
 
+import ConnectUtilities from '../containers/ConnectUtilities';
+
 import * as constants from '../constants';
 
 import { updateWeightedStatus, } from '../actions';
-
-const { ipcRenderer, } = window.require('electron');
 
 const StatusInputStyle = Styled.div`
     width: auto;
@@ -44,15 +44,13 @@ const StatusInputStyle = Styled.div`
 class StatusInput extends Component {
   static propTypes = {
     placeholder: PropTypes.string,
-    style: PropTypes.object,
-    weightedStatus: PropTypes.object,
-    onUpdateWeightedStatus: PropTypes.func.isRequired,
+    weightedStatusText: PropTypes.string,
+    updateWeightedStatus: PropTypes.func.isRequired,
   }
 
   static defaultProps = {
     placeholder: '',
-    style: null,
-    weightedStatus: null,
+    weightedStatusText: null,
   }
 
   constructor(props) {
@@ -64,30 +62,30 @@ class StatusInput extends Component {
   }
 
   componentDidMount() {
+    const { renderer, } = this.props;
+
     this._adjustTextarea({});
     this._focusTextArea({});
-
-    ipcRenderer.on('focus-textarea', () => {
-      this._focusTextArea({});
-    });
   }
 
   _adjustTextarea({ target = this.el, }) {
     const textAreaRef = target;
-    textAreaRef.style.height = 0;
-    textAreaRef.style.height = `${target.scrollHeight}px`;
+    if (textAreaRef !== undefined && textAreaRef !== null) {
+      textAreaRef.style.height = 0;
+      textAreaRef.style.height = `${target.scrollHeight}px`;
+    }
   }
 
   _focusTextArea({ target = this.el, }) {
     const textAreaRef = target;
 
-    if (textAreaRef !== null) {
+    if (textAreaRef !== undefined && textAreaRef !== null) {
       textAreaRef.focus();
     }
   }
 
   _onTextAreaUpdate(e) {
-    const { onUpdateWeightedStatus, } = this.props;
+    const { updateWeightedStatus, } = this.props;
     this._adjustTextarea(e);
 
     const textValue = e.target.value;
@@ -105,21 +103,19 @@ class StatusInput extends Component {
     };
 
     if (status.text.length !== 0) {
-      onUpdateWeightedStatus(status);
+      updateWeightedStatus(status);
     } else {
-      onUpdateWeightedStatus(null);
+      updateWeightedStatus(null);
     }
   }
 
   render() {
-    const { placeholder, style, weightedStatus, } = this.props;
+    const { placeholder, style, weightedStatusText, } = this.props;
 
-    const defaultValue = weightedStatus === null ? '' : weightedStatus.text;
+    const defaultValue = weightedStatusText === null ? '' : weightedStatusText;
 
     return (
-      <StatusInputStyle
-        style={style}
-      >
+      <StatusInputStyle>
         <textarea
           ref={(x) => { this.el = x; }}
           className="TextArea"
@@ -139,20 +135,5 @@ class StatusInput extends Component {
   }
 }
 
-const mapStateToProps = (store, ownProps) => {
-  return {
-    weightedStatus: store.weightedStatus,
-    className: ownProps.className,
-  };
-};
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    onUpdateWeightedStatus: (weightedStatus) => {
-      dispatch(updateWeightedStatus(weightedStatus));
-    },
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(StatusInput);
+export default ConnectUtilities(StatusInput);
 

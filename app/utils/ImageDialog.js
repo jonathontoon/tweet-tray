@@ -1,11 +1,11 @@
 import fs from 'fs';
 import path from 'path';
 import { ipcRenderer, remote, } from 'electron';
-import Locales from './Locales';
+import LocaleManager from './LocaleManager';
 
 const { dialog, } = remote;
 
-const localeStrings = Locales();
+const localeManager = LocaleManager();
 
 // Abstract file data and return an object
 const processFile = (filePath, callback) => {
@@ -33,10 +33,10 @@ const ImageDialog = (callback) => {
   }
 
   dialog.showOpenDialog({
-    title: localeStrings.image_dialog.title,
-    buttonLabel: localeStrings.image_dialog.add_button,
+    title: localeManager.image_dialog.title,
+    buttonLabel: localeManager.image_dialog.add_button,
     filters: [
-      { name: localeStrings.image_dialog.file_type, extensions: ['jpeg', 'jpg', 'png', 'gif', ], },
+      { name: localeManager.image_dialog.file_type, extensions: ['jpeg', 'jpg', 'png', 'gif', ], },
     ],
     properties,
   }, (filePaths) => {
@@ -45,20 +45,20 @@ const ImageDialog = (callback) => {
         if (image.extension === '.gif' && image.size >= 15.0) {
           dialog.showMessageBox({
             type: 'warning',
-            buttons: [localeStrings.image_dialog.warning_confirm_button, ],
-            title: localeStrings.image_dialog.warning_title,
-            message: localeStrings.image_dialog.warning_message,
-            detail: localeStrings.image_dialog.warning_detail_gif,
+            buttons: [localeManager.image_dialog.warning_confirm_button, ],
+            title: localeManager.image_dialog.warning_title,
+            message: localeManager.image_dialog.warning_message,
+            detail: localeManager.image_dialog.warning_detail_gif,
           }, () => {
             ipcRenderer.send('toggleVisible', false);
           });
         } else if (image.extension !== '.gif' && image.size >= 5.0) {
           dialog.showMessageBox({
             type: 'warning',
-            buttons: [localeStrings.image_dialog.warning_confirm_button, ],
-            title: localeStrings.image_dialog.warning_title,
-            message: localeStrings.image_dialog.warning_message,
-            detail: localeStrings.image_dialog.warning_detail_images,
+            buttons: [localeManager.image_dialog.warning_confirm_button, ],
+            title: localeManager.image_dialog.warning_title,
+            message: localeManager.image_dialog.warning_message,
+            detail: localeManager.image_dialog.warning_detail_images,
           }, () => {
             ipcRenderer.send('toggleVisible', false);
           });

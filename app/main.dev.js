@@ -58,6 +58,8 @@ app.on('ready', async () => {
     await installExtensions();
   }
 
+  app.setAppUserModelId('org.jonathontoon.tweettray');
+
   menuBarManager = new MenuBarManager();
   oauthManager = new OAuthManager(config, menuBarManager);
 
