@@ -2,16 +2,17 @@ import NotificationIcon from '../../resources/notification.jpg';
 
 class NotificationManager {
   constructor() {
+    this.notification = null;
     this.send = this.send.bind(this);
   }
 
   send(title, body, isSilent, callback) {
-    const notification = new Notification(title, {
+    this.notification = new Notification(title, {
       body,
       silent: isSilent,
       icon: NotificationIcon,
     });
-    notification.onclick = () => {
+    this.notification.onclick = () => {
       callback();
     };
   }

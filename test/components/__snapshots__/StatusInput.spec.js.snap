@@ -1,3 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`StatusInput component should display textarea value 1`] = `"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam non nisl facilisis, imperdiet ipsum sed, pretium metus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos."`;

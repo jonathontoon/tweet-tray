@@ -62,7 +62,9 @@ class Composer extends Component {
   }
 
   componentDidMount() {
-    const { notificationManager, localeManager, renderer, shell, } = this.props;
+    const {
+      notificationManager, localeManager, renderer, shell,
+    } = this.props;
 
     renderer.on('addImageComplete', (event, response) => {
       this._addImage(response);
@@ -146,10 +148,10 @@ class Composer extends Component {
       localeManager,
     } = this.props;
 
-    let profilePhotoURL = userCredentials !== null ? userCredentials.profileImageURL : null;
-    let weightedStatusText = weightedStatus === null ? null : weightedStatus.text;
-    let weightedTextAmount = weightedStatus !== null ? weightedStatus.permillage : null
-    let imageDataSource = image !== null ? [image, ] : null;
+    const profilePhotoURL = userCredentials !== null ? userCredentials.profileImageURL : null;
+    const weightedStatusText = weightedStatus === null ? null : weightedStatus.text;
+    const weightedTextAmount = weightedStatus !== null ? weightedStatus.permillage : null;
+    const imageDataSource = image !== null ? [image, ] : null;
 
     return (
       <ComposerStyle>
@@ -165,58 +167,57 @@ class Composer extends Component {
             />
           }
         />
-          <InnerContent
-            style={{
-              position: 'relative',
-              top: '51px',
-              left: '0px',
-              minHeight: '180px',
-              height: 'calc(100% - 136px)',
+        <InnerContent style={{
+            position: 'relative',
+            top: '51px',
+            left: '0px',
+            minHeight: '180px',
+            height: 'calc(100% - 136px)',
+          }}
+        >
+          <UserProfilePhoto
+            profilePhotoURL={profilePhotoURL}
+            weightedTextAmount={weightedTextAmount}
+          />
+          <StatusInput
+            placeholder={localeManager.composer.placeholder}
+            weightedStatusText={weightedStatusText}
+            updateWeightedStatus={onUpdateWeightedStatus}
+          />
+          <MediaListView
+            dataSource={imageDataSource}
+            onRemoveImage={() => {
+              this._removeImage();
             }}
-          >
-            <UserProfilePhoto
-              profilePhotoURL={profilePhotoURL}
-              weightedTextAmount={weightedTextAmount}
-            />
-            <StatusInput
-              placeholder={localeManager.composer.placeholder}
-              weightedStatusText={weightedStatusText}
-              updateWeightedStatus={onUpdateWeightedStatus}
-            />
-            <MediaListView
-              dataSource={imageDataSource}
-              onRemoveImage={() => {
-                this._removeImage();
-              }}
-            />
-          </InnerContent>
-          <Footer
-            left={
-              <Fragment>
-                <IconButton
-                  disabled={image !== null}
-                  iconSrc={PhotoIcon}
-                  altText={localeManager.composer.image_alt_text}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    this._addImage();
-                  }}
-                />
-              </Fragment>
-            }
-            right={
-              <RoundedButton
-                disabled={weightedStatus === null && image === null}
-                title={localeManager.composer.tweet_button}
-                fullWidth={false}
-                type="submit"
+          />
+        </InnerContent>
+        <Footer
+          left={
+            <Fragment>
+              <IconButton
+                disabled={image !== null}
+                iconSrc={PhotoIcon}
+                altText={localeManager.composer.image_alt_text}
                 onClick={(e) => {
                   e.preventDefault();
-                  this._postStatus();
+                  this._addImage();
                 }}
               />
+            </Fragment>
             }
-          />
+          right={
+            <RoundedButton
+              disabled={weightedStatus === null && image === null}
+              title={localeManager.composer.tweet_button}
+              fullWidth={false}
+              type="submit"
+              onClick={(e) => {
+                e.preventDefault();
+                this._postStatus();
+              }}
+            />
+            }
+        />
         <SettingsContainer />
       </ComposerStyle>
     );

@@ -77,7 +77,7 @@ app.on('ready', async () => {
 
   globalShortcut.register(`${process.platform === 'darwin' ? 'Cmd' : 'Ctrl'}+Enter`, () => {
     if (menuBarManager.window !== null && menuBarManager.isWindowVisible()) {
-      windowManager.window.webContents.send('send-tweet-shortcut');
+      menuBarManager.window.webContents.send('send-tweet-shortcut');
     }
   });
 });

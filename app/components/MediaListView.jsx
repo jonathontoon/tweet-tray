@@ -28,7 +28,7 @@ MediaListView.propTypes = {
 };
 
 MediaListView.defaultProps = {
-  dataSource: null,
+  dataSource: [],
 };
 
 export default MediaListView;
