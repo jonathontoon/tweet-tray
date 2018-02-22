@@ -6,11 +6,10 @@ import PinInput from 'react-pin-input';
 import ConnectUtilities from '../containers/ConnectUtilities';
 
 import InnerContent from './InnerContent';
+import Logo from './Logo';
 import RoundedButton from './RoundedButton';
 
 import * as constants from '../constants';
-
-import Logo from '../../resources/tweet-tray-logo.svg';
 
 const AuthorizationCodeStyle = Styled.section`
   overflow: hidden;
@@ -19,13 +18,6 @@ const AuthorizationCodeStyle = Styled.section`
   height: 100%;
   background-color: ${constants.WHITE};
   position: relative;
-`;
-
-const TwitterLogoStyle = Styled.img`
-    width: 34px;
-    height: 28px;
-    position: relative;
-    top: 40px;
 `;
 
 const HeaderTextStyle = Styled.h1`
@@ -129,7 +121,7 @@ class AuthorizationCode extends Component {
             height: 'calc(100% - 30px)',
           }}
         >
-          <TwitterLogoStyle src={Logo} alt="Twitter Logo" />
+          <Logo />
           <HeaderTextStyle>
             {localeManager.authorization_code.title}
           </HeaderTextStyle>

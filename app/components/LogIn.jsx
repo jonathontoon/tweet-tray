@@ -6,11 +6,10 @@ import Theme from 'styled-theming';
 import ConnectUtilities from '../containers/ConnectUtilities';
 
 import InnerContent from './InnerContent';
+import Logo from './Logo';
 import RoundedButton from './RoundedButton';
 
 import * as constants from '../constants';
-
-import Logo from '../../resources/tweet-tray-logo.svg';
 
 const LogInStyle = Styled.section`
   overflow: hidden;
@@ -19,13 +18,6 @@ const LogInStyle = Styled.section`
   height: 100%;
   background-color: ${Theme('mode', { day: constants.WHITE, night: constants.DARK_MODE_BACKGROUND, })};
   position: relative;
-`;
-
-const TwitterLogoStyle = Styled.img`
-  width: 34px;
-  height: 28px;
-  position: relative;
-  top: 40px;
 `;
 
 const HeaderTextStyle = Styled.h1`
@@ -101,7 +93,7 @@ class LogIn extends Component {
             height: 'calc(100% - 30px)',
           }}
         >
-          <TwitterLogoStyle src={Logo} alt="Twitter Logo" />
+          <Logo />
           <HeaderTextStyle>
             {process.platform === 'win32' ? localeManager.login.title_taskbar : localeManager.login.title_menubuar }
           </HeaderTextStyle>
