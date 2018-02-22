@@ -5,8 +5,6 @@ import TwitterText from 'twitter-text';
 import Styled from 'styled-components';
 import Theme from 'styled-theming';
 
-import ConnectUtilities from '../containers/ConnectUtilities';
-
 import * as constants from '../constants';
 
 import { updateWeightedStatus, } from '../actions';
@@ -130,5 +128,5 @@ class StatusInput extends Component {
   }
 }
 
-export default ConnectUtilities(StatusInput);
+export default StatusInput;
 
