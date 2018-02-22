@@ -35,6 +35,7 @@ class Settings extends Component {
     colorTheme: PropTypes.string.isRequired,
     onToggleColorTheme: PropTypes.func.isRequired,
     shouldLogout: PropTypes.func.isRequired,
+    localeManager: PropTypes.object.isRequired,
   };
 
   static contextTypes = {

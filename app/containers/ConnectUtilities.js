@@ -3,7 +3,7 @@ import { ipcRenderer, remote, } from 'electron';
 import NotificationManager from '../utils/NotificationManager';
 import LocaleManager from '../utils/LocaleManager';
 
-const notificationManager = NotificationManager();
+const notificationManager = new NotificationManager();
 const localeManager = LocaleManager();
 
 const renderer = ipcRenderer;

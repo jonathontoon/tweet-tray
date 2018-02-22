@@ -37,6 +37,9 @@ class LogIn extends Component {
     accessTokenPair: PropTypes.object,
     userCredentials: PropTypes.object,
     onUpdateRequestTokenPair: PropTypes.func.isRequired,
+    renderer: PropTypes.object.isRequired,
+    notificationManager: PropTypes.object.isRequired,
+    localeManager: PropTypes.object.isRequired,
   };
 
   static defaultProps = {

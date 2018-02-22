@@ -38,6 +38,9 @@ class Composer extends Component {
     accessTokenPair: PropTypes.object,
     onToggleSettingsVisibility: PropTypes.func.isRequired,
     onUpdateWeightedStatus: PropTypes.func.isRequired,
+    renderer: PropTypes.object.isRequired,
+    notificationManager: PropTypes.object.isRequired,
+    localeManager: PropTypes.object.isRequired,
   };
 
   static defaultProps = {
@@ -110,7 +113,7 @@ class Composer extends Component {
     }
 
     const { image, } = this.state;
-    const { accessTokenPair, weightedStatus, } = this.props;
+    const { renderer, accessTokenPair, weightedStatus, } = this.props;
 
     const statusText = weightedStatus === null ? '' : weightedStatus.text;
     const imageData = image ? image.data : null;

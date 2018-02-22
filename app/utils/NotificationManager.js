@@ -1,4 +1,4 @@
-class Notifier {
+class NotificationManager {
 
   static send(title, body, isSilent = false, callback = null) {
     const notification = new Notification(title, {
@@ -10,10 +10,6 @@ class Notifier {
       callback();
     };
   }
-}
-
-const NotificationManager = () => {
-  return new Notifier();
 }
 
 export default NotificationManager;

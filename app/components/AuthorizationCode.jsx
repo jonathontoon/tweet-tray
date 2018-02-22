@@ -37,6 +37,9 @@ class AuthorizationCode extends Component {
     requestTokenPair: PropTypes.object,
     onUpdateAccessTokenPair: PropTypes.func.isRequired,
     onSetUserCredentials: PropTypes.func.isRequired,
+    renderer: PropTypes.object.isRequired,
+    notificationManager: PropTypes.object.isRequired,
+    localeManager: PropTypes.object.isRequired,
   };
 
   static defaultProps = {
