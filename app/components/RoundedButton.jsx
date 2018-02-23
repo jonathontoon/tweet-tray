@@ -61,7 +61,7 @@ class RoundedButton extends Component {
     fullWidth: false,
     style: null,
     title: 'A Button',
-    onClick: null,
+    onClick: {},
     type: 'button',
   };
 

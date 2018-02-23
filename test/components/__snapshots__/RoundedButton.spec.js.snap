@@ -1,3 +1,16 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`RoundedButton component should display button with title 1`] = `"A Button"`;
+exports[`RoundedButton component button should contain value 1`] = `"A Button"`;
+
+exports[`RoundedButton component should render full width button 1`] = `
+<styled.button
+  className="fullWidth "
+  disabled={false}
+  onClick={[MockFunction]}
+  style={null}
+  type="button"
+  value="A Button"
+>
+  A Button
+</styled.button>
+`;

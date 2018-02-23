@@ -23,7 +23,6 @@ describe('UserProfilePhoto component', () => {
     const { image, } = setup();
     expect(image.find('img').prop('src')).toMatchSnapshot();
   });
-
   it('should display word counter arc with 74% filled', () => {
     const { arc, } = setup();
     expect(arc.prop('value')).toMatchSnapshot();
