@@ -6,7 +6,7 @@ class NotificationManager {
     this.send = this.send.bind(this);
   }
 
-  send(title, body, isSilent, callback) {
+  send(title, body, isSilent = false, callback = null) {
     this.notification = new Notification(title, {
       body,
       silent: isSilent,
