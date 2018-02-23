@@ -11,6 +11,8 @@ import RoundedButton from './RoundedButton';
 
 import * as constants from '../constants';
 
+const { renderProcess, } = window;
+
 const AuthorizationCodeStyle = Styled.section`
   overflow: hidden;
   user-select: none;
@@ -37,7 +39,6 @@ class AuthorizationCode extends Component {
     requestTokenPair: PropTypes.object,
     onUpdateAccessTokenPair: PropTypes.func.isRequired,
     onSetUserCredentials: PropTypes.func.isRequired,
-    renderer: PropTypes.object.isRequired,
     notificationManager: PropTypes.object.isRequired,
     localeManager: PropTypes.object.isRequired,
   };
@@ -64,14 +65,13 @@ class AuthorizationCode extends Component {
 
   componentDidMount() {
     const {
-      renderer,
       notificationManager,
       localeManager,
       onUpdateAccessTokenPair,
       onSetUserCredentials,
     } = this.props;
 
-    renderer.on('sendauthorizeCodeError', () => {
+    renderProcess.on('sendauthorizeCodeError', () => {
       notificationManager.send(
         localeManager.authorization_error.title,
         localeManager.authorization_error.description,
@@ -80,7 +80,7 @@ class AuthorizationCode extends Component {
       );
     });
 
-    renderer.on('verifyCredentialsError', () => {
+    renderProcess.on('verifyCredentialsError', () => {
       notificationManager.send(
         localeManager.authorization_error.title,
         localeManager.authorization_error.description,
@@ -89,7 +89,7 @@ class AuthorizationCode extends Component {
       );
     });
 
-    renderer.on('completedOAuth', (event, response) => {
+    renderProcess.on('completedOAuth', (event, response) => {
       onUpdateAccessTokenPair(response.accessTokenPair);
       onSetUserCredentials(response.userCredentials);
       this.context.router.history.replace('/composer');
@@ -104,16 +104,15 @@ class AuthorizationCode extends Component {
 
   _onCodeEntered() {
     const { authorizeCode, } = this.state;
-    const { requestTokenPair, renderer, } = this.props;
-    renderer.send('sendAuthorizeCode', {
+    const { requestTokenPair, } = this.props;
+    renderProcess.send('sendAuthorizeCode', {
       authorizeCode,
       requestTokenPair,
     });
   }
 
   _onReturnToLogIn() {
-    const { renderer, } = this.props;
-    renderer.send('returnToLogin');
+    renderProcess.send('returnToLogin');
     this.context.router.history.replace('/');
   }
 

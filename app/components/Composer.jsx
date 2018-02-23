@@ -22,6 +22,8 @@ import ImageDialog from '../utils/ImageDialog';
 import SettingsIcon from '../../resources/settings.svg';
 import PhotoIcon from '../../resources/photo.svg';
 
+const { renderProcess, shell, } = window;
+
 const ComposerStyle = Styled.section`
   overflow: hidden;
   user-select: none;
@@ -38,7 +40,6 @@ class Composer extends Component {
     accessTokenPair: PropTypes.object,
     onToggleSettingsVisibility: PropTypes.func.isRequired,
     onUpdateWeightedStatus: PropTypes.func.isRequired,
-    renderer: PropTypes.object.isRequired,
     notificationManager: PropTypes.object.isRequired,
     localeManager: PropTypes.object.isRequired,
   };
@@ -61,9 +62,9 @@ class Composer extends Component {
   }
 
   componentDidMount() {
-    const { renderer, notificationManager, localeManager, } = this.props;
+    const { notificationManager, localeManager, } = this.props;
 
-    renderer.on('postStatusError', () => {
+    renderProcess.on('postStatusError', () => {
       notificationManager.send(
         localeManager.post_status_error.title,
         localeManager.post_status_error.description,
@@ -72,7 +73,7 @@ class Composer extends Component {
       );
     });
 
-    renderer.on('postStatusComplete', (event, response) => {
+    renderProcess.on('postStatusComplete', (event, response) => {
       notificationManager.send(
         localeManager.post_status_success.title,
         localeManager.post_status_success.description,
@@ -83,15 +84,15 @@ class Composer extends Component {
       );
     });
 
-    renderer.on('addImageComplete', (event, response) => {
+    renderProcess.on('addImageComplete', (event, response) => {
       this._addImage(response);
     });
 
-    renderer.on('addGIFComplete', (event, response) => {
+    renderProcess.on('addGIFComplete', (event, response) => {
       this._addImage(response);
     });
 
-    renderer.on('send-tweet-shortcut', () => {
+    renderProcess.on('send-tweet-shortcut', () => {
       this._postStatus();
     });
   }
@@ -116,12 +117,12 @@ class Composer extends Component {
     }
 
     const { image, } = this.state;
-    const { renderer, accessTokenPair, weightedStatus, } = this.props;
+    const { accessTokenPair, weightedStatus, } = this.props;
 
     const statusText = weightedStatus === null ? '' : weightedStatus.text;
     const imageData = image ? image.data : null;
 
-    renderer.send('postStatus', {
+    renderProcess.send('postStatus', {
       accessTokenPair,
       statusText,
       imageData,

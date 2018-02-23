@@ -1,11 +1,10 @@
 import fs from 'fs';
 import path from 'path';
-import { ipcRenderer, remote, } from 'electron';
 import LocaleManager from './LocaleManager';
 
-const { dialog, } = remote;
+const { renderProcess, dialog, } = window;
 
-const localeManager = LocaleManager();
+const localeManager = new LocaleManager();
 
 // Abstract file data and return an object
 const processFile = (filePath, callback) => {
@@ -24,7 +23,7 @@ const processFile = (filePath, callback) => {
 
 // Handle image selection and warning dialogs
 const ImageDialog = (callback) => {
-  ipcRenderer.send('toggleVisible', true);
+  renderProcess.send('toggleVisible', true);
   const properties = ['openFile', ];
 
   // Only Mac OSX supports the openDirectory option for file dialogs
@@ -50,7 +49,7 @@ const ImageDialog = (callback) => {
             message: localeManager.image_dialog.warning_message,
             detail: localeManager.image_dialog.warning_detail_gif,
           }, () => {
-            ipcRenderer.send('toggleVisible', false);
+            renderProcess.send('toggleVisible', false);
           });
         } else if (image.extension !== '.gif' && image.size >= 5.0) {
           dialog.showMessageBox({
@@ -60,17 +59,17 @@ const ImageDialog = (callback) => {
             message: localeManager.image_dialog.warning_message,
             detail: localeManager.image_dialog.warning_detail_images,
           }, () => {
-            ipcRenderer.send('toggleVisible', false);
+            renderProcess.send('toggleVisible', false);
           });
         } else {
-          ipcRenderer.send('toggleVisible', false);
+          renderProcess.send('toggleVisible', false);
           callback(image);
         }
       });
     } else {
-      ipcRenderer.send('toggleVisible', false);
+      renderProcess.send('toggleVisible', false);
     }
-    ipcRenderer.send('showWindow');
+    renderProcess.send('showWindow');
   });
 };
 

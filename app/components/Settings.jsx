@@ -9,6 +9,8 @@ import ListView from './ListView';
 
 import * as constants from '../constants';
 
+const { renderProcess, } = window;
+
 const SettingsStyle = Styled.section`
     overflow: hidden;
     position: absolute;
@@ -79,7 +81,7 @@ class Settings extends Component {
                 title: localeManager.settings.quit_action,
                 action: (e) => {
                   e.stopPropagation();
-                  renderer.send('quitApplication');
+                  renderProcess.send('quitApplication');
                 },
               }, {
                 title: localeManager.settings.log_out_action,

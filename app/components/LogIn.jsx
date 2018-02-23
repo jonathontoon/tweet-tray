@@ -11,6 +11,8 @@ import RoundedButton from './RoundedButton';
 
 import * as constants from '../constants';
 
+const { renderProcess, } = window;
+
 const LogInStyle = Styled.section`
   overflow: hidden;
   user-select: none;
@@ -37,7 +39,6 @@ class LogIn extends Component {
     accessTokenPair: PropTypes.object,
     userCredentials: PropTypes.object,
     onUpdateRequestTokenPair: PropTypes.func.isRequired,
-    renderer: PropTypes.object.isRequired,
     notificationManager: PropTypes.object.isRequired,
     localeManager: PropTypes.object.isRequired,
   };
@@ -60,13 +61,12 @@ class LogIn extends Component {
 
   componentDidMount() {
     const {
-      renderer,
       notificationManager,
       localeManager,
       onUpdateRequestTokenPair,
     } = this.props;
 
-    renderer.on('startOAuthError', () => {
+    renderProcess.on('startOAuthError', () => {
       notificationManager.send(
         localeManager.authorization_error.title,
         localeManager.authorization_error.description,
@@ -75,21 +75,21 @@ class LogIn extends Component {
       );
     });
 
-    renderer.on('receivedRequestTokenPair', (event, requestTokenPair) => {
+    renderProcess.on('receivedRequestTokenPair', (event, requestTokenPair) => {
       onUpdateRequestTokenPair(requestTokenPair);
     });
 
-    renderer.on('startedAuthorizationCode', () => {
+    renderProcess.on('startedAuthorizationCode', () => {
       this.context.router.history.replace('/authorization');
     });
 
-    renderer.on('canceledOAuth', () => {
+    renderProcess.on('canceledOAuth', () => {
       this.context.router.history.replace('/');
     });
   }
 
   render() {
-    const { localeManager, renderer, } = this.props;
+    const { localeManager, } = this.props;
 
     return (
       <LogInStyle>
@@ -104,7 +104,7 @@ class LogIn extends Component {
           </HeaderTextStyle>
           <RoundedButton
             onClick={() => {
-              renderer.send('startOAuth');
+              renderProcess.send('startOAuth');
             }}
             style={{
               position: 'relative',
@@ -116,7 +116,7 @@ class LogIn extends Component {
           />
           <RoundedButton
             onClick={() => {
-              renderer.send('quitApplication');
+              renderProcess.send('quitApplication');
             }}
             style={{
               position: 'relative',

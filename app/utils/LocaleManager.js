@@ -7,15 +7,17 @@ import englishNZ from '../localizations/en-NZ.json';
 import englishUS from '../localizations/en-US.json';
 import englishZA from '../localizations/en-ZA.json';
 
-const LocaleManager = () => {
-  return new LocalizedStrings({
-    'en-AU': englishAU,
-    'en-CA': englishCA,
-    'en-GB': englishGB,
-    'en-NZ': englishNZ,
-    'en-US': englishUS,
-    'en-ZA': englishZA,
-  });
-};
+class LocaleManager {
+  constructor() {
+    return new LocalizedStrings({
+      'en-AU': englishAU,
+      'en-CA': englishCA,
+      'en-GB': englishGB,
+      'en-NZ': englishNZ,
+      'en-US': englishUS,
+      'en-ZA': englishZA,
+    });
+  }
+}
 
 export default LocaleManager;
