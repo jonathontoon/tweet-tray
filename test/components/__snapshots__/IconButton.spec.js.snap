@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`IconButton component should render button with image 1`] = `
+<styled.button
+  disabled={false}
+  onClick={[MockFunction]}
+>
+  <styled.img
+    alt="Settings Icon"
+    src="test-file-stub"
+  />
+</styled.button>
+`;
