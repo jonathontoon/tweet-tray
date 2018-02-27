@@ -1,0 +1,7 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`reducers launchOnStartUp should handle TOGGLE_LAUNCH_ON_START_UP 1`] = `undefined`;
+
+exports[`reducers launchOnStartUp should handle initial state 1`] = `null`;
+
+exports[`reducers launchOnStartUp should handle unknown action type 1`] = `true`;

@@ -1,7 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`reducers settingsVisibility should handle TOGGLE_SETTINGS_VISIBILITY 1`] = `undefined`;
-
-exports[`reducers settingsVisibility should handle initial state 1`] = `null`;
-
-exports[`reducers settingsVisibility should handle unknown action type 1`] = `true`;
