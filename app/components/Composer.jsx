@@ -1,4 +1,4 @@
-import React, { Component, Fragment, } from 'react';
+import React, { Component, } from 'react';
 import PropTypes from 'prop-types';
 import Styled from 'styled-components';
 import Theme from 'styled-theming';
@@ -6,7 +6,6 @@ import Theme from 'styled-theming';
 import ConnectUtilities from '../containers/ConnectUtilities';
 
 import Header from './Header';
-import SettingsContainer from '../containers/SettingsContainer';
 import InnerContent from './InnerContent';
 import UserProfilePhoto from './UserProfilePhoto';
 import IconButton from './IconButton';
@@ -38,7 +37,6 @@ class Composer extends Component {
     weightedStatus: PropTypes.object,
     userCredentials: PropTypes.object,
     accessTokenPair: PropTypes.object,
-    onToggleSettingsVisibility: PropTypes.func.isRequired,
     onUpdateWeightedStatus: PropTypes.func.isRequired,
     notificationManager: PropTypes.object.isRequired,
     localeManager: PropTypes.object.isRequired,
@@ -50,15 +48,20 @@ class Composer extends Component {
     accessTokenPair: null,
   };
 
+  static contextTypes = {
+    router: PropTypes.object,
+  };
+
   constructor(props) {
     super(props);
     this.state = {
       image: null,
     };
 
-    this._addImage = this._addImage.bind(this);
-    this._removeImage = this._removeImage.bind(this);
-    this._postStatus = this._postStatus.bind(this);
+    this.addImage = this.addImage.bind(this);
+    this.removeImage = this.removeImage.bind(this);
+    this.postStatus = this.postStatus.bind(this);
+    this.goToSettings = this.goToSettings.bind(this);
   }
 
   componentDidMount() {
@@ -81,20 +84,15 @@ class Composer extends Component {
       );
     });
 
-    renderProcess.on('addImageComplete', (event, response) => {
-      this._addImage(response);
-    });
-
-    renderProcess.on('addGIFComplete', (event, response) => {
-      this._addImage(response);
-    });
-
     renderProcess.on('send-tweet-shortcut', () => {
-      this._postStatus();
+      this.postStatus();
     });
   }
 
-  _addImage() {
+  addImage(e) {
+    if (e) {
+      e.preventDefault();
+    }
     ImageDialog((newImage) => {
       this.setState({
         image: newImage,
@@ -102,13 +100,13 @@ class Composer extends Component {
     });
   }
 
-  _removeImage() {
+  removeImage() {
     this.setState({
       image: null,
     });
   }
 
-  _postStatus(e) {
+  postStatus(e) {
     if (e) {
       e.preventDefault();
     }
@@ -130,13 +128,16 @@ class Composer extends Component {
     this.forceUpdate();
   }
 
+  goToSettings() {
+    this.context.router.history.replace('/settings');
+  }
+
   render() {
     const { image, } = this.state;
     const {
       userCredentials,
       weightedStatus,
       onUpdateWeightedStatus,
-      onToggleSettingsVisibility,
       localeManager,
     } = this.props;
 
@@ -148,24 +149,24 @@ class Composer extends Component {
     return (
       <ComposerStyle>
         <Header
-          title={localeManager.composer.title}
-          right={
+          title={
+            localeManager.composer.title
+          }
+          rightView={
             <IconButton
               iconSrc={SettingsIcon}
               altText={localeManager.composer.settings_alt_text}
-              onClick={() => {
-                onToggleSettingsVisibility(true);
-              }}
+              onClick={this.goToSettings}
             />
           }
         />
         <InnerContent
           style={{
             position: 'relative',
-            top: '51px',
+            top: '48px',
             left: '0px',
             minHeight: '180px',
-            height: 'calc(100% - 136px)',
+            height: 'calc(100% - 132px)',
           }}
         >
           <UserProfilePhoto
@@ -179,39 +180,28 @@ class Composer extends Component {
           />
           <MediaListView
             dataSource={imageDataSource}
-            onRemoveImage={() => {
-              this._removeImage();
-            }}
+            onRemoveImage={this.removeImage}
           />
         </InnerContent>
         <Footer
-          left={
-            <Fragment>
-              <IconButton
-                disabled={image !== null}
-                iconSrc={PhotoIcon}
-                altText={localeManager.composer.image_alt_text}
-                onClick={(e) => {
-                  e.preventDefault();
-                  this._addImage();
-                }}
-              />
-            </Fragment>
-            }
-          right={
+          leftView={
+            <IconButton
+              disabled={image !== null}
+              iconSrc={PhotoIcon}
+              altText={localeManager.composer.image_alt_text}
+              onClick={this.addImage}
+            />
+          }
+          rightView={
             <RoundedButton
               disabled={weightedStatus === null && image === null}
               title={localeManager.composer.tweet_button}
               fullWidth={false}
               type="submit"
-              onClick={(e) => {
-                e.preventDefault();
-                this._postStatus();
-              }}
+              onClick={this.postStatus}
             />
             }
         />
-        <SettingsContainer />
       </ComposerStyle>
     );
   }
