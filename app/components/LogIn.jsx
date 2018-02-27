@@ -86,6 +86,14 @@ class LogIn extends Component {
     });
   }
 
+  startOAuth = () => {
+    renderProcess.send('startOAuth');
+  }
+
+  quitApplication = () => {
+    renderProcess.send('quitApplication');
+  }
+
   render() {
     const { localeManager, } = this.props;
 
@@ -101,9 +109,7 @@ class LogIn extends Component {
             {process.platform === 'win32' ? localeManager.login.title_taskbar : localeManager.login.title_menubuar }
           </HeaderTextStyle>
           <RoundedButton
-            onClick={() => {
-              renderProcess.send('startOAuth');
-            }}
+            onClick={this.startOAuth}
             style={{
               position: 'relative',
               top: '264px',
@@ -113,9 +119,7 @@ class LogIn extends Component {
             title={localeManager.login.log_in_button}
           />
           <RoundedButton
-            onClick={() => {
-              renderProcess.send('quitApplication');
-            }}
+            onClick={this.quitApplication}
             style={{
               position: 'relative',
               top: '280px',
