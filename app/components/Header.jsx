@@ -13,13 +13,13 @@ const HeaderStyle = Styled.header`
     width: 100%;
     height: 34px;
     padding-top: 8px;
-    padding-bottom: 8px;
+    padding-bottom: 7px;
     background-color: ${Theme('mode', { day: constants.WHITE, night: constants.DARK_MODE_FOREGROUND, })};
-    box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.3);
+    box-shadow: 0px 1px 6px rgba(0, 0, 0, 0.25);
 `;
 
-const LeftStyle = Styled.div`
-    width: 50%;
+const LeftViewStyle = Styled.div`
+    width: auto;
     height: 100%;
     float: left;
     padding-left: ${constants.SPACING}px;
@@ -32,14 +32,15 @@ const TitleStyle = Styled.div`
     font-size:  ${constants.LARGE_FONT_SIZE}px;
     font-weight: bold;
     color: ${Theme('mode', { day: constants.BLACK, night: constants.WHITE, })};
-    line-height: 34px;
+    line-height: 33px;
     float: left;
     padding-left: ${constants.SPACING}px;
+    width: auto;
     height: 100%;
 `;
 
-const RightStyle = Styled.div`
-    width: 50%;
+const RightViewStyle = Styled.div`
+    width: auto;
     height: 100%;
     float: right;
     padding-right: ${constants.SPACING}px;
@@ -50,35 +51,35 @@ const RightStyle = Styled.div`
 `;
 
 const Header = (props) => {
-  const { left, title, right, } = props;
+  const { leftView, title, rightView, } = props;
 
   return (
     <HeaderStyle>
-      {left !== null && (
-        <LeftStyle>
-          {left}
-        </LeftStyle>
+      {leftView !== null && (
+        <LeftViewStyle>
+          {leftView}
+        </LeftViewStyle>
       )}
       <TitleStyle>
         {title}
       </TitleStyle>
-      {right !== null && (
-        <RightStyle>
-          {right}
-        </RightStyle>
+      {rightView !== null && (
+        <RightViewStyle>
+          {rightView}
+        </RightViewStyle>
       )}
     </HeaderStyle>
   );
 };
 
 Header.propTypes = {
-  left: PropTypes.object,
+  leftView: PropTypes.object,
   title: PropTypes.string.isRequired,
-  right: PropTypes.object,
+  rightView: PropTypes.object,
 };
 Header.defaultProps = {
-  left: null,
-  right: null,
+  leftView: null,
+  rightView: null,
 };
 
 export default Header;

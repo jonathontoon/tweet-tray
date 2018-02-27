@@ -19,7 +19,7 @@ const FooterStyle = Styled.footer`
   border-top: 1px solid ${Theme('mode', { day: constants.BORDER_GREY, night: constants.DARK_MODE_BACKGROUND, })};;
 `;
 
-const LeftStyle = Styled.div`
+const LeftViewStyle = Styled.div`
   max-width: 50%;
   height: 100%;
   float: left;
@@ -30,7 +30,7 @@ const LeftStyle = Styled.div`
   }
 `;
 
-const RightStyle = Styled.div`
+const RightViewStyle = Styled.div`
   max-width: 50%;
   height: 100%;
   float: right;
@@ -42,27 +42,31 @@ const RightStyle = Styled.div`
 `;
 
 const Footer = (props) => {
-  const { left, right, } = props;
+  const { leftView, rightView, } = props;
   return (
     <FooterStyle>
-      <LeftStyle>
-        {left}
-      </LeftStyle>
-      <RightStyle>
-        {right}
-      </RightStyle>
+      {leftView !== null && (
+        <LeftViewStyle>
+          {leftView}
+        </LeftViewStyle>
+      )}
+      {rightView !== null && (
+        <RightViewStyle>
+          {rightView}
+        </RightViewStyle>
+      )}
     </FooterStyle>
   );
 };
 
 Footer.propTypes = {
-  left: PropTypes.object,
-  right: PropTypes.object,
+  leftView: PropTypes.object,
+  rightView: PropTypes.object,
 };
 
 Footer.defaultProps = {
-  left: null,
-  right: null,
+  leftView: null,
+  rightView: null,
 };
 
 export default Footer;
