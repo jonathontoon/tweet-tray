@@ -1,4 +1,4 @@
-import React, { Component, } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import Styled, { ThemeProvider, } from 'styled-components';
 import Theme from 'styled-theming';
@@ -14,22 +14,20 @@ const MainStyle = Styled.div`
   position: relative;
 `;
 
-class Main extends Component {
-  static propTypes = {
-    children: PropTypes.node.isRequired,
-    colorTheme: PropTypes.string.isRequired,
-  };
+const Main = (props) => {
+  const { children, colorTheme, } = props;
+  return (
+    <ThemeProvider theme={{ mode: colorTheme, }}>
+      <MainStyle>
+        {children}
+      </MainStyle>
+    </ThemeProvider>
+  );
+};
 
-  render() {
-    const { children, colorTheme, } = this.props;
-    return (
-      <ThemeProvider theme={{ mode: colorTheme, }}>
-        <MainStyle>
-          {children}
-        </MainStyle>
-      </ThemeProvider>
-    );
-  }
-}
+Main.propTypes = {
+  children: PropTypes.node.isRequired,
+  colorTheme: PropTypes.string.isRequired,
+};
 
 export default Main;
