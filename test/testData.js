@@ -25,6 +25,6 @@ export const weightedStatus = {
   valid: true,
   weightedLength: 209,
 };
-export const settingsVisibility = true;
+export const launchOnStartUp = true;
 export const colorTheme = 'night';
 

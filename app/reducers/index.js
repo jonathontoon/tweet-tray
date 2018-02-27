@@ -1,7 +1,7 @@
 import { combineReducers, } from 'redux';
 
 import colorTheme from './colorTheme';
-import settingsVisibility from './settingsVisibility';
+import launchOnStartUp from './launchOnStartUp';
 import userCredentials from './userCredentials';
 import weightedStatus from './weightedStatus';
 import requestTokenPair from './requestTokenPair';
@@ -14,7 +14,7 @@ const appReducer = combineReducers({
   requestTokenPair,
   userCredentials,
   weightedStatus,
-  settingsVisibility,
+  launchOnStartUp,
   colorTheme,
 });
 

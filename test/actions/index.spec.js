@@ -35,12 +35,12 @@ describe('actions', () => {
     expect(actions.updateWeightedStatus(testData.weightedStatus)).toEqual(expectedAction);
   });
 
-  it('should create an action to toggle the status of whether settings are shown', () => {
+  it('should create an action to toggle whether the app launchs on system start', () => {
     const expectedAction = {
-      type: types.TOGGLE_SETTINGS_VISIBILITY,
-      settingsVisibility: testData.settingsVisibility,
+      type: types.TOGGLE_LAUNCH_ON_START_UP,
+      launchOnStartUp: testData.launchOnStartUp,
     };
-    expect(actions.toggleSettingsVisibility(testData.settingsVisibility)).toEqual(expectedAction);
+    expect(actions.toggleLaunchOnStartUp(testData.launchOnStartUp)).toEqual(expectedAction);
   });
 
   it('should create an action to toggle between night and day mode', () => {

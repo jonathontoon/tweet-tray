@@ -28,10 +28,10 @@ export const updateWeightedStatus = (weightedStatus) => {
   };
 };
 
-export const toggleSettingsVisibility = (settingsVisibility) => {
+export const toggleLaunchOnStartUp = (launchOnStartUp) => {
   return {
-    type: types.TOGGLE_SETTINGS_VISIBILITY,
-    settingsVisibility,
+    type: types.TOGGLE_LAUNCH_ON_START_UP,
+    launchOnStartUp,
   };
 };
 
