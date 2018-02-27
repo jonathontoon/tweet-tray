@@ -6,6 +6,7 @@
 
 import url from 'url';
 import path from 'path';
+import AutoLaunch from 'auto-launch';
 import { app, ipcMain, globalShortcut, } from 'electron';
 
 import config from './Config';
@@ -18,6 +19,7 @@ import OAuthManager from './OAuthManager';
 
 let menuBarManager = null;
 let oauthManager = null;
+let autoLauncher = null;
 
 /*
   Developer Tools Setup
@@ -80,6 +82,15 @@ app.on('ready', async () => {
       menuBarManager.window.webContents.send('send-tweet-shortcut');
     }
   });
+
+  autoLauncher = new AutoLaunch({
+    name: 'Tweet Tray',
+  });
+
+  autoLauncher.isEnabled().then((enabled) => {
+    if (enabled) return;
+    return autoLauncher.enable();
+  }).catch((err) => { console.error(err); });
 });
 
 // Start Twitter OAuth Flow
@@ -205,4 +216,12 @@ ipcMain.on('toggleVisible', (addImageEvent, bool) => {
 
 ipcMain.on('showWindow', () => {
   menuBarManager.showWindow();
+});
+
+ipcMain.on('enableAtStartUp', () => {
+  autoLauncher.enable();
+});
+
+ipcMain.on('disableAtStartUp', () => {
+  autoLauncher.disable();
 });

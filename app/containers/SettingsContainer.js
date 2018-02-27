@@ -1,19 +1,19 @@
 import { connect, } from 'react-redux';
 
-import { toggleSettingsVisibility, toggleColorTheme, onLogout, } from '../actions/index';
+import { toggleLaunchOnStartUp, toggleColorTheme, onLogout, } from '../actions/index';
 import Settings from '../components/Settings';
 
 const mapStateToProps = (store) => {
   return {
-    showSettings: store.settingsVisibility,
+    launchOnStartUp: store.launchOnStartUp,
     colorTheme: store.colorTheme,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onToggleSettingsVisibility: (settingsVisibility) => {
-      dispatch(toggleSettingsVisibility(settingsVisibility));
+    onToggleLaunchOnStartUp: (launchOnStartUp) => {
+      dispatch(toggleLaunchOnStartUp(launchOnStartUp));
     },
     onToggleColorTheme: (colorTheme) => {
       dispatch(toggleColorTheme(colorTheme));

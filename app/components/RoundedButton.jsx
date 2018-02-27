@@ -1,4 +1,4 @@
-import React, { Component, } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import Styled from 'styled-components';
 
@@ -44,51 +44,49 @@ const RoundedButtonStyle = Styled.button`
   }
 `;
 
-class RoundedButton extends Component {
-  static propTypes = {
-    disabled: PropTypes.bool,
-    borderButton: PropTypes.bool,
-    fullWidth: PropTypes.bool,
-    style: PropTypes.object,
-    title: PropTypes.string,
-    onClick: PropTypes.func,
-    type: PropTypes.string,
-  };
+const RoundedButton = (props) => {
+  const {
+    disabled,
+    style,
+    title,
+    onClick,
+    borderButton,
+    fullWidth,
+    type,
+  } = props;
 
-  static defaultProps = {
-    disabled: false,
-    borderButton: false,
-    fullWidth: false,
-    style: null,
-    title: 'A Button',
-    onClick: {},
-    type: 'button',
-  };
+  return (
+    <RoundedButtonStyle
+      type={type}
+      style={style}
+      className={`${fullWidth ? 'fullWidth' : ''} ${borderButton ? 'borderButton' : ''}`}
+      onClick={onClick}
+      disabled={disabled}
+      value={title}
+    >
+      {title}
+    </RoundedButtonStyle>
+  );
+};
 
-  render() {
-    const {
-      disabled,
-      style,
-      title,
-      onClick,
-      borderButton,
-      fullWidth,
-      type,
-    } = this.props;
+RoundedButton.propTypes = {
+  disabled: PropTypes.bool,
+  borderButton: PropTypes.bool,
+  fullWidth: PropTypes.bool,
+  style: PropTypes.object,
+  title: PropTypes.string,
+  onClick: PropTypes.func,
+  type: PropTypes.string,
+};
 
-    return (
-      <RoundedButtonStyle
-        type={type}
-        style={style}
-        className={`${fullWidth ? 'fullWidth' : ''} ${borderButton ? 'borderButton' : ''}`}
-        onClick={onClick}
-        disabled={disabled}
-        value={title}
-      >
-        {title}
-      </RoundedButtonStyle>
-    );
-  }
-}
+RoundedButton.defaultProps = {
+  disabled: false,
+  borderButton: false,
+  fullWidth: false,
+  style: null,
+  title: 'A Button',
+  onClick: {},
+  type: 'button',
+};
 
 export default RoundedButton;

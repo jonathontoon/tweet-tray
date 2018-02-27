@@ -1,40 +1,35 @@
 import React, { Component, } from 'react';
 import PropTypes from 'prop-types';
 import Styled from 'styled-components';
+import Theme from 'styled-theming';
 
 import ConnectUtilities from '../containers/ConnectUtilities';
 
+import Header from './Header';
+import IconButton from './IconButton';
 import InnerContent from './InnerContent';
 import ListView from './ListView';
 
 import * as constants from '../constants';
 
+import BackIcon from '../../resources/back.svg';
+
 const { renderProcess, } = window;
 
 const SettingsStyle = Styled.section`
     overflow: hidden;
-    position: absolute;
-    top: 0px;
-    left: 0px;
-    z-index: 99;
+    user-select: none;
     width: 100%;
     height: 100%;
-    background-color: ${constants.OPAQUE_BLACK};
-
-    &.hidden {
-      display:none;
-    }
-
-    &:hover {
-      cursor: pointer;
-    }
+    background-color: ${Theme('mode', { day: constants.LIGHT_GREY, night: constants.DARK_MODE_BACKGROUND, })};
+    position: relative;
 `;
 
 class Settings extends Component {
   static propTypes = {
-    showSettings: PropTypes.bool.isRequired,
-    onToggleSettingsVisibility: PropTypes.func.isRequired,
+    launchOnStartUp: PropTypes.bool.isRequired,
     colorTheme: PropTypes.string.isRequired,
+    onToggleLaunchOnStartUp: PropTypes.func.isRequired,
     onToggleColorTheme: PropTypes.func.isRequired,
     shouldLogout: PropTypes.func.isRequired,
     localeManager: PropTypes.object.isRequired,
@@ -46,61 +41,103 @@ class Settings extends Component {
 
   render() {
     const {
-      showSettings,
-      onToggleSettingsVisibility,
+      launchOnStartUp,
       colorTheme,
+      onToggleLaunchOnStartUp,
       onToggleColorTheme,
       shouldLogout,
       localeManager,
     } = this.props;
 
     return (
-      <SettingsStyle
-        className={`${showSettings ? '' : 'hidden'}`}
-        onClick={() => { onToggleSettingsVisibility(false); }}
-      >
+      <SettingsStyle>
+        <Header
+          title={localeManager.settings.title}
+          leftView={
+            <IconButton
+              iconSrc={BackIcon}
+              altText={localeManager.composer.settings_alt_text}
+              onClick={() => {
+                this.context.router.history.replace('/composer');
+              }}
+            />
+          }
+        />
         <InnerContent
           style={{
             position: 'relative',
-            top: '0px',
+            top: '51px',
             left: '0px',
-            padding: '0px',
-            minHeight: '100%',
+            height: 'calc(100% - 81px)',
           }}
         >
           <ListView
-            dataSource={
-              [{
-                title: colorTheme === 'day' ? localeManager.settings.night_mode_enable_action : localeManager.settings.night_mode_disable_action,
-                action: (e) => {
-                  e.stopPropagation();
-                  onToggleColorTheme(colorTheme === 'day' ? 'night' : 'day');
-                  onToggleSettingsVisibility(false);
-                },
-              }, {
-                title: localeManager.settings.quit_action,
-                action: (e) => {
-                  e.stopPropagation();
-                  renderProcess.send('quitApplication');
-                },
-              }, {
-                title: localeManager.settings.log_out_action,
-                action: (e) => {
-                  e.stopPropagation();
-                  onToggleSettingsVisibility(false);
-                  this.context.router.history.replace('/');
-                  shouldLogout();
-                },
-                type: 'warning',
-              }, {
-                title: localeManager.settings.cancel_action,
-                action: (e) => {
-                  e.stopPropagation();
-                  onToggleSettingsVisibility(false);
-                },
-                type: 'last',
-              }, ]
-            }
+            dataSource={[
+              {
+                title: 'Customization',
+                items: [{
+                  title: localeManager.settings.night_mode_enable_action,
+                  action: () => {
+                    onToggleColorTheme(colorTheme === 'day' ? 'night' : 'day');
+                  },
+                  state: colorTheme !== 'day',
+                  type: 'switch',
+                }, {
+                  title: 'Launch at System Start',
+                  action: (checked) => {
+                    if (checked) {
+                      renderProcess.send('enableAtStartUp');
+                    } else {
+                      renderProcess.send('disableAtStartUp');
+                    }
+                    onToggleLaunchOnStartUp(checked);
+                  },
+                  state: launchOnStartUp,
+                  type: 'switch',
+                }, ],
+              },
+              {
+                title: 'Help',
+                items: [{
+                  title: 'View Website',
+                  action: (e) => {
+                    e.stopPropagation();
+                    renderProcess.send('quitApplication');
+                  },
+                }, {
+                  title: 'Read FAQ',
+                  action: (e) => {
+                    e.stopPropagation();
+                    renderProcess.send('quitApplication');
+                  },
+                }, {
+                  title: 'Report an Issue',
+                  action: (e) => {
+                    e.stopPropagation();
+                    this.context.router.history.replace('/');
+                    shouldLogout();
+                  },
+                }, ],
+              },
+              {
+                title: 'Escape',
+                items: [{
+                  title: localeManager.settings.quit_action,
+                  action: (e) => {
+                    e.stopPropagation();
+                    renderProcess.send('quitApplication');
+                  },
+                }, {
+                  title: localeManager.settings.log_out_action,
+                  action: (e) => {
+                    e.stopPropagation();
+                    this.context.router.history.replace('/');
+                    shouldLogout();
+                  },
+                  type: 'warning',
+                }, ],
+              },
+            ]}
           />
         </InnerContent>
       </SettingsStyle>

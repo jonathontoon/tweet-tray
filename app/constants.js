@@ -12,6 +12,7 @@ export const BLUE = '#1da1f2';
 
 export const DARK_MODE_BACKGROUND = '#141d26';
 export const DARK_MODE_FOREGROUND = '#243447';
+export const DARK_MODE_FOREGROUND_LIGHT = '#1b2836';
 
 export const WHITE = '#FFFFFF';
 export const LIGHT_GREY = '#f5f8fa';

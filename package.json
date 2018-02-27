@@ -180,6 +180,7 @@
     "webpack-merge": "^4.1.1"
   },
   "dependencies": {
+    "auto-launch": "^5.0.5",
     "devtron": "^1.4.0",
     "electron-debug": "^1.5.0",
     "electron-positioner": "^3.0.0",
@@ -195,6 +196,7 @@
     "react-router": "^4.2.0",
     "react-router-dom": "^4.2.2",
     "react-router-redux": "^5.0.0-alpha.6",
+    "react-switch": "^2.3.0",
     "redux": "^3.7.2",
     "redux-localstorage": "^0.4.1",
     "redux-thunk": "^2.2.0",
