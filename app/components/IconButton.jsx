@@ -26,6 +26,7 @@ const IconButtonStyle = Styled.button`
 const ImageStyle = Styled.img`
     display: block;
     pointer-events: none;
+    margin-top: 1px;
     width: 25px;
     height: 25px;
 
