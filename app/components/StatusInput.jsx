@@ -51,17 +51,17 @@ class StatusInput extends Component {
   constructor(props) {
     super(props);
 
-    this._adjustTextarea = this._adjustTextarea.bind(this);
-    this._focusTextArea = this._focusTextArea.bind(this);
-    this._onTextAreaUpdate = this._onTextAreaUpdate.bind(this);
+    this.adjustTextarea = this.adjustTextarea.bind(this);
+    this.focusTextArea = this.focusTextArea.bind(this);
+    this.onTextAreaUpdate = this.onTextAreaUpdate.bind(this);
   }
 
   componentDidMount() {
-    this._adjustTextarea({});
-    this._focusTextArea({});
+    this.adjustTextarea({});
+    this.focusTextArea({});
   }
 
-  _adjustTextarea({ target = this.el, }) {
+  adjustTextarea({ target = this.el, }) {
     const textAreaRef = target;
     if (textAreaRef !== undefined && textAreaRef !== null) {
       textAreaRef.style.height = 0;
@@ -69,7 +69,7 @@ class StatusInput extends Component {
     }
   }
 
-  _focusTextArea({ target = this.el, }) {
+  focusTextArea({ target = this.el, }) {
     const textAreaRef = target;
 
     if (textAreaRef !== undefined && textAreaRef !== null) {
@@ -77,9 +77,9 @@ class StatusInput extends Component {
     }
   }
 
-  _onTextAreaUpdate(e) {
+  onTextAreaUpdate(e) {
     const { updateWeightedStatus, } = this.props;
-    this._adjustTextarea(e);
+    this.adjustTextarea(e);
 
     const textValue = e.target.value;
     const parsedProperties = TwitterText.parseTweet(textValue);
@@ -115,9 +115,9 @@ class StatusInput extends Component {
           style={{
             minHeight: 58,
           }}
-          onInput={this._onTextAreaUpdate}
-          onKeyUp={this._onTextAreaUpdate}
-          onChange={this._onTextAreaUpdate}
+          onInput={this.onTextAreaUpdate}
+          onKeyUp={this.onTextAreaUpdate}
+          onChange={this.onTextAreaUpdate}
           value={weightedStatusText === null ? '' : weightedStatusText}
         />
       </StatusInputStyle>
