@@ -40,8 +40,8 @@
         "warning_confirm_button": "OK"
     },
     "settings": {
-        "night_mode_disable_action": "Inaktivera Nattläge",
-        "night_mode_enable_action": "Aktivera Nattläge",
+        "title": "Inställningar",
+        "night_mode_enable_action": "Nattläge",
         "quit_action": "Avsluta Tweet Tray",
         "log_out_action": "Logga ut",
         "cancel_action": "Avbryt"

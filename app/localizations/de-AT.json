@@ -40,8 +40,8 @@
         "warning_confirm_button": "OK"
     },
     "settings": {
-        "night_mode_disable_action": "Nachtmodus deaktivieren",
-        "night_mode_enable_action": "Nachtmodus aktivieren",
+        "title": "Einstellungen",
+        "night_mode_enable_action": "Nachtmodus",
         "quit_action": "Tweet Tray schließen",
         "log_out_action": "Abmelden",
         "cancel_action": "Abbrechen"
