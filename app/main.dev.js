@@ -77,12 +77,6 @@ app.on('ready', async () => {
     }
   });
 
-  globalShortcut.register(`${process.platform === 'darwin' ? 'Cmd' : 'Ctrl'}+Enter`, () => {
-    if (menuBarManager.window !== null && menuBarManager.isWindowVisible()) {
-      menuBarManager.window.webContents.send('send-tweet-shortcut');
-    }
-  });
-
   autoLauncher = new AutoLaunch({
     name: 'Tweet Tray',
   });
@@ -91,6 +85,11 @@ app.on('ready', async () => {
     if (enabled) return;
     return autoLauncher.enable();
   }).catch((err) => { console.error(err); });
+});
+
+app.on('will-quit', () => {
+  // Unregister all shortcuts.
+  globalShortcut.unregisterAll();
 });
 
 // Start Twitter OAuth Flow

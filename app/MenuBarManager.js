@@ -2,7 +2,7 @@ import Positioner from 'electron-positioner';
 import path from 'path';
 import { app, BrowserWindow, Tray, screen, nativeImage, Menu, } from 'electron';
 
-import { selectionMenu, inputMenu, applicationMenu, } from './utils/Menu';
+import { SelectionMenu, InputMenu, ApplicationMenu, } from './utils/Menu';
 
 class MenuBarManager {
   constructor() {
@@ -70,7 +70,7 @@ class MenuBarManager {
     });
     this.window.loadURL(`file://${__dirname}/app.html`);
     this.window.setMenu(null);
-    Menu.setApplicationMenu(applicationMenu);
+    Menu.setApplicationMenu(ApplicationMenu(this));
 
     this.window.on('blur', () => {
       this.hideWindow();
@@ -79,9 +79,9 @@ class MenuBarManager {
     this.window.webContents.on('context-menu', (e, props) => {
       const { selectionText, isEditable, } = props;
       if (isEditable) {
-        inputMenu.popup(this.window);
+        InputMenu.popup(this.window);
       } else if (selectionText && selectionText.trim() !== '') {
-        selectionMenu.popup(this.window);
+        SelectionMenu.popup(this.window);
       }
     });
 
