@@ -87,10 +87,12 @@ class LogIn extends Component {
   }
 
   startOAuth = () => {
+    const { renderProcess, } = this.props;
     renderProcess.send('startOAuth');
   }
 
   quitApplication = () => {
+    const { renderProcess, } = this.props;
     renderProcess.send('quitApplication');
   }
 
