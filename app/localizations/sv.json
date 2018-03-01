@@ -41,7 +41,11 @@
     },
     "settings": {
         "title": "Inställningar",
-        "night_mode_enable_action": "Nattläge",
+        "night_mode_action": "Nattläge",
+        "launch_start_up_action": "Launch at System Start",
+        "view_website_action": "View Website",
+        "read_faq_action": "Read FAQ",
+        "report_issue_action": "Report an Issue",
         "quit_action": "Avsluta Tweet Tray",
         "log_out_action": "Logga ut",
         "cancel_action": "Avbryt"

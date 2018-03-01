@@ -76,14 +76,14 @@ class Settings extends Component {
               {
                 title: 'Customization',
                 items: [{
-                  title: localeManager.settings.night_mode_enable_action,
+                  title: localeManager.settings.night_mode_action,
                   action: () => {
                     onToggleColorTheme(colorTheme === 'day' ? 'night' : 'day');
                   },
                   state: colorTheme !== 'day',
                   type: 'switch',
                 }, {
-                  title: 'Launch at System Start',
+                  title: localeManager.settings.launch_start_up_action,
                   action: (checked) => {
                     if (checked) {
                       renderProcess.send('enableAtStartUp');
@@ -99,19 +99,19 @@ class Settings extends Component {
               {
                 title: 'Help',
                 items: [{
-                  title: 'View Website',
+                  title: localeManager.settings.view_website_action,
                   action: (e) => {
                     e.stopPropagation();
                     renderProcess.send('quitApplication');
                   },
                 }, {
-                  title: 'Read FAQ',
+                  title: localeManager.settings.read_faq_action,
                   action: (e) => {
                     e.stopPropagation();
                     renderProcess.send('quitApplication');
                   },
                 }, {
-                  title: 'Report an Issue',
+                  title: localeManager.settings.report_issue_action,
                   action: (e) => {
                     e.stopPropagation();
                     this.context.router.history.replace('/');

@@ -41,7 +41,11 @@
     },
     "settings": {
         "title": "Einstellungen",
-        "night_mode_enable_action": "Nachtmodus",
+        "night_mode_action": "Nachtmodus",
+        "launch_start_up_action": "Launch at System Start",
+        "view_website_action": "View Website",
+        "read_faq_action": "Read FAQ",
+        "report_issue_action": "Report an Issue",
         "quit_action": "Tweet Tray schließen",
         "log_out_action": "Abmelden",
         "cancel_action": "Abbrechen"
