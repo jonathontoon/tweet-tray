@@ -93,10 +93,6 @@ class MenuBarManager {
           this.window.webContents.openDevTools();
         }
       }
-
-      if (this._tray !== null) {
-        this.showWindow();
-      }
     });
 
     this._windowPositioner = new Positioner(this.window);
