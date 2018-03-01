@@ -6,7 +6,6 @@
 
 import url from 'url';
 import path from 'path';
-import AutoLaunch from 'auto-launch';
 import { app, ipcMain, globalShortcut, } from 'electron';
 
 import config from './Config';
@@ -19,7 +18,6 @@ import OAuthManager from './OAuthManager';
 
 let menuBarManager = null;
 let oauthManager = null;
-let autoLauncher = null;
 
 /*
   Developer Tools Setup
@@ -65,6 +63,12 @@ app.on('ready', async () => {
   menuBarManager = new MenuBarManager();
   oauthManager = new OAuthManager(config, menuBarManager);
 
+  if (process.platform !== 'linux') {
+    app.setLoginItemSettings({
+      openAtLogin: false,
+    });
+  }
+
   if (process.platform === 'darwin') {
     app.dock.hide();
   }
@@ -76,15 +80,6 @@ app.on('ready', async () => {
       menuBarManager.hideWindow();
     }
   });
-
-  autoLauncher = new AutoLaunch({
-    name: 'Tweet Tray',
-  });
-
-  autoLauncher.isEnabled().then((enabled) => {
-    if (enabled) return;
-    return autoLauncher.enable();
-  }).catch((err) => { console.error(err); });
 });
 
 app.on('will-quit', () => {
@@ -218,9 +213,17 @@ ipcMain.on('showWindow', () => {
 });
 
 ipcMain.on('enableAtStartUp', () => {
-  autoLauncher.enable();
+  if (process.platform !== 'linux') {
+    app.setLoginItemSettings({
+      openAtLogin: true,
+    });
+  }
 });
 
 ipcMain.on('disableAtStartUp', () => {
-  autoLauncher.disable();
+  if (process.platform !== 'linux') {
+    app.setLoginItemSettings({
+      openAtLogin: false,
+    });
+  }
 });

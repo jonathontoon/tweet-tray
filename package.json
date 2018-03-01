@@ -180,7 +180,6 @@
     "webpack-merge": "^4.1.1"
   },
   "dependencies": {
-    "auto-launch": "^5.0.5",
     "devtron": "^1.4.0",
     "electron-debug": "^1.5.0",
     "electron-positioner": "^3.0.0",
