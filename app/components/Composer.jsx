@@ -21,8 +21,6 @@ import ImageDialog from '../utils/ImageDialog';
 import SettingsIcon from '../../resources/settings.svg';
 import PhotoIcon from '../../resources/photo.svg';
 
-const { renderProcess, shell, } = window;
-
 const ComposerStyle = Styled.section`
   overflow: hidden;
   user-select: none;
@@ -38,6 +36,8 @@ class Composer extends Component {
     userCredentials: PropTypes.object,
     accessTokenPair: PropTypes.object,
     onUpdateWeightedStatus: PropTypes.func.isRequired,
+    renderProcess: PropTypes.object.isRequired,
+    shell: PropTypes.object.isRequired,
     notificationManager: PropTypes.object.isRequired,
     localeManager: PropTypes.object.isRequired,
   };
@@ -65,7 +65,12 @@ class Composer extends Component {
   }
 
   componentDidMount() {
-    const { notificationManager, localeManager, } = this.props;
+    const {
+      renderProcess,
+      shell,
+      notificationManager,
+      localeManager,
+    } = this.props;
 
     renderProcess.on('postStatusError', () => {
       notificationManager.send(
@@ -112,7 +117,7 @@ class Composer extends Component {
     }
 
     const { image, } = this.state;
-    const { accessTokenPair, weightedStatus, } = this.props;
+    const { renderProcess, accessTokenPair, weightedStatus, } = this.props;
 
     const statusText = weightedStatus === null ? '' : weightedStatus.text;
     const imageData = image ? image.data : null;

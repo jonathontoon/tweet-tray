@@ -14,8 +14,6 @@ import * as constants from '../constants';
 
 import BackIcon from '../../resources/back.svg';
 
-const { renderProcess, } = window;
-
 const SettingsStyle = Styled.section`
     overflow: hidden;
     user-select: none;
@@ -31,6 +29,7 @@ class Settings extends Component {
     colorTheme: PropTypes.string.isRequired,
     onToggleLaunchOnStartUp: PropTypes.func.isRequired,
     onToggleColorTheme: PropTypes.func.isRequired,
+    renderProcess: PropTypes.object.isRequired,
     shouldLogout: PropTypes.func.isRequired,
     localeManager: PropTypes.object.isRequired,
   };
@@ -46,6 +45,7 @@ class Settings extends Component {
       onToggleLaunchOnStartUp,
       onToggleColorTheme,
       shouldLogout,
+      renderProcess,
       localeManager,
     } = this.props;
 

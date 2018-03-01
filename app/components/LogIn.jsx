@@ -11,8 +11,6 @@ import RoundedButton from './RoundedButton';
 
 import * as constants from '../constants';
 
-const { renderProcess, } = window;
-
 const LogInStyle = Styled.section`
   overflow: hidden;
   user-select: none;
@@ -39,6 +37,7 @@ class LogIn extends Component {
     accessTokenPair: PropTypes.object,
     userCredentials: PropTypes.object,
     onUpdateRequestTokenPair: PropTypes.func.isRequired,
+    renderProcess: PropTypes.object.isRequired,
     notificationManager: PropTypes.object.isRequired,
     localeManager: PropTypes.object.isRequired,
   };
@@ -61,6 +60,7 @@ class LogIn extends Component {
 
   componentDidMount() {
     const {
+      renderProcess,
       notificationManager,
       localeManager,
       onUpdateRequestTokenPair,

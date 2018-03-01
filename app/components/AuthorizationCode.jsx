@@ -11,8 +11,6 @@ import RoundedButton from './RoundedButton';
 
 import * as constants from '../constants';
 
-const { renderProcess, } = window;
-
 const AuthorizationCodeStyle = Styled.section`
   overflow: hidden;
   user-select: none;
@@ -39,6 +37,7 @@ class AuthorizationCode extends Component {
     requestTokenPair: PropTypes.object,
     onUpdateAccessTokenPair: PropTypes.func.isRequired,
     onSetUserCredentials: PropTypes.func.isRequired,
+    renderProcess: PropTypes.object.isRequired,
     notificationManager: PropTypes.object.isRequired,
     localeManager: PropTypes.object.isRequired,
   };
@@ -65,6 +64,7 @@ class AuthorizationCode extends Component {
 
   componentDidMount() {
     const {
+      renderProcess,
       notificationManager,
       localeManager,
       onUpdateAccessTokenPair,
@@ -100,7 +100,7 @@ class AuthorizationCode extends Component {
 
   _onCodeEntered() {
     const { authorizeCode, } = this.state;
-    const { requestTokenPair, } = this.props;
+    const { renderProcess, requestTokenPair, } = this.props;
     renderProcess.send('sendAuthorizeCode', {
       authorizeCode,
       requestTokenPair,
@@ -108,6 +108,7 @@ class AuthorizationCode extends Component {
   }
 
   _onReturnToLogIn() {
+    const { renderProcess, } = this.props;
     renderProcess.send('returnToLogin');
     this.context.router.history.replace('/');
   }

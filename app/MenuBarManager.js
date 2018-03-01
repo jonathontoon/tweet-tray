@@ -64,10 +64,8 @@ class MenuBarManager {
       skipTaskbar: true,
       icon: MenuBarManager._getAppIcon(),
       backgroundThrottling: false,
-      webPreferences: {
-        preload: path.join(__dirname, 'preload.js'),
-      },
     });
+
     this.window.loadURL(`file://${__dirname}/app.html`);
     this.window.setMenu(null);
     Menu.setApplicationMenu(ApplicationMenu(this));
