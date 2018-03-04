@@ -116,7 +116,7 @@ const Settings = (props, context) => {
                 title: localeManager.settings.log_out_action,
                 action: (e) => {
                   e.stopPropagation();
-                  this.context.router.history.replace('/');
+                  context.router.history.replace('/');
                   shouldLogout();
                 },
                 type: 'warning',
