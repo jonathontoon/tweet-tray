@@ -8,7 +8,7 @@ const mapStateToProps = (store) => {
   return {
     router: store.router,
     accessTokenPair: store.accessTokenPair,
-    userCredentials: store.userCredentials,
+    profileImageURL: store.profileImageURL,
   };
 };
 

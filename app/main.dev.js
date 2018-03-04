@@ -135,15 +135,8 @@ ipcMain.on('sendAuthorizeCode', (sendAuthorizeCodeEvent, data) => {
           oauthManager.window.close();
 
           const userCredentials = {
-            name: credentials.name,
-            screenName: credentials.screen_name,
-            location: credentials.location,
-            description: credentials.description,
-            utcOffset: credentials.utc_offset,
-            timeZone: credentials.time_zone,
-            geoEnabled: credentials.geo_enabled,
-            lang: credentials.lang,
             profileImageURL: credentials.profile_image_url_https.replace('_normal.jpg', '.jpg'),
+            profileLinkColor: credentials.profile_link_color,
           };
 
           sendAuthorizeCodeEvent.sender.send('completedOAuth', {

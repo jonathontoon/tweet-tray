@@ -43,7 +43,8 @@ class AuthorizationCode extends Component {
   static propTypes = {
     requestTokenPair: PropTypes.object,
     onUpdateAccessTokenPair: PropTypes.func.isRequired,
-    onSetUserCredentials: PropTypes.func.isRequired,
+    onSetProfileImageURL: PropTypes.func.isRequired,
+    onSetProfileLinkColor: PropTypes.func.isRequired,
     renderProcess: PropTypes.object.isRequired,
     notificationManager: PropTypes.object.isRequired,
     localeManager: PropTypes.object.isRequired,
@@ -64,9 +65,9 @@ class AuthorizationCode extends Component {
       authorizeCode: '',
     };
 
-    this._onInputComplete = this._onInputComplete.bind(this);
-    this._onCodeEntered = this._onCodeEntered.bind(this);
-    this._onReturnToLogIn = this._onReturnToLogIn.bind(this);
+    this.onInputComplete = this.onInputComplete.bind(this);
+    this.onCodeEntered = this.onCodeEntered.bind(this);
+    this.onReturnToLogIn = this.onReturnToLogIn.bind(this);
   }
 
   componentDidMount() {
@@ -75,7 +76,8 @@ class AuthorizationCode extends Component {
       notificationManager,
       localeManager,
       onUpdateAccessTokenPair,
-      onSetUserCredentials,
+      onSetProfileImageURL,
+      onSetProfileLinkColor,
     } = this.props;
 
     renderProcess.on('sendauthorizeCodeError', () => {
@@ -93,8 +95,10 @@ class AuthorizationCode extends Component {
     });
 
     renderProcess.on('completedOAuth', (event, response) => {
-      onUpdateAccessTokenPair(response.accessTokenPair);
-      onSetUserCredentials(response.userCredentials);
+      const { accessTokenPair, userCredentials, } = response;
+      onUpdateAccessTokenPair(accessTokenPair);
+      onSetProfileImageURL(userCredentials.profileImageURL);
+      onSetProfileLinkColor(userCredentials.profileImageLink);
       this.context.router.history.replace('/composer');
     });
   }
@@ -161,11 +165,11 @@ class AuthorizationCode extends Component {
             inputFocusStyle={{
               border: `1px solid ${constants.BORDER_GREY}`,
             }}
-            onComplete={this._onInputComplete}
+            onComplete={this.onInputComplete}
           />
           <ButtonContainerStyle>
             <RoundedButton
-              onClick={this._onCodeEntered}
+              onClick={this.onCodeEntered}
               style={{
                 height: '44px',
               }}
@@ -174,7 +178,7 @@ class AuthorizationCode extends Component {
               title={localeManager.authorization_code.authorize_button}
             />
             <RoundedButton
-              onClick={this._onReturnToLogIn}
+              onClick={this.onReturnToLogIn}
               style={{
                 height: '44px',
                 marginTop: `${constants.SPACING}px`,

@@ -23,7 +23,7 @@ const SettingsStyle = Styled.section`
     position: relative;
 `;
 
-const Settings = (props) => {
+const Settings = (props, context) => {
   const {
     launchOnStartUp,
     colorTheme,
@@ -44,7 +44,7 @@ const Settings = (props) => {
             iconSrc={BackIcon}
             altText={localeManager.composer.settings_alt_text}
             onClick={() => {
-              this.context.router.history.replace('/composer');
+              context.router.history.replace('/composer');
             }}
           />
         }

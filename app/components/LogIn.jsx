@@ -41,7 +41,7 @@ const ButtonContainerStyle = Styled.div`
 class LogIn extends Component {
   static propTypes = {
     accessTokenPair: PropTypes.object,
-    userCredentials: PropTypes.object,
+    profileImageURL: PropTypes.string,
     onUpdateRequestTokenPair: PropTypes.func.isRequired,
     renderProcess: PropTypes.object.isRequired,
     notificationManager: PropTypes.object.isRequired,
@@ -50,14 +50,14 @@ class LogIn extends Component {
 
   static defaultProps = {
     accessTokenPair: null,
-    userCredentials: null,
+    profileImageURL: null,
   };
 
   static contextTypes = {
     router: PropTypes.object,
   };
 
-  constructor() {
+  constructor(props) {
     super(props);
 
     this.onStartOAuth = this.onStartOAuth.bind(this);
@@ -65,8 +65,8 @@ class LogIn extends Component {
   }
 
   componentWillMount() {
-    const { accessTokenPair, userCredentials, } = this.props;
-    if (accessTokenPair !== null && userCredentials !== null) {
+    const { accessTokenPair, profileImageURL, } = this.props;
+    if (accessTokenPair !== null && profileImageURL !== null) {
       this.context.router.history.replace('/composer');
     }
   }
@@ -99,12 +99,12 @@ class LogIn extends Component {
     });
   }
 
-  onStartOAuth = () => {
+  onStartOAuth() {
     const { renderProcess, } = this.props;
     renderProcess.send('startOAuth');
   }
 
-  onQuitApplication = () => {
+  onQuitApplication() {
     const { renderProcess, } = this.props;
     renderProcess.send('quitApplication');
   }
