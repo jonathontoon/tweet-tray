@@ -29,8 +29,9 @@ class Settings extends Component {
     colorTheme: PropTypes.string.isRequired,
     onToggleLaunchOnStartUp: PropTypes.func.isRequired,
     onToggleColorTheme: PropTypes.func.isRequired,
-    renderProcess: PropTypes.object.isRequired,
     shouldLogout: PropTypes.func.isRequired,
+    renderProcess: PropTypes.object.isRequired,
+    shell: PropTypes.object.isRequired,
     localeManager: PropTypes.object.isRequired,
   };
 
@@ -46,6 +47,7 @@ class Settings extends Component {
       onToggleColorTheme,
       shouldLogout,
       renderProcess,
+      shell,
       localeManager,
     } = this.props;
 
@@ -102,20 +104,19 @@ class Settings extends Component {
                   title: localeManager.settings.view_website_action,
                   action: (e) => {
                     e.stopPropagation();
-                    renderProcess.send('quitApplication');
+                    shell.openExternal('https://github.com/jonathontoon/tweet-tray');
                   },
                 }, {
                   title: localeManager.settings.read_faq_action,
                   action: (e) => {
                     e.stopPropagation();
-                    renderProcess.send('quitApplication');
+                    shell.openExternal('https://github.com/jonathontoon/tweet-tray/blob/master/README.md');
                   },
                 }, {
                   title: localeManager.settings.report_issue_action,
                   action: (e) => {
                     e.stopPropagation();
-                    this.context.router.history.replace('/');
-                    shouldLogout();
+                    shell.openExternal('https://github.com/jonathontoon/tweet-tray/issues');
                   },
                 }, ],
               },
