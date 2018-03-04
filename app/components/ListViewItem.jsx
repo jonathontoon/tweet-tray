@@ -20,7 +20,9 @@ const ListViewItemStyle = Styled.button`
         day: (props) => { /* eslint indent: 0 */
           return props.isWarning ? constants.RED : constants.BLACK;
         },
-        night: constants.WHITE,
+        night: (props) => { /* eslint indent: 0 */
+          return props.isWarning ? constants.RED : constants.WHITE;
+        },
       })};
     font-size: ${constants.REGULAR_FONT_SIZE}px;
     padding-left: ${constants.SPACING}px;

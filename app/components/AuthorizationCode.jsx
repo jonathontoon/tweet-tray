@@ -32,6 +32,13 @@ const HeaderTextStyle = Styled.h1`
     line-height: 30px;
 `;
 
+const ButtonContainerStyle = Styled.div`
+  position: absolute;
+  bottom: ${constants.SPACING}px;
+  width: 318px;
+  height: auto;
+`;
+
 class AuthorizationCode extends Component {
   static propTypes = {
     requestTokenPair: PropTypes.object,
@@ -156,28 +163,27 @@ class AuthorizationCode extends Component {
             }}
             onComplete={this._onInputComplete}
           />
-          <RoundedButton
-            onClick={this._onCodeEntered}
-            style={{
-              position: 'relative',
-              top: '216px',
-              height: '44px',
-            }}
-            disabled={authorizeCode.length < 7}
-            fullWidth
-            title={localeManager.authorization_code.authorize_button}
-          />
-          <RoundedButton
-            onClick={this._onReturnToLogIn}
-            style={{
-              position: 'relative',
-              top: '232px',
-              height: '44px',
-            }}
-            fullWidth
-            borderButton
-            title={localeManager.authorization_code.return_button}
-          />
+          <ButtonContainerStyle>
+            <RoundedButton
+              onClick={this._onCodeEntered}
+              style={{
+                height: '44px',
+              }}
+              disabled={authorizeCode.length < 7}
+              fullWidth
+              title={localeManager.authorization_code.authorize_button}
+            />
+            <RoundedButton
+              onClick={this._onReturnToLogIn}
+              style={{
+                height: '44px',
+                marginTop: `${constants.SPACING}px`,
+              }}
+              fullWidth
+              borderButton
+              title={localeManager.authorization_code.return_button}
+            />
+          </ButtonContainerStyle>
         </InnerContent>
       </AuthorizationCodeStyle>
     );

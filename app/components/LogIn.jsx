@@ -31,6 +31,13 @@ const HeaderTextStyle = Styled.h1`
   line-height: 30px;
 `;
 
+const ButtonContainerStyle = Styled.div`
+  position: absolute;
+  bottom: ${constants.SPACING}px;
+  width: 318px;
+  height: auto;
+`;
+
 class LogIn extends Component {
   static propTypes = {
     accessTokenPair: PropTypes.object,
@@ -109,27 +116,26 @@ class LogIn extends Component {
           <HeaderTextStyle>
             {process.platform === 'win32' ? localeManager.login.title_taskbar : localeManager.login.title_menubuar }
           </HeaderTextStyle>
-          <RoundedButton
-            onClick={this.startOAuth}
-            style={{
-              position: 'relative',
-              top: '264px',
-              height: '44px',
-            }}
-            fullWidth
-            title={localeManager.login.log_in_button}
-          />
-          <RoundedButton
-            onClick={this.quitApplication}
-            style={{
-              position: 'relative',
-              top: '280px',
-              height: '44px',
-            }}
-            fullWidth
-            borderButton
-            title={localeManager.login.quit_button}
-          />
+          <ButtonContainerStyle>
+            <RoundedButton
+              onClick={this.startOAuth}
+              style={{
+                height: '44px',
+              }}
+              fullWidth
+              title={localeManager.login.log_in_button}
+            />
+            <RoundedButton
+              onClick={this.quitApplication}
+              style={{
+                height: '44px',
+                marginTop: `${constants.SPACING}px`,
+              }}
+              fullWidth
+              borderButton
+              title={localeManager.login.quit_button}
+            />
+          </ButtonContainerStyle>
         </InnerContent>
       </LogInStyle>
     );
