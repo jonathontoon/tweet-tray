@@ -12,7 +12,7 @@
 
 Tweet Tray is a small application which allows you to tweet from your desktop system tray or status bar, without any further distractions. The core technology used consists of [Electron](https://github.com/electron/electron), [React](https://github.com/facebook/react) + [Redux](https://github.com/reactjs/redux) and [Styled Components](https://github.com/styled-components/styled-components). All transpiled from ES6 Javascript.
 
-## Installation
+## Downloads
 
 See [releases](https://github.com/jonathontoon/tweet-tray/releases) to find a downloadable executable for your operating system of choice.
 
