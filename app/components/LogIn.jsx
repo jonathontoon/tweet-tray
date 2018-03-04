@@ -1,7 +1,6 @@
 import React, { Component, } from 'react';
 import PropTypes from 'prop-types';
 import Styled from 'styled-components';
-import Theme from 'styled-theming';
 
 import ConnectUtilities from '../containers/ConnectUtilities';
 
@@ -16,14 +15,14 @@ const LogInStyle = Styled.section`
   user-select: none;
   width: 100%;
   height: 100%;
-  background-color: ${Theme('mode', { day: constants.WHITE, night: constants.DARK_MODE_BACKGROUND, })};
+  background-color: ${constants.WHITE};
   position: relative;
 `;
 
 const HeaderTextStyle = Styled.h1`
   padding: 0;
   margin: 0;
-  color: ${Theme('mode', { day: constants.BLACK, night: constants.WHITE, })};
+  color: ${constants.BLACK};
   text-align: left;
   font-size: ${constants.XTRA_LARGE_FONT_SIZE}px;
   font-weight: bold;

@@ -6,6 +6,7 @@ import Theme from 'styled-theming';
 import * as constants from '../constants';
 
 const HeaderStyle = Styled.header`
+    user-select: none;
     position: absolute;
     z-index: 99;
     left: 0px;
@@ -29,6 +30,7 @@ const LeftViewStyle = Styled.div`
 `;
 
 const TitleStyle = Styled.div`
+    user-select: none !important;
     font-size:  ${constants.LARGE_FONT_SIZE}px;
     font-weight: bold;
     color: ${Theme('mode', { day: constants.BLACK, night: constants.WHITE, })};
