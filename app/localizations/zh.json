@@ -1,0 +1,53 @@
+{
+    "post_status_success": {
+        "title": "你的推文已发布!",
+        "description": "点击这里查看。"
+    },
+    "post_status_error": {
+        "title": "对不起，出错了!",
+        "description": "你的推文发布失败。"
+    },
+    "login": {
+        "title_taskbar": "不被分心，从桌面任务栏上快速发推文。",
+        "title_menubar": "不被分心，从桌面菜单栏上快速发推文。",
+        "log_in_button": "使用Twitter登录",
+        "quit_button": "退出Tweet Tray"
+    },
+    "authorization_code": {
+        "title": "请输入弹出窗口中显示的7位数字的PIN来完成授权。",
+        "authorize_button": "授权我的帐号",
+        "return_button": "返回登录"
+    },
+    "authorization_error": {
+        "title": "对不起，出错了!",
+        "description": "你的账号授权失败。"
+    },
+    "composer": {
+        "title": "写推文",
+        "placeholder": "有什么新鲜事?",
+        "settings_alt_text": "打开设置",
+        "image_alt_text": "添加图片",
+        "tweet_button": "发推"
+    },
+    "image_dialog": {
+        "title": "选择图片",
+        "add_button": "添加",
+        "file_type": "图片",
+        "warning_title": "注意",
+        "warning_message": "对不起，您没有执行此项操作的权限",
+        "warning_detail_images": "图片必须小于5MB。",
+        "warning_detail_gif": "GIF必须小于10MB。",
+        "warning_confirm_button": "好"
+    },
+    "settings": {
+        "title": "设置",
+        "night_mode_action": "夜间模式",
+        "launch_start_up_action": "在系统启动时启动",
+        "view_website_action": "查看网站",
+        "read_faq_action": "阅读FAQ",
+        "report_issue_action": "报告问题",
+        "quit_action": "退出Tweet Tray",
+        "log_out_action": "登出",
+        "cancel_action": "取消"
+    }
+}
