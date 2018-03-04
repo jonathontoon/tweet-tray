@@ -1,6 +1,6 @@
 import React from 'react';
 import Enzyme, { shallow, } from 'enzyme';
-import { shallowToJson } from 'enzyme-to-json';
+import { shallowToJson, } from 'enzyme-to-json';
 import Adapter from 'enzyme-adapter-react-16';
 import RoundedButton from '../../app/components/RoundedButton';
 
@@ -10,8 +10,8 @@ const mockCallBack = jest.fn();
 
 function setup() {
   const component = shallow(<RoundedButton
-    fullWidth={true}
-    value='I am a button'
+    fullWidth
+    value="I am a button"
     onClick={mockCallBack}
   />);
   return {
