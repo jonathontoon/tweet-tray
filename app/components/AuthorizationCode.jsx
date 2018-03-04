@@ -99,13 +99,13 @@ class AuthorizationCode extends Component {
     });
   }
 
-  _onInputComplete(value) {
+  onInputComplete(value) {
     this.setState({
       authorizeCode: value,
     });
   }
 
-  _onCodeEntered() {
+  onCodeEntered() {
     const { authorizeCode, } = this.state;
     const { renderProcess, requestTokenPair, } = this.props;
     renderProcess.send('sendAuthorizeCode', {
@@ -114,7 +114,7 @@ class AuthorizationCode extends Component {
     });
   }
 
-  _onReturnToLogIn() {
+  onReturnToLogIn() {
     const { renderProcess, } = this.props;
     renderProcess.send('returnToLogin');
     this.context.router.history.replace('/');

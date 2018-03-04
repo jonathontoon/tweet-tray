@@ -57,6 +57,13 @@ class LogIn extends Component {
     router: PropTypes.object,
   };
 
+  constructor() {
+    super(props);
+
+    this.onStartOAuth = this.onStartOAuth.bind(this);
+    this.onQuitApplication = this.onQuitApplication.bind(this);
+  }
+
   componentWillMount() {
     const { accessTokenPair, userCredentials, } = this.props;
     if (accessTokenPair !== null && userCredentials !== null) {
@@ -92,12 +99,12 @@ class LogIn extends Component {
     });
   }
 
-  startOAuth = () => {
+  onStartOAuth = () => {
     const { renderProcess, } = this.props;
     renderProcess.send('startOAuth');
   }
 
-  quitApplication = () => {
+  onQuitApplication = () => {
     const { renderProcess, } = this.props;
     renderProcess.send('quitApplication');
   }
@@ -118,7 +125,7 @@ class LogIn extends Component {
           </HeaderTextStyle>
           <ButtonContainerStyle>
             <RoundedButton
-              onClick={this.startOAuth}
+              onClick={this.onStartOAuth}
               style={{
                 height: '44px',
               }}
@@ -126,7 +133,7 @@ class LogIn extends Component {
               title={localeManager.login.log_in_button}
             />
             <RoundedButton
-              onClick={this.quitApplication}
+              onClick={this.onQuitApplication}
               style={{
                 height: '44px',
                 marginTop: `${constants.SPACING}px`,

@@ -61,11 +61,11 @@ class UserProfilePhoto extends Component {
   constructor(props) {
     super(props);
 
-    this._calculateArcValue = this._calculateArcValue.bind(this);
-    this._calculateArcColor = this._calculateArcColor.bind(this);
+    this.calculateArcValue = this.calculateArcValue.bind(this);
+    this.calculateArcColor = this.calculateArcColor.bind(this);
   }
 
-  _calculateArcColor() {
+  calculateArcColor() {
     const { weightedTextAmount, } = this.props;
 
     let color = null;
@@ -87,7 +87,7 @@ class UserProfilePhoto extends Component {
     return color;
   }
 
-  _calculateArcValue() {
+  calculateArcValue() {
     const { weightedTextAmount, } = this.props;
 
     let arcValue = 0;
@@ -114,11 +114,11 @@ class UserProfilePhoto extends Component {
         <WordCounterStyle>
           <ProgressArc
             textVisible={false}
-            arcColor={this._calculateArcColor()}
+            arcColor={this.calculateArcColor()}
             rounded
             arcBackgroundColor="transparent"
             className="progressArc"
-            value={this._calculateArcValue()}
+            value={this.calculateArcValue()}
           />
         </WordCounterStyle>
       </UserProfilePhotoStyle>

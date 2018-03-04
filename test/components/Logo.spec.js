@@ -1,6 +1,6 @@
 import React from 'react';
 import Enzyme, { shallow, } from 'enzyme';
-import { shallowToJson } from 'enzyme-to-json';
+import { shallowToJson, } from 'enzyme-to-json';
 import Adapter from 'enzyme-adapter-react-16';
 import Logo from '../../app/components/Logo';
 
