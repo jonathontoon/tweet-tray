@@ -2,7 +2,8 @@ import { combineReducers, } from 'redux';
 
 import colorTheme from './colorTheme';
 import launchOnStartUp from './launchOnStartUp';
-import userCredentials from './userCredentials';
+import profileImageURL from './profileImageURL';
+import profileLinkColor from './profileLinkColor';
 import weightedStatus from './weightedStatus';
 import requestTokenPair from './requestTokenPair';
 import accessTokenPair from './accessTokenPair';
@@ -12,7 +13,8 @@ import { ON_LOGOUT, } from '../actions/actionTypes';
 const appReducer = combineReducers({
   accessTokenPair,
   requestTokenPair,
-  userCredentials,
+  profileImageURL,
+  profileLinkColor,
   weightedStatus,
   launchOnStartUp,
   colorTheme,

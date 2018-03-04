@@ -2,20 +2,15 @@ import launchOnStartUp from '../../app/reducers/launchOnStartUp';
 import { TOGGLE_LAUNCH_ON_START_UP, } from '../../app/actions/actionTypes';
 import * as testData from '../testData';
 
-describe('reducers', () => {
-  describe('launchOnStartUp', () => {
-    it('should handle initial state', () => {
-      expect(launchOnStartUp(null, {})).toMatchSnapshot();
-    });
+describe('launchOnStartUp reducer', () => {
+  it('should handle initial state', () => {
+    expect(launchOnStartUp(undefined, {})).toEqual(true);
+  });
 
-    it('should handle TOGGLE_LAUNCH_ON_START_UP', () => {
-      expect(launchOnStartUp(testData.launchOnStartUp, {
-        type: TOGGLE_LAUNCH_ON_START_UP,
-      })).toMatchSnapshot();
-    });
-
-    it('should handle unknown action type', () => {
-      expect(launchOnStartUp(testData.launchOnStartUp, { type: 'unknown', })).toMatchSnapshot();
-    });
+  it('should handle TOGGLE_LAUNCH_ON_START_UP', () => {
+    expect(launchOnStartUp(undefined, {
+      launchOnStartUp: testData.launchOnStartUp,
+      type: TOGGLE_LAUNCH_ON_START_UP,
+    })).toEqual(true);
   });
 });

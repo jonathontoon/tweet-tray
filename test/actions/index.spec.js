@@ -19,12 +19,20 @@ describe('actions', () => {
     expect(actions.updateRequestTokenPair(testData.requestTokenPair)).toEqual(expectedAction);
   });
 
-  it('should create an action to set the user credentials object', () => {
+  it('should create an action to set the profile image url', () => {
     const expectedAction = {
-      type: types.SET_USER_CREDENTIALS,
-      userCredentials: testData.userCredentials,
+      type: types.SET_PROFILE_IMAGE_URL,
+      profileImageURL: testData.profileImageURL,
     };
-    expect(actions.setUserCredentials(testData.userCredentials)).toEqual(expectedAction);
+    expect(actions.setProfileImageURL(testData.profileImageURL)).toEqual(expectedAction);
+  });
+
+  it('should create an action to set the profile link color', () => {
+    const expectedAction = {
+      type: types.SET_PROFILE_LINK_COLOR,
+      profileLinkColor: testData.profileLinkColor,
+    };
+    expect(actions.setProfileLinkColor(testData.profileLinkColor)).toEqual(expectedAction);
   });
 
   it('should create an action to update the weighted status object', () => {

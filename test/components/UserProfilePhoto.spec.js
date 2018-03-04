@@ -8,7 +8,7 @@ Enzyme.configure({ adapter: new Adapter(), });
 
 function setup() {
   const component = shallow(<UserProfilePhoto
-    profilePhotoURL={testData.userCredentials.profileImageURL}
+    profilePhotoURL={testData.profileImageURL}
     weightedTextAmount={testData.weightedStatus.permillage}
   />);
   return {

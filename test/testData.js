@@ -6,17 +6,8 @@ export const requestTokenPair = {
   secret: 'YopgcfgT8xSGS4HaP3V71l3eFyFUY4NI',
   token: '2XvdJwMMMMMM31rrSSSUOPXn4wHA',
 };
-export const userCredentials = {
-  description: 'Internet explorer.',
-  geoEnabled: true,
-  lang: 'en',
-  location: 'Tokyo, Japan',
-  name: 'Jonathon Toon',
-  profileImageURL: 'https://pbs.twimg.com/profile_images/960374717726130182/AS3TkK0J_normal.jpg',
-  screenName: 'jonathontoon',
-  timeZone: 'Pacific Time (US & Canada)',
-  utcOffset: -28800,
-};
+export const profileImageURL = 'https://pbs.twimg.com/profile_images/960374717726130182/AS3TkK0J_normal.jpg';
+export const profileLinkColor = '#1da1f2';
 export const weightedStatus = {
   displayRangeEnd: 208,
   displayRangeStart: 0,

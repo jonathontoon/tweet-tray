@@ -2,20 +2,15 @@ import colorTheme from '../../app/reducers/colorTheme';
 import { TOGGLE_COLOR_THEME, } from '../../app/actions/actionTypes';
 import * as testData from '../testData';
 
-describe('reducers', () => {
-  describe('toggleColorTheme', () => {
-    it('should handle initial state', () => {
-      expect(colorTheme(null, {})).toMatchSnapshot();
-    });
+describe('colorTheme reducer', () => {
+  it('should handle initial state', () => {
+    expect(colorTheme(undefined, {})).toEqual('day');
+  });
 
-    it('should handle TOGGLE_COLOR_THEME', () => {
-      expect(colorTheme(testData.colorTheme, {
-        type: TOGGLE_COLOR_THEME,
-      })).toMatchSnapshot();
-    });
-
-    it('should handle unknown action type', () => {
-      expect(colorTheme(testData.colorTheme, { type: 'unknown', })).toMatchSnapshot();
-    });
+  it('should handle TOGGLE_COLOR_THEME', () => {
+    expect(colorTheme(undefined, {
+      colorTheme: testData.colorTheme,
+      type: TOGGLE_COLOR_THEME,
+    })).toEqual('night');
   });
 });

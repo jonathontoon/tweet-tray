@@ -14,10 +14,17 @@ export const updateRequestTokenPair = (requestTokenPair) => {
   };
 };
 
-export const setUserCredentials = (userCredentials) => {
+export const setProfileImageURL = (profileImageURL) => {
   return {
-    type: types.SET_USER_CREDENTIALS,
-    userCredentials,
+    type: types.SET_PROFILE_IMAGE_URL,
+    profileImageURL,
+  };
+};
+
+export const setProfileLinkColor = (profileLinkColor) => {
+  return {
+    type: types.SET_PROFILE_LINK_COLOR,
+    profileLinkColor,
   };
 };
 

@@ -2,20 +2,22 @@ import weightedStatus from '../../app/reducers/weightedStatus';
 import { UPDATE_WEIGHTED_STATUS, } from '../../app/actions/actionTypes';
 import * as testData from '../testData';
 
-describe('reducers', () => {
-  describe('weightedStatus', () => {
-    it('should handle initial state', () => {
-      expect(weightedStatus(null, {})).toMatchSnapshot();
-    });
+describe('weightedStatus reducer', () => {
+  it('should handle initial state', () => {
+    expect(weightedStatus(undefined, {})).toEqual(null);
+  });
 
-    it('should handle UPDATE_WEIGHTED_STATUS', () => {
-      expect(weightedStatus(testData.weightedStatus, {
-        type: UPDATE_WEIGHTED_STATUS,
-      })).toMatchSnapshot();
-    });
-
-    it('should handle unknown action type', () => {
-      expect(weightedStatus(testData.weightedStatus, { type: 'unknown', })).toMatchSnapshot();
+  it('should handle UPDATE_WEIGHTED_STATUS', () => {
+    expect(weightedStatus(undefined, {
+      weightedStatus: testData.weightedStatus,
+      type: UPDATE_WEIGHTED_STATUS,
+    })).toEqual({
+      displayRangeEnd: 208,
+      displayRangeStart: 0,
+      permillage: 746,
+      text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam non nisl facilisis, imperdiet ipsum sed, pretium metus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.',
+      valid: true,
+      weightedLength: 209,
     });
   });
 });
