@@ -13,8 +13,8 @@ function setup() {
   />);
   return {
     component,
-    image: component.find('img'),
-    arc: component.find('.progressArc'),
+    image: component.find('UserProfilePhoto__ProfilePhotoImageStyle img'),
+    arc: component.find('UserProfilePhoto__WordCounterStyle .progressArc'),
   };
 }
 

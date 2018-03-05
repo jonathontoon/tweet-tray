@@ -21,6 +21,10 @@ function setup() {
 }
 
 describe('RoundedButton component', () => {
+  it('should render', () => {
+    const { component, } = setup();
+    expect(shallowToJson(component)).toMatchSnapshot();
+  });
   it('should render full width button', () => {
     const { button, } = setup();
     expect(shallowToJson(button)).toMatchSnapshot();

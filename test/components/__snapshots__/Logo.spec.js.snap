@@ -1,10 +1,10 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`Logo component should render alt text 1`] = `"Twitter Logo"`;
+
 exports[`Logo component should render image 1`] = `
-<styled.img
+<Logo__LogoStyle
   alt="Twitter Logo"
   src="test-file-stub"
 />
 `;
-
-exports[`Logo component should render image with alt text 1`] = `"Twitter Logo"`;

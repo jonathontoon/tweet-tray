@@ -2,8 +2,8 @@
 
 exports[`RoundedButton component button should contain value 1`] = `"A Button"`;
 
-exports[`RoundedButton component should render full width button 1`] = `
-<styled.button
+exports[`RoundedButton component should render 1`] = `
+<RoundedButton__RoundedButtonStyle
   className="fullWidth "
   disabled={false}
   onClick={[MockFunction]}
@@ -12,5 +12,18 @@ exports[`RoundedButton component should render full width button 1`] = `
   value="A Button"
 >
   A Button
-</styled.button>
+</RoundedButton__RoundedButtonStyle>
+`;
+
+exports[`RoundedButton component should render full width button 1`] = `
+<RoundedButton__RoundedButtonStyle
+  className="fullWidth "
+  disabled={false}
+  onClick={[MockFunction]}
+  style={null}
+  type="button"
+  value="A Button"
+>
+  A Button
+</RoundedButton__RoundedButtonStyle>
 `;

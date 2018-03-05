@@ -18,12 +18,18 @@ function setup() {
   />);
   return {
     component,
+    image: component.find('IconButton__ImageStyle'),
   };
 }
 
 describe('IconButton component', () => {
-  it('should render button with image', () => {
+  it('should render button', () => {
     const { component, } = setup();
     expect(shallowToJson(component)).toMatchSnapshot();
+  });
+
+  it('should render image inside button', () => {
+    const { image, } = setup();
+    expect(shallowToJson(image)).toMatchSnapshot();
   });
 });

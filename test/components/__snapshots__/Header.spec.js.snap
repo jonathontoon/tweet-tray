@@ -1,0 +1,41 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Header component should render 1`] = `
+<Header__HeaderStyle>
+  <Header__LeftViewStyle>
+    <div>
+      Left View
+    </div>
+  </Header__LeftViewStyle>
+  <Header__TitleStyle>
+    Header Title
+  </Header__TitleStyle>
+  <Header__RightViewStyle>
+    <div>
+      Right View
+    </div>
+  </Header__RightViewStyle>
+</Header__HeaderStyle>
+`;
+
+exports[`Header component should render with leftView 1`] = `
+<Header__LeftViewStyle>
+  <div>
+    Left View
+  </div>
+</Header__LeftViewStyle>
+`;
+
+exports[`Header component should render with rightView 1`] = `
+<Header__RightViewStyle>
+  <div>
+    Right View
+  </div>
+</Header__RightViewStyle>
+`;
+
+exports[`Header component should render with title 1`] = `
+<Header__TitleStyle>
+  Header Title
+</Header__TitleStyle>
+`;

@@ -1,13 +1,20 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`IconButton component should render button with image 1`] = `
-<styled.button
+exports[`IconButton component should render button 1`] = `
+<IconButton__IconButtonStyle
   disabled={false}
   onClick={[MockFunction]}
 >
-  <styled.img
+  <IconButton__ImageStyle
     alt="Settings Icon"
     src="test-file-stub"
   />
-</styled.button>
+</IconButton__IconButtonStyle>
+`;
+
+exports[`IconButton component should render image inside button 1`] = `
+<IconButton__ImageStyle
+  alt="Settings Icon"
+  src="test-file-stub"
+/>
 `;

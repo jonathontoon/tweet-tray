@@ -18,7 +18,7 @@ describe('Logo component', () => {
     const { component, } = setup();
     expect(shallowToJson(component)).toMatchSnapshot();
   });
-  it('should render image with alt text', () => {
+  it('should render alt text', () => {
     const { component, } = setup();
     expect(component.prop('alt')).toMatchSnapshot();
   });
