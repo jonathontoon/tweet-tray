@@ -33,9 +33,11 @@ const ComposerStyle = Styled.section`
 class Composer extends Component {
   static propTypes = {
     weightedStatus: PropTypes.object,
+    statusImage: PropTypes.object,
     profileImageURL: PropTypes.string,
     accessTokenPair: PropTypes.object,
     onUpdateWeightedStatus: PropTypes.func.isRequired,
+    onSetStatusImage: PropTypes.func.isRequired,
     renderProcess: PropTypes.object.isRequired,
     shell: PropTypes.object.isRequired,
     notificationManager: PropTypes.object.isRequired,
@@ -44,6 +46,7 @@ class Composer extends Component {
 
   static defaultProps = {
     weightedStatus: null,
+    statusImage: null,
     profileImageURL: null,
     accessTokenPair: null,
   };
@@ -54,9 +57,6 @@ class Composer extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {
-      image: null,
-    };
 
     this.addImage = this.addImage.bind(this);
     this.removeImage = this.removeImage.bind(this);
@@ -95,32 +95,36 @@ class Composer extends Component {
   }
 
   addImage(e) {
+    const { onSetStatusImage, } = this.props;
     if (e) {
       e.preventDefault();
     }
     ImageDialog((newImage) => {
-      this.setState({
-        image: newImage,
-      });
+      onSetStatusImage(newImage);
     });
   }
 
   removeImage() {
-    this.setState({
-      image: null,
-    });
+    const { onSetStatusImage, } = this.props;
+    onSetStatusImage(null);
   }
 
   postStatus(e) {
+    const {
+      renderProcess,
+      accessTokenPair,
+      weightedStatus,
+      statusImage,
+      onUpdateWeightedStatus,
+      onSetStatusImage,
+    } = this.props;
+
     if (e) {
       e.preventDefault();
     }
 
-    const { image, } = this.state;
-    const { renderProcess, accessTokenPair, weightedStatus, } = this.props;
-
     const statusText = weightedStatus === null ? '' : weightedStatus.text;
-    const imageData = image ? image.data : null;
+    const imageData = statusImage ? statusImage.data : null;
 
     renderProcess.send('postStatus', {
       accessTokenPair,
@@ -128,8 +132,8 @@ class Composer extends Component {
       imageData,
     });
 
-    this.setState({ image: null, });
-    this.props.onUpdateWeightedStatus(null);
+    onSetStatusImage(null);
+    onUpdateWeightedStatus(null);
     this.forceUpdate();
   }
 
@@ -138,17 +142,17 @@ class Composer extends Component {
   }
 
   render() {
-    const { image, } = this.state;
     const {
       profileImageURL,
       weightedStatus,
+      statusImage,
       onUpdateWeightedStatus,
       localeManager,
     } = this.props;
 
     const weightedStatusText = weightedStatus === null ? null : weightedStatus.text;
     const weightedTextAmount = weightedStatus !== null ? weightedStatus.permillage : null;
-    const imageDataSource = image !== null ? [image, ] : null;
+    const imageDataSource = statusImage !== null ? [statusImage, ] : null;
 
     return (
       <ComposerStyle>
@@ -190,7 +194,7 @@ class Composer extends Component {
         <Footer
           leftView={
             <IconButton
-              disabled={image !== null}
+              disabled={imageDataSource !== null}
               iconSrc={PhotoIcon}
               altText={localeManager.composer.image_alt_text}
               onClick={this.addImage}
@@ -198,7 +202,7 @@ class Composer extends Component {
           }
           rightView={
             <RoundedButton
-              disabled={weightedStatus === null && image === null}
+              disabled={weightedStatus === null && imageDataSource === null}
               title={localeManager.composer.tweet_button}
               fullWidth={false}
               type="submit"

@@ -43,6 +43,14 @@ describe('actions', () => {
     expect(actions.updateWeightedStatus(testData.weightedStatus)).toEqual(expectedAction);
   });
 
+  it('should create an action to update the status image object', () => {
+    const expectedAction = {
+      type: types.SET_STATUS_IMAGE,
+      statusImage: testData.statusImage,
+    };
+    expect(actions.setStatusImage(testData.statusImage)).toEqual(expectedAction);
+  });
+
   it('should create an action to toggle whether the app launchs on system start', () => {
     const expectedAction = {
       type: types.TOGGLE_LAUNCH_ON_START_UP,

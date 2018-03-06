@@ -16,6 +16,12 @@ export const weightedStatus = {
   valid: true,
   weightedLength: 209,
 };
+export const statusImage = {
+  data: 'R0lGODlh3AEMAfcAMQD/AAgGAggJBgsIBQsLBwwKBg0MCA4JAw4KBw4LBw4NCQ8NDg8PCRAOCREPDhIJBRINCBIOCBIRDxISDxISIhMPCRMPDBMQDxMSExMUKRQRChQRGxUOChUODRUSFxYOBxYPCBYTDxcMBxcQDhgKBhgRFBgVFBgZLBkGAxkRCBkSDRkWFBkcNRoT…',
+  extension: '.gif',
+  path: 'C:\\Users\\toon\\Downloads\\giphy.gif',
+  size: 3.069171905517578,
+};
 export const launchOnStartUp = true;
 export const colorTheme = 'night';
 

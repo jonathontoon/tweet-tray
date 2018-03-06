@@ -35,6 +35,13 @@ export const updateWeightedStatus = (weightedStatus) => {
   };
 };
 
+export const setStatusImage = (statusImage) => {
+  return {
+    type: types.SET_STATUS_IMAGE,
+    statusImage,
+  };
+};
+
 export const toggleLaunchOnStartUp = (launchOnStartUp) => {
   return {
     type: types.TOGGLE_LAUNCH_ON_START_UP,

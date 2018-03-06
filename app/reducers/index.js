@@ -4,6 +4,7 @@ import colorTheme from './colorTheme';
 import launchOnStartUp from './launchOnStartUp';
 import profileImageURL from './profileImageURL';
 import weightedStatus from './weightedStatus';
+import statusImage from './statusImage';
 import requestTokenPair from './requestTokenPair';
 import accessTokenPair from './accessTokenPair';
 
@@ -14,6 +15,7 @@ const appReducer = combineReducers({
   requestTokenPair,
   profileImageURL,
   weightedStatus,
+  statusImage,
   launchOnStartUp,
   colorTheme,
 });
