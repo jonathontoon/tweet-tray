@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`InnerContent component should render 1`] = `
+<InnerContent__InnerContentStyle
+  style={null}
+>
+  <div>
+    Test Content
+  </div>
+</InnerContent__InnerContentStyle>
+`;
+
+exports[`InnerContent component should render content 1`] = `
+<div>
+  Test Content
+</div>
+`;

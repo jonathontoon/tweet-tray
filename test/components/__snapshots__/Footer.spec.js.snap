@@ -1,0 +1,28 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Footer component should render 1`] = `
+<Footer__FooterStyle>
+  <Footer__LeftViewStyle>
+    <div>
+      Left View
+    </div>
+  </Footer__LeftViewStyle>
+  <Footer__RightViewStyle>
+    <div>
+      Right View
+    </div>
+  </Footer__RightViewStyle>
+</Footer__FooterStyle>
+`;
+
+exports[`Footer component should render with leftView content 1`] = `
+<div>
+  Left View
+</div>
+`;
+
+exports[`Footer component should render with rightView content 1`] = `
+<div>
+  Right View
+</div>
+`;

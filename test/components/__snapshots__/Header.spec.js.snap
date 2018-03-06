@@ -18,24 +18,16 @@ exports[`Header component should render 1`] = `
 </Header__HeaderStyle>
 `;
 
-exports[`Header component should render with leftView 1`] = `
-<Header__LeftViewStyle>
-  <div>
-    Left View
-  </div>
-</Header__LeftViewStyle>
+exports[`Header component should render with leftView content 1`] = `
+<div>
+  Left View
+</div>
 `;
 
-exports[`Header component should render with rightView 1`] = `
-<Header__RightViewStyle>
-  <div>
-    Right View
-  </div>
-</Header__RightViewStyle>
+exports[`Header component should render with rightView content 1`] = `
+<div>
+  Right View
+</div>
 `;
 
-exports[`Header component should render with title 1`] = `
-<Header__TitleStyle>
-  Header Title
-</Header__TitleStyle>
-`;
+exports[`Header component should render with title content 1`] = `"<Header__TitleStyle />"`;
