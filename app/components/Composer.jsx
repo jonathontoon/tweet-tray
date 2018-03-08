@@ -82,7 +82,6 @@ class Composer extends Component {
 
     renderProcess.on('postStatusComplete', (event, response) => {
       const { id_str, user, } = response;
-      console.log(`https://twitter.com/${user.screen_name}/status/${id_str}`);
 
       notificationManager.send(
         localeManager.post_status_success.title,
