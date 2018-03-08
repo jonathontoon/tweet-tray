@@ -76,15 +76,20 @@ class Composer extends Component {
       notificationManager.send(
         localeManager.post_status_error.title,
         localeManager.post_status_error.description,
+        false,
       );
     });
 
     renderProcess.on('postStatusComplete', (event, response) => {
+      const { id_str, user, } = response;
+      console.log(`https://twitter.com/${user.screen_name}/status/${id_str}`);
+
       notificationManager.send(
         localeManager.post_status_success.title,
         localeManager.post_status_success.description,
+        false,
         () => {
-          shell.openExternal(`https://twitter.com/${response.user.screen_name}/status/${response.id_str}`);
+          shell.openExternal(`https://twitter.com/${user.screen_name}/status/${id_str}`);
         }
       );
     });

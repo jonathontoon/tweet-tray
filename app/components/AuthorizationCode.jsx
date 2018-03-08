@@ -84,6 +84,7 @@ class AuthorizationCode extends Component {
       notificationManager.send(
         localeManager.authorization_error.title,
         localeManager.authorization_error.description,
+        false,
       );
     });
 
@@ -91,6 +92,7 @@ class AuthorizationCode extends Component {
       notificationManager.send(
         localeManager.authorization_error.title,
         localeManager.authorization_error.description,
+        false,
       );
     });
 
