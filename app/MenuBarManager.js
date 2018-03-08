@@ -11,6 +11,7 @@ class MenuBarManager {
     this._windowPositioner = null;
 
     this._shouldWindowBeOpen = false;
+    this._shouldQuit = null;
 
     this._createWindow = this._createWindow.bind(this);
     this._createTray = this._createTray.bind(this);
@@ -96,6 +97,17 @@ class MenuBarManager {
     });
 
     this._windowPositioner = new Positioner(this.window);
+
+    this._shouldQuit = app.makeSingleInstance(() => {
+      if (this.window) {
+        if (this.window.isMinimized()) this.window.restore();
+        this.showWindow();
+      }
+    });
+
+    if (this._shouldQuit) {
+      app.quit();
+    }
   }
 
   _createTray() {
