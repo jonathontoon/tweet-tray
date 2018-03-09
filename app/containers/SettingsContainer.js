@@ -6,6 +6,7 @@ import Settings from '../components/Settings';
 const mapStateToProps = (store) => {
   return {
     launchOnStartUp: store.launchOnStartUp,
+    profileLinkColor: store.profileLinkColor,
     colorTheme: store.colorTheme,
   };
 };

@@ -4,6 +4,8 @@ import Styled from 'styled-components';
 
 import Icon from './Icon';
 
+import * as constants from '../constants';
+
 const IconButtonStyle = Styled.button`
     -webkit-app-region: no-drag;
     user-select: none;
@@ -39,7 +41,7 @@ const ImageContainerStyle = Styled.div`
 
 const IconButton = (props) => {
   const {
-    disabled, icon, onClick,
+    disabled, icon, color, onClick,
   } = props;
 
   return (
@@ -48,7 +50,7 @@ const IconButton = (props) => {
       disabled={disabled}
     >
       <ImageContainerStyle>
-        <Icon name={icon} />
+        <Icon name={icon} color={color} />
       </ImageContainerStyle>
     </IconButtonStyle>
   );
@@ -57,11 +59,13 @@ const IconButton = (props) => {
 IconButton.propTypes = {
   disabled: PropTypes.bool,
   icon: PropTypes.string.isRequired,
+  color: PropTypes.string,
   onClick: PropTypes.func.isRequired,
 };
 
 IconButton.defaultProps = {
   disabled: false,
+  color: constants.BLUE,
 };
 
 export default IconButton;

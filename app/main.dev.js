@@ -136,7 +136,7 @@ ipcMain.on('sendAuthorizeCode', (sendAuthorizeCodeEvent, data) => {
 
           const userCredentials = {
             profileImageURL: credentials.profile_image_url_https.replace('_normal.jpg', '.jpg'),
-            profileLinkColor: credentials.profile_link_color,
+            profileLinkColor: `#${credentials.profile_link_color}`,
           };
 
           sendAuthorizeCodeEvent.sender.send('completedOAuth', {

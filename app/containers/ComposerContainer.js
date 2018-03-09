@@ -8,6 +8,7 @@ const mapStateToProps = (store) => {
     weightedStatus: store.weightedStatus,
     statusImage: store.statusImage,
     profileImageURL: store.profileImageURL,
+    profileLinkColor: store.profileLinkColor,
     accessTokenPair: store.accessTokenPair,
   };
 };

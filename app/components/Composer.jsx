@@ -32,6 +32,7 @@ class Composer extends Component {
     weightedStatus: PropTypes.object,
     statusImage: PropTypes.object,
     profileImageURL: PropTypes.string,
+    profileLinkColor: PropTypes.string.isRequired,
     accessTokenPair: PropTypes.object,
     onUpdateWeightedStatus: PropTypes.func.isRequired,
     onSetStatusImage: PropTypes.func.isRequired,
@@ -145,6 +146,7 @@ class Composer extends Component {
   render() {
     const {
       profileImageURL,
+      profileLinkColor,
       weightedStatus,
       statusImage,
       onUpdateWeightedStatus,
@@ -164,6 +166,7 @@ class Composer extends Component {
           rightView={
             <IconButton
               icon="settings"
+              color={profileLinkColor}
               onClick={this.goToSettings}
             />
           }
@@ -196,6 +199,7 @@ class Composer extends Component {
             <IconButton
               disabled={imageDataSource !== null}
               icon="photo"
+              color={profileLinkColor}
               onClick={this.addImage}
             />
           }

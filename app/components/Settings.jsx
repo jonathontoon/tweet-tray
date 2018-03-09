@@ -24,6 +24,7 @@ const SettingsStyle = Styled.section`
 const Settings = (props, context) => {
   const {
     launchOnStartUp,
+    profileLinkColor,
     colorTheme,
     onToggleLaunchOnStartUp,
     onToggleColorTheme,
@@ -40,6 +41,7 @@ const Settings = (props, context) => {
         leftView={
           <IconButton
             icon="back"
+            color={profileLinkColor}
             onClick={() => {
               context.router.history.replace('/composer');
             }}
@@ -128,6 +130,7 @@ const Settings = (props, context) => {
 
 Settings.propTypes = {
   launchOnStartUp: PropTypes.bool.isRequired,
+  profileLinkColor: PropTypes.string,
   colorTheme: PropTypes.string.isRequired,
   onToggleLaunchOnStartUp: PropTypes.func.isRequired,
   onToggleColorTheme: PropTypes.func.isRequired,

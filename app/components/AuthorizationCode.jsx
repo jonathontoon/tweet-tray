@@ -100,7 +100,7 @@ class AuthorizationCode extends Component {
       const { accessTokenPair, userCredentials, } = response;
       onUpdateAccessTokenPair(accessTokenPair);
       onSetProfileImageURL(userCredentials.profileImageURL);
-      onSetProfileLinkColor(userCredentials.profileImageLink);
+      onSetProfileLinkColor(userCredentials.profileLinkColor);
       this.context.router.history.replace('/composer');
     });
   }

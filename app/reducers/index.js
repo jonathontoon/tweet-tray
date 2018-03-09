@@ -3,6 +3,7 @@ import { combineReducers, } from 'redux';
 import colorTheme from './colorTheme';
 import launchOnStartUp from './launchOnStartUp';
 import profileImageURL from './profileImageURL';
+import profileLinkColor from './profileLinkColor';
 import weightedStatus from './weightedStatus';
 import statusImage from './statusImage';
 import requestTokenPair from './requestTokenPair';
@@ -14,6 +15,7 @@ const appReducer = combineReducers({
   accessTokenPair,
   requestTokenPair,
   profileImageURL,
+  profileLinkColor,
   weightedStatus,
   statusImage,
   launchOnStartUp,
