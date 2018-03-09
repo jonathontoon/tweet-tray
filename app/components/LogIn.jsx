@@ -127,18 +127,14 @@ class LogIn extends Component {
           <ButtonContainerStyle>
             <RoundedButton
               onClick={this.onStartOAuth}
-              style={{
-                height: '44px',
-              }}
+              height={44}
               fullWidth
               title={localeManager.login.log_in_button}
             />
             <RoundedButton
               onClick={this.onQuitApplication}
-              style={{
-                height: '44px',
-                marginTop: `${constants.SPACING}px`,
-              }}
+              height={44}
+              marginTop={constants.SPACING}
               fullWidth
               borderButton
               title={localeManager.login.quit_button}

@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Styled from 'styled-components';
+import Theme from 'styled-theming';
 
 import * as constants from '../constants';
 
@@ -16,7 +17,12 @@ const RoundedButtonStyle = Styled.button`
     font-weight: bold;
     border: 0px;
     outline: 0px;
-    background-color: ${constants.BLUE};
+    background-color: ${Theme('mode', {
+      day: (props) => { /* eslint indent: 0 */
+        return props.color;
+      },
+      night: constants.BLUE,
+    })};
     color: ${constants.WHITE};
     transition: all 0.3s ease 0s;
     line-height: 20px;
@@ -47,7 +53,9 @@ const RoundedButtonStyle = Styled.button`
 const RoundedButton = (props) => {
   const {
     disabled,
-    style,
+    color,
+    marginTop,
+    height,
     title,
     onClick,
     borderButton,
@@ -57,8 +65,12 @@ const RoundedButton = (props) => {
 
   return (
     <RoundedButtonStyle
+      color={color}
       type={type}
-      style={style}
+      style={{
+        marginTop: `${marginTop}px`,
+        height: `${height}px`,
+      }}
       className={`${fullWidth ? 'fullWidth' : ''} ${borderButton ? 'borderButton' : ''}`}
       onClick={onClick}
       disabled={disabled}
@@ -71,9 +83,11 @@ const RoundedButton = (props) => {
 
 RoundedButton.propTypes = {
   disabled: PropTypes.bool,
+  color: PropTypes.string.isRequired,
   borderButton: PropTypes.bool,
   fullWidth: PropTypes.bool,
-  style: PropTypes.object,
+  marginTop: PropTypes.number,
+  height: PropTypes.number,
   title: PropTypes.string,
   onClick: PropTypes.func,
   type: PropTypes.string,
@@ -83,7 +97,8 @@ RoundedButton.defaultProps = {
   disabled: false,
   borderButton: false,
   fullWidth: false,
-  style: null,
+  marginTop: 0,
+  height: 38,
   title: 'A Button',
   onClick: {},
   type: 'button',

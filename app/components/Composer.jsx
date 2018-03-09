@@ -182,6 +182,7 @@ class Composer extends Component {
         >
           <UserProfilePhoto
             profilePhotoURL={profileImageURL}
+            arcColor={profileLinkColor}
             weightedTextAmount={weightedTextAmount}
           />
           <StatusInput
@@ -207,6 +208,7 @@ class Composer extends Component {
             <RoundedButton
               disabled={weightedStatus === null && imageDataSource === null}
               title={localeManager.composer.tweet_button}
+              color={profileLinkColor}
               fullWidth={false}
               type="submit"
               onClick={this.postStatus}

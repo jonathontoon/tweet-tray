@@ -57,6 +57,7 @@ const Settings = (props, context) => {
         }}
       >
         <ListView
+          color={profileLinkColor}
           dataSource={[
             {
               title: 'Customization',
@@ -138,6 +139,10 @@ Settings.propTypes = {
   renderProcess: PropTypes.object.isRequired,
   shell: PropTypes.object.isRequired,
   localeManager: PropTypes.object.isRequired,
+};
+
+Settings.defaultProps = {
+  profileLinkColor: constants.BLUE,
 };
 
 Settings.contextTypes = {

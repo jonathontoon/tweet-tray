@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Theme from 'styled-theming';
 import Switch from 'react-switch';
 
 import ListViewItem from './ListViewItem';

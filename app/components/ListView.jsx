@@ -34,7 +34,7 @@ const ListViewSectionStyle = Styled.div`
 `;
 
 const ListView = (props) => {
-  const { dataSource, } = props;
+  const { dataSource, color, } = props;
   return (
     <ListViewStyle>
       {dataSource.map((section) => {
@@ -46,6 +46,7 @@ const ListView = (props) => {
                   <SwitchListViewItem
                     key={item.title}
                     title={item.title}
+                    selectedColor={color}
                     action={item.action}
                     type={item.type}
                     state={item.state}
@@ -72,6 +73,7 @@ const ListView = (props) => {
 
 ListView.propTypes = {
   dataSource: PropTypes.array.isRequired,
+  color: PropTypes.string.isRequired,
 };
 
 export default ListView;

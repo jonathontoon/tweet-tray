@@ -50,11 +50,13 @@ const WordCounterStyle = Styled.div`
 class UserProfilePhoto extends Component {
   static propTypes = {
     profilePhotoURL: PropTypes.string,
+    arcColor: PropTypes.string,
     weightedTextAmount: PropTypes.number,
   }
 
   static defaultProps = {
     profilePhotoURL: null,
+    arcColor: constants.BLUE,
     weightedTextAmount: null,
   }
 
@@ -66,7 +68,7 @@ class UserProfilePhoto extends Component {
   }
 
   calculateArcColor() {
-    const { weightedTextAmount, } = this.props;
+    const { arcColor, weightedTextAmount, } = this.props;
 
     let color = null;
 
@@ -74,14 +76,14 @@ class UserProfilePhoto extends Component {
       if (weightedTextAmount > 1000) {
         color = constants.RED;
       } else {
-        color = constants.BLUE;
+        color = arcColor;
 
         if (weightedTextAmount >= 900) {
           color = constants.YELLOW;
         }
       }
     } else {
-      color = constants.BLUE;
+      color = arcColor;
     }
 
     return color;

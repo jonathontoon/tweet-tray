@@ -172,19 +172,15 @@ class AuthorizationCode extends Component {
           <ButtonContainerStyle>
             <RoundedButton
               onClick={this.onCodeEntered}
-              style={{
-                height: '44px',
-              }}
+              height={44}
               disabled={authorizeCode.length < 7}
               fullWidth
               title={localeManager.authorization_code.authorize_button}
             />
             <RoundedButton
               onClick={this.onReturnToLogIn}
-              style={{
-                height: '44px',
-                marginTop: `${constants.SPACING}px`,
-              }}
+              height={44}
+              marginTop={constants.SPACING}
               fullWidth
               borderButton
               title={localeManager.authorization_code.return_button}
