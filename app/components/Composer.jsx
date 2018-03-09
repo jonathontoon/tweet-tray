@@ -78,7 +78,7 @@ class Composer extends Component {
     });
 
     renderProcess.on('postStatusComplete', (event, response) => {
-      const { id_str, user, } = response;
+      const { id_str, user, } = response; /* eslint camelcase: 0 */
 
       notificationManager.send(
         localeManager.post_status_success.title,
