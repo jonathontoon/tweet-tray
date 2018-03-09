@@ -18,9 +18,6 @@ import * as constants from '../constants';
 
 import ImageDialog from '../utils/ImageDialog';
 
-import SettingsIcon from '../../resources/settings.svg';
-import PhotoIcon from '../../resources/photo.svg';
-
 const ComposerStyle = Styled.section`
   overflow: hidden;
   user-select: none;
@@ -166,8 +163,7 @@ class Composer extends Component {
           }
           rightView={
             <IconButton
-              iconSrc={SettingsIcon}
-              altText={localeManager.composer.settings_alt_text}
+              icon="settings"
               onClick={this.goToSettings}
             />
           }
@@ -199,8 +195,7 @@ class Composer extends Component {
           leftView={
             <IconButton
               disabled={imageDataSource !== null}
-              iconSrc={PhotoIcon}
-              altText={localeManager.composer.image_alt_text}
+              icon="photo"
               onClick={this.addImage}
             />
           }

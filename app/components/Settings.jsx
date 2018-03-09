@@ -12,8 +12,6 @@ import ListView from './ListView';
 
 import * as constants from '../constants';
 
-import BackIcon from '../../resources/back.svg';
-
 const SettingsStyle = Styled.section`
     overflow: hidden;
     user-select: none;
@@ -41,8 +39,7 @@ const Settings = (props, context) => {
         title={localeManager.settings.title}
         leftView={
           <IconButton
-            iconSrc={BackIcon}
-            altText={localeManager.composer.settings_alt_text}
+            icon="back"
             onClick={() => {
               context.router.history.replace('/composer');
             }}
