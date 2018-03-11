@@ -22,8 +22,23 @@ const SettingsStyle = Styled.section`
   position: relative;
 `;
 
+const AppVersionStyle = Styled.section`
+  position: absolute;
+  left: 0px;
+  bottom: 0px;
+  width: 100%;
+  height: 40px;
+  color: ${(props) => {
+    return props.theme === 'day' ? constants.BORDER_GREY : constants.GREY;
+  }};
+  font-size: ${constants.SMALL_FONT_SIZE}px;
+  text-align: center;
+  line-height: 40px;
+`;
+
 const Settings = (props, context) => {
   const {
+    app,
     theme,
     launchOnStartUp,
     profileLinkColor,
@@ -131,6 +146,9 @@ const Settings = (props, context) => {
             },
           ]}
         />
+        <AppVersionStyle>
+          Version {app.getVersion()}
+        </AppVersionStyle>
       </InnerContent>
     </SettingsStyle>
   );
@@ -143,6 +161,7 @@ Settings.propTypes = {
   onToggleLaunchOnStartUp: PropTypes.func.isRequired,
   onToggleTheme: PropTypes.func.isRequired,
   shouldLogout: PropTypes.func.isRequired,
+  app: PropTypes.object.isRequired,
   renderProcess: PropTypes.object.isRequired,
   shell: PropTypes.object.isRequired,
   localeManager: PropTypes.object.isRequired,
