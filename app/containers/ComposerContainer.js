@@ -5,6 +5,7 @@ import Composer from '../components/Composer';
 
 const mapStateToProps = (store) => {
   return {
+    theme: store.theme,
     weightedStatus: store.weightedStatus,
     statusImage: store.statusImage,
     profileImageURL: store.profileImageURL,

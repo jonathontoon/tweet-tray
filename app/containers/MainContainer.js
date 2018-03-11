@@ -4,7 +4,7 @@ import Main from '../components/Main';
 
 const mapStateToProps = (store) => {
   return {
-    colorTheme: store.colorTheme,
+    theme: store.theme,
   };
 };
 

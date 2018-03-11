@@ -2,13 +2,13 @@ import React, { Component, } from 'react';
 import PropTypes from 'prop-types';
 import Styled from 'styled-components';
 
-import ConnectUtilities from '../containers/ConnectUtilities';
-
 import InnerContent from './InnerContent';
 import Logo from './Logo';
 import RoundedButton from './RoundedButton';
 
 import * as constants from '../constants';
+
+import Utilities from '../containers/Utilities';
 
 const LogInStyle = Styled.section`
   overflow: hidden;
@@ -146,4 +146,4 @@ class LogIn extends Component {
   }
 }
 
-export default ConnectUtilities(LogIn);
+export default Utilities(LogIn);

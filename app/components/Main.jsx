@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Styled, { ThemeProvider, } from 'styled-components';
-import Theme from 'styled-theming';
+import Styled from 'styled-components';
 
 import * as constants from '../constants';
 
@@ -10,24 +9,31 @@ const MainStyle = Styled.div`
   user-select: none;
   width: ${window.innerWidth}px;
   height: ${window.innerHeight}px;
-  background-color: ${Theme('mode', { day: constants.WHITE, night: constants.DARK_MODE_BACKGROUND, })};
+  background-color: ${(props) => {
+    return props.theme === 'day' ? constants.WHITE : constants.DARK_MODE_BACKGROUND;
+  }};
   position: relative;
 `;
 
 const Main = (props) => {
-  const { children, colorTheme, } = props;
+  const { children, theme, } = props;
   return (
-    <ThemeProvider theme={{ mode: colorTheme, }}>
-      <MainStyle>
-        {children}
-      </MainStyle>
-    </ThemeProvider>
+    <MainStyle
+      theme={theme}
+    >
+      {children}
+    </MainStyle>
   );
 };
 
 Main.propTypes = {
   children: PropTypes.node.isRequired,
-  colorTheme: PropTypes.string.isRequired,
+  theme: PropTypes.string,
+};
+
+Main.defaultProps = {
+  theme: 'day',
 };
 
 export default Main;
+

@@ -9,6 +9,7 @@ export const BLACK = '#14171A';
 export const OPAQUE_BLACK = 'rgba(20, 23, 26, 0.6)';
 
 export const BLUE = '#1da1f2';
+export const LIGHT_BLUE = '#91C6F6';
 
 export const DARK_MODE_BACKGROUND = '#141d26';
 export const DARK_MODE_FOREGROUND = '#243447';

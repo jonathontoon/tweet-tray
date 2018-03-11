@@ -39,7 +39,7 @@ const ImageContainerStyle = Styled.div`
 
 const IconButton = (props) => {
   const {
-    disabled, icon, color, onClick,
+    disabled, icon, theme, color, onClick,
   } = props;
 
   return (
@@ -48,7 +48,7 @@ const IconButton = (props) => {
       disabled={disabled}
     >
       <ImageContainerStyle>
-        <Icon name={icon} color={color} />
+        <Icon name={icon} theme={theme} color={color} />
       </ImageContainerStyle>
     </IconButtonStyle>
   );
@@ -56,13 +56,16 @@ const IconButton = (props) => {
 
 IconButton.propTypes = {
   disabled: PropTypes.bool,
+  theme: PropTypes.string,
   icon: PropTypes.string.isRequired,
   color: PropTypes.string.isRequired,
   onClick: PropTypes.func.isRequired,
 };
 
 IconButton.defaultProps = {
+  theme: 'day',
   disabled: false,
 };
 
 export default IconButton;
+

@@ -1,9 +1,7 @@
 import React, { Component, } from 'react';
 import PropTypes from 'prop-types';
 import Styled from 'styled-components';
-import Theme from 'styled-theming';
-
-import ConnectUtilities from '../containers/ConnectUtilities';
+import { connect, } from 'react-redux';
 
 import Header from './Header';
 import InnerContent from './InnerContent';
@@ -18,17 +16,22 @@ import * as constants from '../constants';
 
 import ImageDialog from '../utils/ImageDialog';
 
+import Utilities from '../containers/Utilities';
+
 const ComposerStyle = Styled.section`
   overflow: hidden;
   user-select: none;
   width: 100%;
   height: 100%;
-  background-color: ${Theme('mode', { day: constants.WHITE, night: constants.DARK_MODE_BACKGROUND, })};
+  background-color: ${(props) => {
+    return props.theme === 'day' ? constants.WHITE : constants.DARK_MODE_BACKGROUND;
+  }};
   position: relative;
 `;
 
 class Composer extends Component {
   static propTypes = {
+    theme: PropTypes.string.isRequired,
     weightedStatus: PropTypes.object,
     statusImage: PropTypes.object,
     profileImageURL: PropTypes.string,
@@ -145,6 +148,7 @@ class Composer extends Component {
 
   render() {
     const {
+      theme,
       profileImageURL,
       profileLinkColor,
       weightedStatus,
@@ -158,13 +162,17 @@ class Composer extends Component {
     const imageDataSource = statusImage !== null ? [statusImage, ] : null;
 
     return (
-      <ComposerStyle>
+      <ComposerStyle
+        theme={theme}
+      >
         <Header
+          theme={theme}
           title={
             localeManager.composer.title
           }
           rightView={
             <IconButton
+              theme={theme}
               icon="settings"
               color={profileLinkColor}
               onClick={this.goToSettings}
@@ -172,6 +180,7 @@ class Composer extends Component {
           }
         />
         <InnerContent
+          theme={theme}
           style={{
             position: 'relative',
             top: '48px',
@@ -181,11 +190,13 @@ class Composer extends Component {
           }}
         >
           <UserProfilePhoto
+            theme={theme}
             profilePhotoURL={profileImageURL}
             arcColor={profileLinkColor}
             weightedTextAmount={weightedTextAmount}
           />
           <StatusInput
+            theme={theme}
             placeholder={localeManager.composer.placeholder}
             weightedStatusText={weightedStatusText}
             updateWeightedStatus={onUpdateWeightedStatus}
@@ -196,8 +207,10 @@ class Composer extends Component {
           />
         </InnerContent>
         <Footer
+          theme={theme}
           leftView={
             <IconButton
+              theme={theme}
               disabled={imageDataSource !== null}
               icon="photo"
               color={profileLinkColor}
@@ -206,6 +219,7 @@ class Composer extends Component {
           }
           rightView={
             <RoundedButton
+              theme={theme}
               disabled={weightedStatus === null && imageDataSource === null}
               title={localeManager.composer.tweet_button}
               color={profileLinkColor}
@@ -220,5 +234,10 @@ class Composer extends Component {
   }
 }
 
-export default ConnectUtilities(Composer);
+const mapStateToProps = (store) => {
+  return {
+    theme: store.theme,
+  };
+};
 
+export default connect(mapStateToProps, null)(Utilities(Composer));

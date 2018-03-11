@@ -1,8 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
 import Styled from 'styled-components';
-import Theme from 'styled-theming';
+import TinyColor from 'tinycolor2';
 
 import SwitchListViewItem from './SwitchListViewItem';
 import ListViewItem from './ListViewItem';
@@ -10,43 +9,55 @@ import ListViewItem from './ListViewItem';
 import * as constants from '../constants';
 
 const ListViewStyle = Styled.div`
-    overflow: hidden;
-    position: absolute;
-    left: 0px;
-    top: 0px;
-    min-width: 100%;
-    height: auto;
-    border-top-left-radius: 3px;
-    border-top-right-radius: 3px;
-    background-color: ${Theme('mode', { day: constants.LIGHT_GREY, night: constants.DARK_MODE_BACKGROUND, })};
+  overflow: hidden;
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  min-width: 100%;
+  height: auto;
+  background-color: ${(props) => {
+    return props.theme === 'day' ? constants.LIGHT_GREY : constants.DARK_MODE_BACKGROUND;
+  }}
 `;
 
 const ListViewSectionStyle = Styled.div`
-    overflow: hidden;
-    position: relative;
-    margin-top: ${constants.SPACING}px;
-    border-top: 1px ${Theme('mode', { day: constants.BORDER_GREY, night: constants.DARK_MODE_BACKGROUND, })} solid;
-    border-bottom: 1px ${Theme('mode', { day: constants.BORDER_GREY, night: constants.DARK_MODE_BACKGROUND, })} solid;
+  overflow: hidden;
+  position: relative;
+  margin-top: ${constants.SPACING}px;
+  border-top: 1px ${(props) => {
+    return props.theme === 'day' ? constants.BORDER_GREY : constants.DARK_MODE_BACKGROUND;
+  }} solid;
+  border-bottom: 1px ${(props) => {
+    return props.theme === 'day' ? constants.BORDER_GREY : constants.DARK_MODE_BACKGROUND;
+  }} solid;
 
-    button:last-child {
-      border-bottom: none;
-    }
+  button:last-child {
+    border-bottom: none;
+  }
 `;
 
 const ListView = (props) => {
-  const { dataSource, color, } = props;
+  const { dataSource, color, theme, } = props;
+  const onColor = TinyColor(color).lighten(25).toString();
   return (
-    <ListViewStyle>
+    <ListViewStyle
+      theme={theme}
+    >
       {dataSource.map((section) => {
         return (
-          <ListViewSectionStyle key={section.title}>
+          <ListViewSectionStyle
+            theme={theme}
+            key={section.title}
+          >
             {section.items.map((item, i) => {
               if (item.type === 'switch') {
                 return (
                   <SwitchListViewItem
                     key={item.title}
+                    theme={theme}
                     title={item.title}
-                    selectedColor={color}
+                    onColor={onColor}
+                    onHandleColor={color}
                     action={item.action}
                     type={item.type}
                     state={item.state}
@@ -57,6 +68,7 @@ const ListView = (props) => {
               return (
                 <ListViewItem
                   key={item.title}
+                  theme={theme}
                   title={item.title}
                   action={item.action}
                   type={item.type}
@@ -72,8 +84,13 @@ const ListView = (props) => {
 };
 
 ListView.propTypes = {
+  theme: PropTypes.string,
   dataSource: PropTypes.array.isRequired,
   color: PropTypes.string.isRequired,
+};
+
+ListView.defaultProps = {
+  theme: 'day',
 };
 
 export default ListView;

@@ -1,13 +1,13 @@
 import { connect, } from 'react-redux';
 
-import { toggleLaunchOnStartUp, toggleColorTheme, onLogout, } from '../actions/index';
+import { toggleLaunchOnStartUp, toggleTheme, onLogout, } from '../actions/index';
 import Settings from '../components/Settings';
 
 const mapStateToProps = (store) => {
   return {
+    theme: store.theme,
     launchOnStartUp: store.launchOnStartUp,
     profileLinkColor: store.profileLinkColor,
-    colorTheme: store.colorTheme,
   };
 };
 
@@ -16,8 +16,8 @@ const mapDispatchToProps = (dispatch) => {
     onToggleLaunchOnStartUp: (launchOnStartUp) => {
       dispatch(toggleLaunchOnStartUp(launchOnStartUp));
     },
-    onToggleColorTheme: (colorTheme) => {
-      dispatch(toggleColorTheme(colorTheme));
+    onToggleTheme: (theme) => {
+      dispatch(toggleTheme(theme));
     },
     shouldLogout() {
       dispatch(onLogout());

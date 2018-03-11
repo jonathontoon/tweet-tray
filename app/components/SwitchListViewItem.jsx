@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Switch from 'react-switch';
-
 import ListViewItem from './ListViewItem';
 
 import * as constants from '../constants';
@@ -9,6 +8,9 @@ import * as constants from '../constants';
 const SwitchListViewItem = (props) => {
   const {
     action,
+    theme,
+    onColor,
+    onHandleColor,
     state,
     isLast,
     title,
@@ -17,13 +19,14 @@ const SwitchListViewItem = (props) => {
 
   return (
     <ListViewItem
+      theme={theme}
       title={title}
       isLast={isLast}
       type={type}
       rightView={
         <Switch
-          onColor="#91C6F6"
-          onHandleColor={constants.BLUE}
+          onColor={theme === 'day' ? onColor : constants.LIGHT_BLUE}
+          onHandleColor={theme === 'day' ? onHandleColor : constants.BLUE}
           offColor={constants.MID_GREY}
           offHandleColor={constants.WHITE}
           handleDiameter={28}
@@ -43,6 +46,9 @@ const SwitchListViewItem = (props) => {
 
 SwitchListViewItem.propTypes = {
   action: PropTypes.func,
+  theme: PropTypes.string,
+  onColor: PropTypes.string,
+  onHandleColor: PropTypes.string,
   state: PropTypes.bool,
   isLast: PropTypes.bool,
   title: PropTypes.string,
@@ -51,6 +57,9 @@ SwitchListViewItem.propTypes = {
 
 SwitchListViewItem.defaultProps = {
   action: null,
+  theme: 'day',
+  onColor: constants.LIGHT_BLUE,
+  onHandleColor: constants.BLUE,
   state: false,
   isLast: false,
   title: null,

@@ -1,58 +1,55 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Styled from 'styled-components';
-import Theme from 'styled-theming';
 
 import * as constants from '../constants';
 
 const RoundedButtonStyle = Styled.button`
-    user-select: none;
-    display: block;
-    margin: 0 auto;
-    height: 38px;
-    padding-left: 24px;
-    padding-right: 24px;
-    border-radius: 100px;
-    font-size: ${constants.REGULAR_FONT_SIZE}px;
-    font-weight: bold;
-    border: 0px;
-    outline: 0px;
-    background-color: ${Theme('mode', {
-      day: (props) => { /* eslint indent: 0 */
-        return props.color;
-      },
-      night: constants.BLUE,
-    })};
-    color: ${constants.WHITE};
-    transition: all 0.3s ease 0s;
-    line-height: 20px;
-    text-align: center;
+  user-select: none;
+  display: block;
+  margin: 0 auto;
+  height: 38px;
+  padding-left: 24px;
+  padding-right: 24px;
+  border-radius: 100px;
+  font-size: ${constants.REGULAR_FONT_SIZE}px;
+  font-weight: bold;
+  border: 0px;
+  outline: 0px;
+  background-color: ${(props) => {
+    return props.theme === 'day' ? props.color : constants.BLUE;
+  }};
+  color: ${constants.WHITE};
+  transition: all 0.3s ease 0s;
+  line-height: 20px;
+  text-align: center;
 
-    &.fullWidth {
-        width: 100% !important;
-    }
-
-    &.borderButton {
-        color: ${constants.BLUE} !important;
-        border: 2px solid ${constants.BLUE} !important;
-        background-color: ${constants.WHITE} !important;
-    }
-
-    &:hover {
-        opacity: 0.75;
-        cursor: pointer;
-        transition: all 0.3s ease 0s;
-    }
-
-    &:disabled, &[disabled] {
-      opacity: 0.4 !important;
-      cursor: default !important;
+  &.fullWidth {
+      width: 100% !important;
   }
+
+  &.borderButton {
+      color: ${constants.BLUE} !important;
+      border: 2px solid ${constants.BLUE} !important;
+      background-color: ${constants.WHITE} !important;
+  }
+
+  &:hover {
+      opacity: 0.75;
+      cursor: pointer;
+      transition: all 0.3s ease 0s;
+  }
+
+  &:disabled, &[disabled] {
+    opacity: 0.4 !important;
+    cursor: default !important;
+}
 `;
 
 const RoundedButton = (props) => {
   const {
     disabled,
+    theme,
     color,
     marginTop,
     height,
@@ -65,6 +62,7 @@ const RoundedButton = (props) => {
 
   return (
     <RoundedButtonStyle
+      theme={theme}
       color={color}
       type={type}
       style={{
@@ -83,7 +81,8 @@ const RoundedButton = (props) => {
 
 RoundedButton.propTypes = {
   disabled: PropTypes.bool,
-  color: PropTypes.string.isRequired,
+  theme: PropTypes.string,
+  color: PropTypes.string,
   borderButton: PropTypes.bool,
   fullWidth: PropTypes.bool,
   marginTop: PropTypes.number,
@@ -95,6 +94,8 @@ RoundedButton.propTypes = {
 
 RoundedButton.defaultProps = {
   disabled: false,
+  theme: 'day',
+  color: constants.BLUE,
   borderButton: false,
   fullWidth: false,
   marginTop: 0,
@@ -105,3 +106,4 @@ RoundedButton.defaultProps = {
 };
 
 export default RoundedButton;
+

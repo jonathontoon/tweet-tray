@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import Styled from 'styled-components';
-import Theme from 'styled-theming';
 
 import * as constants from '../constants';
 
@@ -15,8 +14,12 @@ const FooterStyle = Styled.footer`
   height: 38px;
   padding-top: 8px;
   padding-bottom: 8px;
-  background-color: ${Theme('mode', { day: constants.WHITE, night: constants.DARK_MODE_FOREGROUND, })};
-  border-top: 1px solid ${Theme('mode', { day: constants.BORDER_GREY, night: constants.DARK_MODE_BACKGROUND, })};;
+  background-color: ${(props) => {
+    return props.theme === 'day' ? constants.WHITE : constants.DARK_MODE_FOREGROUND;
+  }};
+  border-top: 1px solid ${(props) => {
+    return props.theme === 'day' ? constants.BORDER_GREY : constants.DARK_MODE_BACKGROUND;
+  }};
 `;
 
 const LeftViewStyle = Styled.div`
@@ -42,9 +45,11 @@ const RightViewStyle = Styled.div`
 `;
 
 const Footer = (props) => {
-  const { leftView, rightView, } = props;
+  const { leftView, rightView, theme, } = props;
   return (
-    <FooterStyle>
+    <FooterStyle
+      theme={theme}
+    >
       {leftView !== null && (
         <LeftViewStyle>
           {leftView}
@@ -60,11 +65,13 @@ const Footer = (props) => {
 };
 
 Footer.propTypes = {
+  theme: PropTypes.string,
   leftView: PropTypes.object,
   rightView: PropTypes.object,
 };
 
 Footer.defaultProps = {
+  theme: 'day',
   leftView: null,
   rightView: null,
 };

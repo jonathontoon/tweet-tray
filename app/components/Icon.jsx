@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Styled from 'styled-components';
-import Theme from 'styled-theming';
 
 import * as constants from '../constants';
 
@@ -15,19 +14,17 @@ const icons = {
 const IconStyled = Styled.svg`
   display: inline-block;
   vertical-align: middle;
-  fill: ${Theme('mode', {
-    day: (props) => { /* eslint indent: 0 */
-      return props.color;
-    },
-    night: constants.BLUE,
-  })}
+  fill: ${(props) => {
+    return props.theme === 'day' ? props.color : constants.BLUE;
+  }};
 `;
 
 const Icon = (props) => {
-  const { name, color, } = props;
+  const { name, color, theme, } = props;
 
   return (
     <IconStyled
+      theme={theme}
       color={color}
       width={`${props.size}px`}
       height={`${props.size}px`}
@@ -41,14 +38,17 @@ const Icon = (props) => {
 };
 
 Icon.propTypes = {
+  theme: PropTypes.string,
   name: PropTypes.string.isRequired,
   size: PropTypes.number,
   color: PropTypes.string,
 };
 
 Icon.defaultProps = {
+  theme: 'day',
   size: 27,
   color: '#000000',
 };
 
 export default Icon;
+

@@ -6,7 +6,7 @@ import LocaleManager from '../utils/LocaleManager';
 const notificationManager = new NotificationManager();
 const localeManager = new LocaleManager();
 
-const ConnectUtilities = (WrappedComponent) => {
+const Utilities = (WrappedComponent) => {
   return class extends Component {
     render() {
       return (
@@ -22,4 +22,4 @@ const ConnectUtilities = (WrappedComponent) => {
   };
 };
 
-export default ConnectUtilities;
+export default Utilities;

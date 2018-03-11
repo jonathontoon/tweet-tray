@@ -1,6 +1,6 @@
 import { combineReducers, } from 'redux';
 
-import colorTheme from './colorTheme';
+import theme from './theme';
 import launchOnStartUp from './launchOnStartUp';
 import profileImageURL from './profileImageURL';
 import profileLinkColor from './profileLinkColor';
@@ -19,7 +19,7 @@ const appReducer = combineReducers({
   weightedStatus,
   statusImage,
   launchOnStartUp,
-  colorTheme,
+  theme,
 });
 
 /* eslint no-param-reassign: 0 */

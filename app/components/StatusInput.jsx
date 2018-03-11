@@ -1,49 +1,53 @@
+/* eslint indent: 0 */
 import React, { Component, } from 'react';
 import PropTypes from 'prop-types';
 import TwitterText from 'twitter-text';
 import Styled from 'styled-components';
-import Theme from 'styled-theming';
 
 import * as constants from '../constants';
 
 const StatusInputStyle = Styled.div`
-    width: auto;
-    user-select: auto;
-    margin-top: 5px;
-    margin-left: 66px;
-    margin-bottom: ${constants.SPACING}px;
+  width: auto;
+  user-select: auto;
+  margin-top: 5px;
+  margin-left: 66px;
+  margin-bottom: ${constants.SPACING}px;
+  background-color: transparent;
+
+  & > textarea {
+    line-height: 26px;
+    outline: 0;
+    border: 0;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: auto;
+    resize: none;
+    overflow-y: auto;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif !important;
+    font-size: ${constants.LARGE_FONT_SIZE}px;
+    font-weight: normal;
+    color:  ${(props) => {
+      return props.theme === 'day' ? constants.BLACK : constants.WHITE;
+    }};
     background-color: transparent;
 
-    & > textarea {
-        line-height: 26px;
-        outline: 0;
-        border: 0;
-        margin: 0;
-        padding: 0;
-        width: 100%;
-        height: auto;
-        resize: none;
-        overflow-y: auto;
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif !important;
-        font-size: ${constants.LARGE_FONT_SIZE}px;
-        font-weight: normal;
-        color:  ${Theme('mode', { day: constants.BLACK, night: constants.WHITE, })};
-        background-color: transparent;
-
-        &::placeholder {
-          color: ${constants.GREY};
-        }
+    &::placeholder {
+      color: ${constants.GREY};
     }
+  }
 `;
 
 class StatusInput extends Component {
   static propTypes = {
+    theme: PropTypes.string,
     placeholder: PropTypes.string,
     weightedStatusText: PropTypes.string,
     updateWeightedStatus: PropTypes.func.isRequired,
   }
 
   static defaultProps = {
+    theme: 'day',
     placeholder: null,
     weightedStatusText: null,
   }
@@ -103,9 +107,11 @@ class StatusInput extends Component {
   }
 
   render() {
-    const { placeholder, weightedStatusText, } = this.props;
+    const { placeholder, weightedStatusText, theme, } = this.props;
     return (
-      <StatusInputStyle>
+      <StatusInputStyle
+        theme={theme}
+      >
         <textarea
           ref={(x) => { this.el = x; }}
           className="textArea"

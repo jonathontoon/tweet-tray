@@ -1,9 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Styled from 'styled-components';
-import Theme from 'styled-theming';
 
-import ConnectUtilities from '../containers/ConnectUtilities';
+import Utilities from '../containers/Utilities';
 
 import Header from './Header';
 import IconButton from './IconButton';
@@ -13,21 +12,23 @@ import ListView from './ListView';
 import * as constants from '../constants';
 
 const SettingsStyle = Styled.section`
-    overflow: hidden;
-    user-select: none;
-    width: 100%;
-    height: 100%;
-    background-color: ${Theme('mode', { day: constants.LIGHT_GREY, night: constants.DARK_MODE_BACKGROUND, })};
-    position: relative;
+  overflow: hidden;
+  user-select: none;
+  width: 100%;
+  height: 100%;
+  background-color: ${(props) => {
+    return props.theme === 'day' ? constants.LIGHT_GREY : constants.DARK_MODE_BACKGROUND;
+  }};
+  position: relative;
 `;
 
 const Settings = (props, context) => {
   const {
+    theme,
     launchOnStartUp,
     profileLinkColor,
-    colorTheme,
     onToggleLaunchOnStartUp,
-    onToggleColorTheme,
+    onToggleTheme,
     shouldLogout,
     renderProcess,
     shell,
@@ -35,11 +36,15 @@ const Settings = (props, context) => {
   } = props;
 
   return (
-    <SettingsStyle>
+    <SettingsStyle
+      theme={theme}
+    >
       <Header
+        theme={theme}
         title={localeManager.settings.title}
         leftView={
           <IconButton
+            theme={theme}
             icon="back"
             color={profileLinkColor}
             onClick={() => {
@@ -49,6 +54,7 @@ const Settings = (props, context) => {
         }
       />
       <InnerContent
+        theme={theme}
         style={{
           position: 'relative',
           top: '51px',
@@ -57,6 +63,7 @@ const Settings = (props, context) => {
         }}
       >
         <ListView
+          theme={theme}
           color={profileLinkColor}
           dataSource={[
             {
@@ -64,9 +71,9 @@ const Settings = (props, context) => {
               items: [{
                 title: localeManager.settings.night_mode_action,
                 action: () => {
-                  onToggleColorTheme(colorTheme === 'day' ? 'night' : 'day');
+                  onToggleTheme(theme === 'day' ? 'night' : 'day');
                 },
-                state: colorTheme !== 'day',
+                state: theme !== 'day',
                 type: 'switch',
               }, {
                 title: localeManager.settings.launch_start_up_action,
@@ -130,11 +137,11 @@ const Settings = (props, context) => {
 };
 
 Settings.propTypes = {
+  theme: PropTypes.string,
   launchOnStartUp: PropTypes.bool.isRequired,
   profileLinkColor: PropTypes.string,
-  colorTheme: PropTypes.string.isRequired,
   onToggleLaunchOnStartUp: PropTypes.func.isRequired,
-  onToggleColorTheme: PropTypes.func.isRequired,
+  onToggleTheme: PropTypes.func.isRequired,
   shouldLogout: PropTypes.func.isRequired,
   renderProcess: PropTypes.object.isRequired,
   shell: PropTypes.object.isRequired,
@@ -142,6 +149,7 @@ Settings.propTypes = {
 };
 
 Settings.defaultProps = {
+  theme: 'day',
   profileLinkColor: constants.BLUE,
 };
 
@@ -149,5 +157,4 @@ Settings.contextTypes = {
   router: PropTypes.object,
 };
 
-export default ConnectUtilities(Settings);
-
+export default Utilities(Settings);

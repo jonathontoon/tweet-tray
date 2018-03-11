@@ -49,10 +49,10 @@ export const toggleLaunchOnStartUp = (launchOnStartUp) => {
   };
 };
 
-export const toggleColorTheme = (colorTheme) => {
+export const toggleTheme = (theme) => {
   return {
-    type: types.TOGGLE_COLOR_THEME,
-    colorTheme,
+    type: types.TOGGLE_THEME,
+    theme,
   };
 };
 

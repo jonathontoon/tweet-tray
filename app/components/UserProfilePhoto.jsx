@@ -1,11 +1,10 @@
 import React, { Component, } from 'react';
 import PropTypes from 'prop-types';
 import Styled from 'styled-components';
-import Theme from 'styled-theming';
-
-import * as constants from '../constants';
 
 import ProgressArc from './ProgressArc';
+
+import * as constants from '../constants';
 
 const UserProfilePhotoStyle = Styled.div`
     overflow: hidden;
@@ -17,14 +16,16 @@ const UserProfilePhotoStyle = Styled.div`
 `;
 
 const ProfilePhotoImageStyle = Styled.div`
-    position: relative;
-    top: 3px;
-    left: 3px;
-    border-radius: 50px;
-    overflow: hidden;
-    width: 52px;
-    height: 52px;
-    background-color: ${Theme('mode', { day: constants.LIGHT_GREY, night: constants.DARK_MODE_FOREGROUND, })};
+  position: relative;
+  top: 3px;
+  left: 3px;
+  border-radius: 50px;
+  overflow: hidden;
+  width: 52px;
+  height: 52px;
+  background-color: ${(props) => {
+    return props.theme === 'day' ? constants.LIGHT_GREY : constants.DARK_MODE_FOREGROUND;
+  }};
 `;
 
 const WordCounterStyle = Styled.div`
@@ -49,12 +50,14 @@ const WordCounterStyle = Styled.div`
 
 class UserProfilePhoto extends Component {
   static propTypes = {
+    theme: PropTypes.string,
     profilePhotoURL: PropTypes.string,
     arcColor: PropTypes.string,
     weightedTextAmount: PropTypes.number,
   }
 
   static defaultProps = {
+    theme: 'day',
     profilePhotoURL: null,
     arcColor: constants.BLUE,
     weightedTextAmount: null,
@@ -106,10 +109,12 @@ class UserProfilePhoto extends Component {
   }
 
   render() {
-    const { profilePhotoURL, } = this.props;
+    const { profilePhotoURL, theme, } = this.props;
 
     return (
-      <UserProfilePhotoStyle>
+      <UserProfilePhotoStyle
+        theme={theme}
+      >
         <ProfilePhotoImageStyle>
           <img src={profilePhotoURL} alt="Profile" width="52" height="52" />
         </ProfilePhotoImageStyle>
@@ -129,3 +134,4 @@ class UserProfilePhoto extends Component {
 }
 
 export default UserProfilePhoto;
+
