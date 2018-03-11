@@ -61,10 +61,10 @@ describe('actions', () => {
 
   it('should create an action to toggle between night and day mode', () => {
     const expectedAction = {
-      type: types.TOGGLE_COLOR_THEME,
-      colorTheme: testData.colorTheme,
+      type: types.TOGGLE_THEME,
+      theme: testData.theme,
     };
-    expect(actions.toggleColorTheme(testData.colorTheme)).toEqual(expectedAction);
+    expect(actions.toggleTheme(testData.theme)).toEqual(expectedAction);
   });
 
   it('should create an action to handle the user logging out', () => {

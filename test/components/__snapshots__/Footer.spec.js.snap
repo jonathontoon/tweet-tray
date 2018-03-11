@@ -1,7 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Footer component should render 1`] = `
-<Footer__FooterStyle>
+<Footer__FooterStyle
+  theme="day"
+>
   <Footer__LeftViewStyle>
     <div>
       Left View

@@ -5,16 +5,15 @@ exports[`IconButton component should render button 1`] = `
   disabled={false}
   onClick={[MockFunction]}
 >
-  <IconButton__ImageStyle
-    alt="Settings Icon"
-    src="test-file-stub"
-  />
+  <IconButton__ImageContainerStyle>
+    <Icon
+      color="#1da1f2"
+      name="settings"
+      size={27}
+      theme="day"
+    />
+  </IconButton__ImageContainerStyle>
 </IconButton__IconButtonStyle>
 `;
 
-exports[`IconButton component should render image inside button 1`] = `
-<IconButton__ImageStyle
-  alt="Settings Icon"
-  src="test-file-stub"
-/>
-`;
+exports[`IconButton component should render image inside button 1`] = `null`;

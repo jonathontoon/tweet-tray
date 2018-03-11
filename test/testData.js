@@ -23,5 +23,5 @@ export const statusImage = {
   size: 3.069171905517578,
 };
 export const launchOnStartUp = true;
-export const colorTheme = 'night';
+export const theme = 'night';
 

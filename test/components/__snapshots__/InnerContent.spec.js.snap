@@ -3,6 +3,7 @@
 exports[`InnerContent component should render 1`] = `
 <InnerContent__InnerContentStyle
   style={null}
+  theme="day"
 >
   <div>
     Test Content

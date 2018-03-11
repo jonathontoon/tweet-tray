@@ -1,13 +1,17 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Header component should render 1`] = `
-<Header__HeaderStyle>
+<Header__HeaderStyle
+  theme="day"
+>
   <Header__LeftViewStyle>
     <div>
       Left View
     </div>
   </Header__LeftViewStyle>
-  <Header__TitleStyle>
+  <Header__TitleStyle
+    theme="day"
+  >
     Header Title
   </Header__TitleStyle>
   <Header__RightViewStyle>

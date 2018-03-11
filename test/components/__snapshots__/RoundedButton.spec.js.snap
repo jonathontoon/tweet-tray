@@ -5,9 +5,16 @@ exports[`RoundedButton component button should contain value 1`] = `"A Button"`;
 exports[`RoundedButton component should render 1`] = `
 <RoundedButton__RoundedButtonStyle
   className="fullWidth "
+  color="#1da1f2"
   disabled={false}
   onClick={[MockFunction]}
-  style={null}
+  style={
+    Object {
+      "height": "38px",
+      "marginTop": "0px",
+    }
+  }
+  theme="day"
   type="button"
   value="A Button"
 >
@@ -18,9 +25,16 @@ exports[`RoundedButton component should render 1`] = `
 exports[`RoundedButton component should render full width button 1`] = `
 <RoundedButton__RoundedButtonStyle
   className="fullWidth "
+  color="#1da1f2"
   disabled={false}
   onClick={[MockFunction]}
-  style={null}
+  style={
+    Object {
+      "height": "38px",
+      "marginTop": "0px",
+    }
+  }
+  theme="day"
   type="button"
   value="A Button"
 >

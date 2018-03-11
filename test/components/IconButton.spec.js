@@ -2,9 +2,10 @@ import React from 'react';
 import Enzyme, { shallow, } from 'enzyme';
 import { shallowToJson, } from 'enzyme-to-json';
 import Adapter from 'enzyme-adapter-react-16';
-import IconButton from '../../app/components/IconButton';
 
-import SettingsIcon from '../../resources/settings.svg';
+import * as testData from '../testData';
+
+import IconButton from '../../app/components/IconButton';
 
 Enzyme.configure({ adapter: new Adapter(), });
 
@@ -12,8 +13,8 @@ const mockCallBack = jest.fn();
 
 function setup() {
   const component = shallow(<IconButton
-    iconSrc={SettingsIcon}
-    altText="Settings Icon"
+    color={testData.profileLinkColor}
+    icon="settings"
     onClick={mockCallBack}
   />);
   return {
