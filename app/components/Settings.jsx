@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Styled from 'styled-components';
+import TinyColor from 'tinycolor2';
 
 import Utilities from '../containers/Utilities';
 
@@ -8,6 +9,8 @@ import Header from './Header';
 import IconButton from './IconButton';
 import InnerContent from './InnerContent';
 import ListView from './ListView';
+import SwitchListViewItem from './SwitchListViewItem';
+import ListViewItem from './ListViewItem';
 
 import * as constants from '../constants';
 
@@ -20,6 +23,22 @@ const SettingsStyle = Styled.section`
     return props.theme === 'day' ? constants.LIGHT_GREY : constants.DARK_MODE_BACKGROUND;
   }};
   position: relative;
+`;
+
+const ListViewSectionStyle = Styled.div`
+  overflow: hidden;
+  position: relative;
+  margin-top: ${constants.SPACING}px;
+  border-top: 1px ${(props) => {
+    return props.theme === 'day' ? constants.BORDER_GREY : constants.DARK_MODE_BACKGROUND;
+  }} solid;
+  border-bottom: 1px ${(props) => {
+    return props.theme === 'day' ? constants.BORDER_GREY : constants.DARK_MODE_BACKGROUND;
+  }} solid;
+
+  button:last-child {
+    border-bottom: none;
+  }
 `;
 
 const AppVersionStyle = Styled.section`
@@ -49,6 +68,9 @@ const Settings = (props, context) => {
     shell,
     localeManager,
   } = props;
+
+  const onHandleColor = profileLinkColor;
+  const onColor = TinyColor(onHandleColor).lighten(25).toString();
 
   return (
     <SettingsStyle
@@ -80,72 +102,89 @@ const Settings = (props, context) => {
         <ListView
           theme={theme}
           color={profileLinkColor}
-          dataSource={[
-            {
-              title: 'Customization',
-              items: [{
-                title: localeManager.settings.night_mode_action,
-                action: () => {
-                  onToggleTheme(theme === 'day' ? 'night' : 'day');
-                },
-                state: theme !== 'day',
-                type: 'switch',
-              }, {
-                title: localeManager.settings.launch_start_up_action,
-                action: (checked) => {
-                  if (checked) {
-                    renderProcess.send('enableAtStartUp');
-                  } else {
-                    renderProcess.send('disableAtStartUp');
-                  }
-                  onToggleLaunchOnStartUp(checked);
-                },
-                state: launchOnStartUp,
-                type: 'switch',
-              }, ],
-            },
-            {
-              title: 'Help',
-              items: [{
-                title: localeManager.settings.view_website_action,
-                action: (e) => {
-                  e.stopPropagation();
-                  shell.openExternal('https://github.com/jonathontoon/tweet-tray');
-                },
-              }, {
-                title: localeManager.settings.read_faq_action,
-                action: (e) => {
-                  e.stopPropagation();
-                  shell.openExternal('https://github.com/jonathontoon/tweet-tray/blob/master/README.md');
-                },
-              }, {
-                title: localeManager.settings.report_issue_action,
-                action: (e) => {
-                  e.stopPropagation();
-                  shell.openExternal('https://github.com/jonathontoon/tweet-tray/issues');
-                },
-              }, ],
-            },
-            {
-              title: 'Escape',
-              items: [{
-                title: localeManager.settings.quit_action,
-                action: (e) => {
-                  e.stopPropagation();
-                  renderProcess.send('quitApplication');
-                },
-              }, {
-                title: localeManager.settings.log_out_action,
-                action: (e) => {
-                  e.stopPropagation();
-                  context.router.history.replace('/');
-                  shouldLogout();
-                },
-                type: 'warning',
-              }, ],
-            },
-          ]}
-        />
+        >
+          <ListViewSectionStyle
+            theme={theme}
+          >
+            <SwitchListViewItem
+              theme={theme}
+              onColor={onColor}
+              onHandleColor={onHandleColor}
+              title={localeManager.settings.night_mode_action}
+              action={() => {
+                onToggleTheme(theme === 'day' ? 'night' : 'day');
+              }}
+              state={theme !== 'day'}
+              type="switch"
+            />
+            <SwitchListViewItem
+              theme={theme}
+              onColor={onColor}
+              onHandleColor={onHandleColor}
+              title={localeManager.settings.launch_start_up_action}
+              action={(checked) => {
+                if (checked) {
+                  renderProcess.send('enableAtStartUp');
+                } else {
+                  renderProcess.send('disableAtStartUp');
+                }
+                onToggleLaunchOnStartUp(checked);
+              }}
+              state={launchOnStartUp}
+              type="switch"
+            />
+          </ListViewSectionStyle>
+          <ListViewSectionStyle
+            theme={theme}
+          >
+            <ListViewItem
+              theme={theme}
+              title={localeManager.settings.view_website_action}
+              action={(e) => {
+                e.stopPropagation();
+                shell.openExternal('https://github.com/jonathontoon/tweet-tray/blob/master/README.md');
+              }}
+            />
+            <ListViewItem
+              theme={theme}
+              title={localeManager.settings.read_faq_action}
+              action={(e) => {
+                e.stopPropagation();
+                shell.openExternal('https://github.com/jonathontoon/tweet-tray');
+              }}
+            />
+            <ListViewItem
+              theme={theme}
+              title={localeManager.settings.report_issue_action}
+              action={(e) => {
+                e.stopPropagation();
+                shell.openExternal('https://github.com/jonathontoon/tweet-tray/issues');
+              }}
+            />
+          </ListViewSectionStyle>
+          <ListViewSectionStyle
+            theme={theme}
+          >
+            <ListViewItem
+              theme={theme}
+              title={localeManager.settings.quit_action}
+              action={(e) => {
+                e.stopPropagation();
+                renderProcess.send('quitApplication');
+              }}
+            />
+            <ListViewItem
+              theme={theme}
+              title={localeManager.settings.log_out_action}
+              action={(e) => {
+                e.stopPropagation();
+                context.router.history.replace('/');
+                shouldLogout();
+              }}
+              type="warning"
+            />
+          </ListViewSectionStyle>
+        </ListView>
         <AppVersionStyle>
           Version {app.getVersion()}
         </AppVersionStyle>
