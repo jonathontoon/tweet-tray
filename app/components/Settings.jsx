@@ -9,6 +9,7 @@ import Header from './Header';
 import IconButton from './IconButton';
 import InnerContent from './InnerContent';
 import ListView from './ListView';
+import ListViewSection from './ListViewSection';
 import SwitchListViewItem from './SwitchListViewItem';
 import ListViewItem from './ListViewItem';
 
@@ -23,22 +24,6 @@ const SettingsStyle = Styled.section`
     return props.theme === 'day' ? constants.LIGHT_GREY : constants.DARK_MODE_BACKGROUND;
   }};
   position: relative;
-`;
-
-const ListViewSectionStyle = Styled.div`
-  overflow: hidden;
-  position: relative;
-  margin-top: ${constants.SPACING}px;
-  border-top: 1px ${(props) => {
-    return props.theme === 'day' ? constants.BORDER_GREY : constants.DARK_MODE_BACKGROUND;
-  }} solid;
-  border-bottom: 1px ${(props) => {
-    return props.theme === 'day' ? constants.BORDER_GREY : constants.DARK_MODE_BACKGROUND;
-  }} solid;
-
-  button:last-child {
-    border-bottom: none;
-  }
 `;
 
 const AppVersionStyle = Styled.section`
@@ -103,7 +88,7 @@ const Settings = (props, context) => {
           theme={theme}
           color={profileLinkColor}
         >
-          <ListViewSectionStyle
+          <ListViewSection
             theme={theme}
           >
             <SwitchListViewItem
@@ -133,8 +118,8 @@ const Settings = (props, context) => {
               state={launchOnStartUp}
               type="switch"
             />
-          </ListViewSectionStyle>
-          <ListViewSectionStyle
+          </ListViewSection>
+          <ListViewSection
             theme={theme}
           >
             <ListViewItem
@@ -161,8 +146,8 @@ const Settings = (props, context) => {
                 shell.openExternal('https://github.com/jonathontoon/tweet-tray/issues');
               }}
             />
-          </ListViewSectionStyle>
-          <ListViewSectionStyle
+          </ListViewSection>
+          <ListViewSection
             theme={theme}
           >
             <ListViewItem
@@ -183,7 +168,7 @@ const Settings = (props, context) => {
               }}
               type="warning"
             />
-          </ListViewSectionStyle>
+          </ListViewSection>
         </ListView>
         <AppVersionStyle>
           Version {app.getVersion()}
