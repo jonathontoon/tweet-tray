@@ -28,7 +28,6 @@ const IconButtonStyle = Styled.button`
 const ImageContainerStyle = Styled.div`
     display: block;
     pointer-events: none;
-    margin-top: 1px;
     width: 27px;
     height: 27px;
 

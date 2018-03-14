@@ -43,7 +43,6 @@
         "title": "设置",
         "night_mode_action": "夜间模式",
         "launch_start_up_action": "在系统启动时启动",
-        "view_website_action": "查看网站",
         "read_faq_action": "阅读FAQ",
         "report_issue_action": "报告问题",
         "quit_action": "退出Tweet Tray",

@@ -43,7 +43,6 @@
         "title": "Settings",
         "night_mode_action": "Night Mode",
         "launch_start_up_action": "Launch at System Start",
-        "view_website_action": "View Website",
         "read_faq_action": "Read FAQ",
         "report_issue_action": "Report an Issue",
         "quit_action": "Quit Tweet Tray",

@@ -124,14 +124,6 @@ const Settings = (props, context) => {
           >
             <ListViewItem
               theme={theme}
-              title={localeManager.settings.view_website_action}
-              action={(e) => {
-                e.stopPropagation();
-                shell.openExternal('https://github.com/jonathontoon/tweet-tray/blob/master/README.md');
-              }}
-            />
-            <ListViewItem
-              theme={theme}
               title={localeManager.settings.read_faq_action}
               action={(e) => {
                 e.stopPropagation();
