@@ -4,7 +4,7 @@
         "description": "Click here to view it."
     },
     "post_status_error": {
-        "title": "Sorry, an error occured!",
+        "title": "Sorry, an error occurred!",
         "description": "Your Tweet was unable to be sent."
     },
     "login": {
@@ -19,7 +19,7 @@
         "return_button": "Return to Log In"
     },
     "authorization_error": {
-        "title": "Sorry, an error occured!",
+        "title": "Sorry, an error occurred!",
         "description": "Your account could not be authorized."
     },
     "composer": {
