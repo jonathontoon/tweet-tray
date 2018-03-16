@@ -122,7 +122,7 @@ class LogIn extends Component {
         >
           <Logo />
           <HeaderTextStyle>
-            {process.platform === 'win32' ? localeManager.login.title_taskbar : localeManager.login.title_menubuar }
+            {process.platform === 'win32' ? localeManager.login.title_taskbar : localeManager.login.title_menubar }
           </HeaderTextStyle>
           <ButtonContainerStyle>
             <RoundedButton
