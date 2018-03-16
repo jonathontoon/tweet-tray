@@ -71,7 +71,7 @@ class UserProfilePhoto extends Component {
   }
 
   calculateArcColor() {
-    const { arcColor, weightedTextAmount, } = this.props;
+    const { theme, arcColor, weightedTextAmount, } = this.props;
 
     let color = null;
 
@@ -79,14 +79,14 @@ class UserProfilePhoto extends Component {
       if (weightedTextAmount > 1000) {
         color = constants.RED;
       } else {
-        color = arcColor;
+        color = theme === 'day' ? arcColor : constants.BLUE;
 
         if (weightedTextAmount >= 900) {
           color = constants.YELLOW;
         }
       }
     } else {
-      color = arcColor;
+      color = theme === 'day' ? arcColor : constants.BLUE;
     }
 
     return color;
