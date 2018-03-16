@@ -25,8 +25,8 @@ const SwitchListViewItem = (props) => {
       type={type}
       rightView={
         <Switch
-          onColor={theme === 'day' ? onColor : constants.LIGHT_BLUE}
-          onHandleColor={theme === 'day' ? onHandleColor : constants.BLUE}
+          onColor={onColor}
+          onHandleColor={onHandleColor}
           offColor={constants.MID_GREY}
           offHandleColor={constants.WHITE}
           handleDiameter={28}

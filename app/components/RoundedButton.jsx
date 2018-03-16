@@ -17,7 +17,7 @@ const RoundedButtonStyle = Styled.button`
   border: 0px;
   outline: 0px;
   background-color: ${(props) => {
-    return props.theme === 'day' ? props.color : constants.BLUE;
+    return props.color;
   }};
   color: ${constants.WHITE};
   transition: all 0.3s ease 0s;
