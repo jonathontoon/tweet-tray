@@ -1,0 +1,52 @@
+{
+    "post_status_success": {
+        "title": "ツイートを送信しました!",
+        "description": "ツイートを表示する"
+    },
+    "post_status_error": {
+        "title": "エラー",
+        "description": "ツイートの送信に失敗しました"
+    },
+    "login": {
+        "title_taskbar": "Send tweets quickly from your desktop taskbar, without any distractions.",
+        "title_menubar": "Send tweets quickly from your desktop menubar, without any distractions.",
+        "log_in_button": "Twitterでログイン",
+        "quit_button": "Tweet Trayを終了"
+    },
+    "authorization_code": {
+        "title": "個別ウィンドウに表示されている7桁のPINコードを入力し、ログインしよう。",
+        "authorize_button": "アカウントを承認",
+        "return_button": "戻る"
+    },
+    "authorization_error": {
+        "title": "エラー",
+        "description": "アカウントの承認に失敗しました"
+    },
+    "composer": {
+        "title": "ツイートする",
+        "placeholder": "いまどうしてる？",
+        "settings_alt_text": "設定を開く",
+        "image_alt_text": "画像を追加",
+        "tweet_button": "ツイート"
+    },
+    "image_dialog": {
+        "title": "画像を選択",
+        "add_button": "追加する",
+        "file_type": "画像",
+        "warning_title": "エラー",
+        "warning_message": "エラー",
+        "warning_detail_images": "5MB以下の画像を選択してください。",
+        "warning_detail_gif": "10MB以下のGIF画像を選択してください。",
+        "warning_confirm_button": "閉じる"
+    },
+    "settings": {
+        "title": "設定",
+        "night_mode_action": "夜間モード",
+        "launch_start_up_action": "システム起動時に開く",
+        "read_faq_action": "FAQを読む",
+        "report_issue_action": "問題やハグを報告する",
+        "quit_action": "Tweet Trayを終了",
+        "log_out_action": "ログアウト",
+        "cancel_action": "キャンセル"
+    }
+}
