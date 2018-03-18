@@ -8,6 +8,7 @@ import RoundedButton from './RoundedButton';
 
 import * as constants from '../constants';
 
+import NotificationManager from '../utils/NotificationManager';
 import Utilities from '../containers/Utilities';
 
 const LogInStyle = Styled.section`
@@ -38,13 +39,14 @@ const ButtonContainerStyle = Styled.div`
   height: auto;
 `;
 
+const notificationManager = new NotificationManager();
+
 class LogIn extends Component {
   static propTypes = {
     accessTokenPair: PropTypes.object,
     profileImageURL: PropTypes.string,
     onUpdateRequestTokenPair: PropTypes.func.isRequired,
     renderProcess: PropTypes.object.isRequired,
-    notificationManager: PropTypes.object.isRequired,
     localeManager: PropTypes.object.isRequired,
   };
 
@@ -74,7 +76,6 @@ class LogIn extends Component {
   componentDidMount() {
     const {
       renderProcess,
-      notificationManager,
       localeManager,
       onUpdateRequestTokenPair,
     } = this.props;

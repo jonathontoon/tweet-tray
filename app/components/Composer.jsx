@@ -14,9 +14,12 @@ import Footer from './Footer';
 
 import * as constants from '../constants';
 
+import NotificationManager from '../utils/NotificationManager';
 import ImageDialog from '../utils/ImageDialog';
 
 import Utilities from '../containers/Utilities';
+
+const notificationManager = new NotificationManager();
 
 const ComposerStyle = Styled.section`
   overflow: hidden;
@@ -41,7 +44,6 @@ class Composer extends Component {
     onSetStatusImage: PropTypes.func.isRequired,
     renderProcess: PropTypes.object.isRequired,
     shell: PropTypes.object.isRequired,
-    notificationManager: PropTypes.object.isRequired,
     localeManager: PropTypes.object.isRequired,
   };
 
@@ -69,7 +71,6 @@ class Composer extends Component {
     const {
       renderProcess,
       shell,
-      notificationManager,
       localeManager,
     } = this.props;
 

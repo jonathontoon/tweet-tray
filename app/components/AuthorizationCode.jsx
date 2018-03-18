@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import Styled from 'styled-components';
 import PinInput from 'react-pin-input';
 
+import NotificationManager from '../utils/NotificationManager';
 import Utilities from '../containers/Utilities';
 
 import InnerContent from './InnerContent';
@@ -10,6 +11,8 @@ import Logo from './Logo';
 import RoundedButton from './RoundedButton';
 
 import * as constants from '../constants';
+
+const notificationManager = new NotificationManager();
 
 const AuthorizationCodeStyle = Styled.section`
   overflow: hidden;
@@ -46,7 +49,6 @@ class AuthorizationCode extends Component {
     onSetProfileImageURL: PropTypes.func.isRequired,
     onSetProfileLinkColor: PropTypes.func.isRequired,
     renderProcess: PropTypes.object.isRequired,
-    notificationManager: PropTypes.object.isRequired,
     localeManager: PropTypes.object.isRequired,
   };
 
@@ -73,7 +75,6 @@ class AuthorizationCode extends Component {
   componentDidMount() {
     const {
       renderProcess,
-      notificationManager,
       localeManager,
       onUpdateAccessTokenPair,
       onSetProfileImageURL,
