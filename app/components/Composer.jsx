@@ -14,12 +14,10 @@ import Footer from './Footer';
 
 import * as constants from '../constants';
 
-import NotificationManager from '../utils/NotificationManager';
+import SystemNotification from '../utils/SystemNotification';
 import ImageDialog from '../utils/ImageDialog';
 
 import Utilities from '../containers/Utilities';
-
-const notificationManager = new NotificationManager();
 
 const ComposerStyle = Styled.section`
   overflow: hidden;
@@ -75,7 +73,7 @@ class Composer extends Component {
     } = this.props;
 
     renderProcess.on('postStatusError', () => {
-      notificationManager.send(
+      SystemNotification(
         localeManager.post_status_error.title,
         localeManager.post_status_error.description,
         false,
@@ -85,7 +83,7 @@ class Composer extends Component {
     renderProcess.on('postStatusComplete', (event, response) => {
       const { id_str, user, } = response; /* eslint camelcase: 0 */
 
-      notificationManager.send(
+      SystemNotification(
         localeManager.post_status_success.title,
         localeManager.post_status_success.description,
         false,

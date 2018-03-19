@@ -19,6 +19,13 @@ import chinese from '../localizations/zh.json';
 import chineseCN from '../localizations/zh-CN.json';
 import chineseTW from '../localizations/zh-TW.json';
 
+import french from '../localizations/fr.json';
+import frenchCA from '../localizations/fr-CA.json';
+import frenchCH from '../localizations/fr-CH.json';
+import frenchFR from '../localizations/fr-FR.json';
+
+import japanese from '../localizations/ja.json';
+
 
 class LocaleManager {
   constructor() {
@@ -33,11 +40,16 @@ class LocaleManager {
       'de-DE': germanDE,
       'de-CH': germanCH,
       'de-AT': germanAT,
+      fr: french,
+      'fr-CA': frenchCA,
+      'fr-CH': frenchCH,
+      'fr-FR': frenchFR,
       ko: korean,
       sv: swedish,
       zh: chinese,
       'zh-CN': chineseCN,
       'zh-TW': chineseTW,
+      ja: japanese,
     });
   }
 }

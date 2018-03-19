@@ -127,7 +127,7 @@ const Settings = (props, context) => {
               title={localeManager.settings.read_faq_action}
               action={(e) => {
                 e.stopPropagation();
-                shell.openExternal('https://github.com/jonathontoon/tweet-tray');
+                shell.openExternal('https://github.com/jonathontoon/tweet-tray/blob/master/README.md');
               }}
             />
             <ListViewItem

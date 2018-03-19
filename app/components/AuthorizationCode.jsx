@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import Styled from 'styled-components';
 import PinInput from 'react-pin-input';
 
-import NotificationManager from '../utils/NotificationManager';
+import SystemNotification from '../utils/SystemNotification';
 import Utilities from '../containers/Utilities';
 
 import InnerContent from './InnerContent';
@@ -11,8 +11,6 @@ import Logo from './Logo';
 import RoundedButton from './RoundedButton';
 
 import * as constants from '../constants';
-
-const notificationManager = new NotificationManager();
 
 const AuthorizationCodeStyle = Styled.section`
   overflow: hidden;
@@ -82,7 +80,7 @@ class AuthorizationCode extends Component {
     } = this.props;
 
     renderProcess.on('sendauthorizeCodeError', () => {
-      notificationManager.send(
+      SystemNotification(
         localeManager.authorization_error.title,
         localeManager.authorization_error.description,
         false,
@@ -90,7 +88,7 @@ class AuthorizationCode extends Component {
     });
 
     renderProcess.on('verifyCredentialsError', () => {
-      notificationManager.send(
+      SystemNotification(
         localeManager.authorization_error.title,
         localeManager.authorization_error.description,
         false,

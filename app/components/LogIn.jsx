@@ -8,7 +8,7 @@ import RoundedButton from './RoundedButton';
 
 import * as constants from '../constants';
 
-import NotificationManager from '../utils/NotificationManager';
+import SystemNotification from '../utils/SystemNotification';
 import Utilities from '../containers/Utilities';
 
 const LogInStyle = Styled.section`
@@ -38,8 +38,6 @@ const ButtonContainerStyle = Styled.div`
   width: 318px;
   height: auto;
 `;
-
-const notificationManager = new NotificationManager();
 
 class LogIn extends Component {
   static propTypes = {
@@ -81,7 +79,7 @@ class LogIn extends Component {
     } = this.props;
 
     renderProcess.on('startOAuthError', () => {
-      notificationManager.send(
+      SystemNotification(
         localeManager.authorization_error.title,
         localeManager.authorization_error.description,
         false,
