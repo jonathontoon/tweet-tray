@@ -8,8 +8,8 @@
         "description": "ツイートの送信に失敗しました"
     },
     "login": {
-        "title_taskbar": "Send tweets quickly from your desktop taskbar, without any distractions.",
-        "title_menubar": "Send tweets quickly from your desktop menubar, without any distractions.",
+        "title_taskbar": "いつでも簡単にメニューバーからツイートできます。",
+        "title_menubar": "いつでも簡単にメニューバーからツイートできます。",
         "log_in_button": "Twitterでログイン",
         "quit_button": "Tweet Trayを終了"
     },
