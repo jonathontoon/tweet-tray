@@ -4,7 +4,7 @@ const SystemNotification = (title, body, isSilent, callback = null) => {
   const notification = new Notification(title, {
     body,
     silent: isSilent,
-    icon: NotificationIcon,
+    icon: process.platform !== 'darwin' ? NotificationIcon : null,
   });
   notification.onclick = () => {
     console.log('hello');
