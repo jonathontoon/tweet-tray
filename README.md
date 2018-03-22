@@ -41,7 +41,7 @@ Please create a Github [issue](https://github.com/jonathontoon/tweet-tray/issues
 
 ## Development
 
-For all new features or bug fixes please create an issue in the main repository first (so we can track what goes into each release) then simply submit a pull request from your own fork into the original `develop` branch. To make sure the changes are easily reviewable please follow the format set out in `PULL_REQUEST_TEMPLATE.md`.
+For all new features or bug fixes please create an issue in the main repository first (so we can track what goes into each release) then simply submit a pull request from your own fork into the original `develop` branch. To make sure the changes are easily reviewable please repect the format set out in `PULL_REQUEST_TEMPLATE.md`.
 
 ## Deployment
 
