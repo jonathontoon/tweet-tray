@@ -20,7 +20,7 @@ Tweet Tray is a small application which allows you to tweet from your desktop sy
 
 ## Downloads
 
-🍎[MacOS](https://github.com/jonathontoon/tweet-tray/releases/download/v1.0.3/tweet-tray-v103.dmg) · 🏨[Windows](https://github.com/jonathontoon/tweet-tray/releases/download/v1.0.3/tweet-tray-v103.exe) · 🐧[Linux (AppImage)](https://github.com/jonathontoon/tweet-tray/releases/download/v1.0.3/tweet-tray-v103.AppImage) · 🐧[Linux (DEB File)](https://github.com/jonathontoon/tweet-tray/releases/download/v1.0.3/tweet-tray-v103.deb)
+### 🍎[MacOS](https://github.com/jonathontoon/tweet-tray/releases/download/v1.0.3/tweet-tray-v103.dmg) · 🏨[Windows](https://github.com/jonathontoon/tweet-tray/releases/download/v1.0.3/tweet-tray-v103.exe) · 🐧[Linux (AppImage)](https://github.com/jonathontoon/tweet-tray/releases/download/v1.0.3/tweet-tray-v103.AppImage) · 🐧[Linux (DEB File)](https://github.com/jonathontoon/tweet-tray/releases/download/v1.0.3/tweet-tray-v103.deb)
 
 See [releases](https://github.com/jonathontoon/tweet-tray/releases) for more information.
 
