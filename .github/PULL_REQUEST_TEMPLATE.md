@@ -11,7 +11,7 @@ Thanks for creating a Pull Request 😄 ! Before you submit, please read the fol
 
 ## Postflight Checklist
 <!-- Remove items that do not apply. For completed items, change [ ] to [x]. -->
-- [ ] Update README, Download links...
+- [ ] Update README, download links, screenshots...
 - [ ] Update Homecrew Cask
 
 ## Context
