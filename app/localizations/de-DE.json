@@ -46,7 +46,6 @@
         "read_faq_action": "FAQ lesen",
         "report_issue_action": "Ein Problem melden",
         "quit_action": "Tweet Tray schließen",
-        "log_out_action": "Abmelden",
-        "cancel_action": "Abbrechen"
+        "log_out_action": "Abmelden"
     }
 }

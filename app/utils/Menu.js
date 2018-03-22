@@ -17,20 +17,8 @@ const InputMenu = Menu.buildFromTemplate([
   { role: 'selectall', accelerator: 'CmdOrCtrl+A', },
 ]);
 
-const ApplicationMenu = (menuBarManager) => {
+const ApplicationMenu = () => {
   return Menu.buildFromTemplate([{
-    label: 'File',
-    submenu: [{
-      label: 'Undo',
-      accelerator: 'CmdOrCtrl+Enter',
-      selector: 'undo:',
-      click: () => {
-        if (menuBarManager.window !== null && menuBarManager.isWindowVisible()) {
-          menuBarManager.window.webContents.send('send-tweet-shortcut');
-        }
-      },
-    }, ],
-  }, {
     label: 'Edit',
     submenu: [
       { label: 'Undo', accelerator: 'CmdOrCtrl+Z', selector: 'undo:', },

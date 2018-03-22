@@ -46,7 +46,6 @@
         "read_faq_action": "阅读FAQ",
         "report_issue_action": "报告问题",
         "quit_action": "退出Tweet Tray",
-        "log_out_action": "登出",
-        "cancel_action": "取消"
+        "log_out_action": "登出"
     }
 }

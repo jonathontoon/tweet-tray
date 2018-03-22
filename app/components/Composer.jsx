@@ -33,7 +33,7 @@ const ComposerStyle = Styled.section`
 class Composer extends Component {
   static propTypes = {
     theme: PropTypes.string.isRequired,
-    weightedStatus: PropTypes.object,
+    weightedStatus: PropTypes.object.isRequired,
     statusImage: PropTypes.object,
     profileImageURL: PropTypes.string,
     profileLinkColor: PropTypes.string.isRequired,
@@ -46,7 +46,6 @@ class Composer extends Component {
   };
 
   static defaultProps = {
-    weightedStatus: null,
     statusImage: null,
     profileImageURL: null,
     accessTokenPair: null,
@@ -61,7 +60,7 @@ class Composer extends Component {
 
     this.addImage = this.addImage.bind(this);
     this.removeImage = this.removeImage.bind(this);
-    this.postStatus = this.postStatus.bind(this);
+    this.startPostStatus = this.startPostStatus.bind(this);
     this.goToSettings = this.goToSettings.bind(this);
   }
 
@@ -71,6 +70,14 @@ class Composer extends Component {
       shell,
       localeManager,
     } = this.props;
+
+    renderProcess.on('uploadError', () => {
+      SystemNotification(
+        localeManager.post_status_error.title,
+        localeManager.post_status_error.description,
+        false,
+      );
+    });
 
     renderProcess.on('postStatusError', () => {
       SystemNotification(
@@ -93,9 +100,14 @@ class Composer extends Component {
       );
     });
 
-    renderProcess.on('send-tweet-shortcut', () => {
-      this.postStatus();
+    renderProcess.on('startPostStatusShortcut', () => {
+      this.startPostStatus();
     });
+  }
+
+  componentWillUnmount() {
+    const { renderProcess, } = this.props;
+    renderProcess.removeAllListeners(['uploadError', 'postStatusError', 'postStatusComplete', 'startPostStatusShortcut', ]);
   }
 
   addImage(e) {
@@ -113,7 +125,9 @@ class Composer extends Component {
     onSetStatusImage(null);
   }
 
-  postStatus(e) {
+  startPostStatus(e) {
+    console.log('postStatus');
+
     const {
       renderProcess,
       accessTokenPair,
@@ -127,18 +141,23 @@ class Composer extends Component {
       e.preventDefault();
     }
 
-    const statusText = weightedStatus === null ? '' : weightedStatus.text;
-    const imageData = statusImage ? statusImage.data : null;
-
     renderProcess.send('postStatus', {
       accessTokenPair,
-      statusText,
-      imageData,
+      statusText: weightedStatus.text,
+      imageData: statusImage ? statusImage.data : null,
     });
 
     onSetStatusImage(null);
-    onUpdateWeightedStatus(null);
-    this.forceUpdate();
+    onUpdateWeightedStatus({
+      text: '',
+      weightedLength: 0,
+      permillage: 0,
+      valid: true,
+      displayRangeStart: 0,
+      displayRangeEnd: 0,
+      validDisplayRangeStart: 0,
+      validDisplayRangeEnd: 0,
+    });
   }
 
   goToSettings() {
@@ -156,8 +175,6 @@ class Composer extends Component {
       localeManager,
     } = this.props;
 
-    const weightedStatusText = weightedStatus === null ? null : weightedStatus.text;
-    const weightedTextAmount = weightedStatus !== null ? weightedStatus.permillage : null;
     const imageDataSource = statusImage !== null ? [statusImage, ] : null;
 
     return (
@@ -192,12 +209,12 @@ class Composer extends Component {
             theme={theme}
             profilePhotoURL={profileImageURL}
             arcColor={profileLinkColor}
-            weightedTextAmount={weightedTextAmount}
+            weightedTextAmount={weightedStatus.permillage}
           />
           <StatusInput
             theme={theme}
             placeholder={localeManager.composer.placeholder}
-            weightedStatusText={weightedStatusText}
+            weightedStatusText={weightedStatus.text}
             updateWeightedStatus={onUpdateWeightedStatus}
           />
           <MediaListView
@@ -219,12 +236,12 @@ class Composer extends Component {
           rightView={
             <RoundedButton
               theme={theme}
-              disabled={weightedStatus === null && imageDataSource === null}
+              disabled={weightedStatus.weightedLength === 0 && imageDataSource === null}
               title={localeManager.composer.tweet_button}
               color={profileLinkColor}
               fullWidth={false}
               type="submit"
-              onClick={this.postStatus}
+              onClick={this.startPostStatus}
             />
             }
         />

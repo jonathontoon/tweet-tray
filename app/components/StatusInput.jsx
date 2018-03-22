@@ -99,11 +99,7 @@ class StatusInput extends Component {
       validDisplayRangeEnd: parsedProperties.validDisplayRangeEnd,
     };
 
-    if (status.text.length !== 0) {
-      updateWeightedStatus(status);
-    } else {
-      updateWeightedStatus(null);
-    }
+    updateWeightedStatus(status);
   }
 
   render() {

@@ -1,6 +1,6 @@
 import Positioner from 'electron-positioner';
 import path from 'path';
-import { app, BrowserWindow, Tray, screen, nativeImage, Menu, } from 'electron';
+import { app, BrowserWindow, Tray, screen, nativeImage, Menu, globalShortcut, } from 'electron';
 
 import { SelectionMenu, InputMenu, ApplicationMenu, } from './utils/Menu';
 
@@ -69,7 +69,7 @@ class MenuBarManager {
 
     this.window.loadURL(`file://${__dirname}/app.html`);
     this.window.setMenu(null);
-    Menu.setApplicationMenu(ApplicationMenu(this));
+    Menu.setApplicationMenu(ApplicationMenu());
 
     this.window.on('blur', () => {
       this.hideWindow();
@@ -209,6 +209,10 @@ class MenuBarManager {
 
     if (process.platform === 'darwin') { this._tray.setHighlightMode('always'); }
     this.window.show();
+
+    globalShortcut.register('CmdOrCtrl+Enter', () => {
+      this.window.webContents.send('startPostStatusShortcut');
+    });
   }
 
   hideWindow() {
@@ -216,6 +220,8 @@ class MenuBarManager {
     if (this._shouldWindowBeOpen === true) return;
     this._tray.setHighlightMode('never');
     this.window.hide();
+
+    globalShortcut.unregister('CmdOrCtrl+Enter');
   }
 
   closeWindow() {

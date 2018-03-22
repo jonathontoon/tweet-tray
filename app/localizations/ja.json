@@ -46,7 +46,6 @@
         "read_faq_action": "FAQを読む",
         "report_issue_action": "問題やハグを報告する",
         "quit_action": "Tweet Trayを終了",
-        "log_out_action": "ログアウト",
-        "cancel_action": "キャンセル"
+        "log_out_action": "ログアウト"
     }
 }

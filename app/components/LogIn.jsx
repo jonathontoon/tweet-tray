@@ -99,6 +99,11 @@ class LogIn extends Component {
     });
   }
 
+  componentWillUnmount() {
+    const { renderProcess, } = this.props;
+    renderProcess.removeAllListeners(['startOAuthError', 'receivedRequestTokenPair', 'startedAuthorizationCode', 'canceledOAuth', ]);
+  }
+
   onStartOAuth() {
     const { renderProcess, } = this.props;
     renderProcess.send('startOAuth');

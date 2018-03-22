@@ -104,6 +104,11 @@ class AuthorizationCode extends Component {
     });
   }
 
+  componentWillUnmount() {
+    const { renderProcess, } = this.props;
+    renderProcess.removeAllListeners(['sendauthorizeCodeError', 'verifyCredentialsError', 'completedOAuth', ]);
+  }
+
   onInputComplete(value) {
     this.setState({
       authorizeCode: value,

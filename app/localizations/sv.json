@@ -46,7 +46,6 @@
         "read_faq_action": "Läsa FAQ",
         "report_issue_action": "Rapportera ett problem",
         "quit_action": "Avsluta Tweet Tray",
-        "log_out_action": "Logga ut",
-        "cancel_action": "Avbryt"
+        "log_out_action": "Logga ut"
     }
 }

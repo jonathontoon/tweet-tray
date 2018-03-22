@@ -46,7 +46,6 @@
         "read_faq_action": "FAQ",
         "report_issue_action": "Signaler un Problème",
         "quit_action": "Quitter Tweet Tray",
-        "log_out_action": "Se Dèconnecter",
-        "cancel_action": "Annuler"
+        "log_out_action": "Se Dèconnecter"
     }
 }

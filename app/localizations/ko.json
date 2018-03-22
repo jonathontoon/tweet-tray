@@ -46,7 +46,6 @@
         "read_faq_action": "FAQ 읽기",
         "report_issue_action": "문제 보고하기",
         "quit_action": "트위트 트레이 종료하기",
-        "log_out_action": "로그아웃",
-        "cancel_action": "취소"
+        "log_out_action": "로그아웃"
     }
 }

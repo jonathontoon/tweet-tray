@@ -155,8 +155,8 @@ const Settings = (props, context) => {
               title={localeManager.settings.log_out_action}
               action={(e) => {
                 e.stopPropagation();
-                context.router.history.replace('/');
                 shouldLogout();
+                renderProcess.send('restartApplication');
               }}
               type="warning"
             />

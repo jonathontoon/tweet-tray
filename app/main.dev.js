@@ -161,7 +161,7 @@ ipcMain.on('postStatus', (postStatusEvent, response) => {
       media: response.imageData,
     }, accessToken, accessTokenSecret, (uploadMediaError, uploadResponse) => {
       if (uploadMediaError) {
-        postStatusEvent.sender.send('postStatusError', uploadResponse);
+        postStatusEvent.sender.send('uploadError', uploadResponse);
         return;
       }
 
@@ -170,6 +170,8 @@ ipcMain.on('postStatus', (postStatusEvent, response) => {
         media_ids: uploadResponse.media_id_string,
       }, accessToken, accessTokenSecret, (updateStatusError, statusResponse) => {
         if (updateStatusError) {
+          console.log('with image');
+          console.log(updateStatusError);
           postStatusEvent.sender.send('postStatusError', statusResponse);
           return;
         }
@@ -181,6 +183,8 @@ ipcMain.on('postStatus', (postStatusEvent, response) => {
       status: response.statusText,
     }, accessToken, accessTokenSecret, (updateStatusError, statusResponse) => {
       if (updateStatusError) {
+        console.log('no image');
+        console.log(updateStatusError);
         postStatusEvent.sender.send('postStatusError', statusResponse);
         return;
       }
@@ -195,6 +199,11 @@ ipcMain.on('returnToLogin', () => {
 
 ipcMain.on('quitApplication', () => {
   app.quit();
+});
+
+ipcMain.on('restartApplication', () => {
+  app.relaunch();
+  app.exit(0);
 });
 
 ipcMain.on('toggleVisible', (addImageEvent, bool) => {
