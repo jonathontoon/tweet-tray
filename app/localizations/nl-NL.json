@@ -1,0 +1,51 @@
+{
+    "post_status_success": {
+        "title": "Je Tweet is gepost!",
+        "description": "Klik hier om hem te bekijken."
+    },
+    "post_status_error": {
+        "title": "Sorry, er is iets misgegaan!",
+        "description": "Je Tweet kon niet worden verzonden."
+    },
+    "login": {
+        "title_taskbar": "Verstuur tweets vanaf je taakbalk, zonder enige afleiding.",
+        "title_menubar": "Verstuur tweets vanaf je menubalk, zonder enige afleiding.",
+        "log_in_button": "Inloggen met Twitter",
+        "quit_button": "Sluit Tweet Tray af"
+    },
+    "authorization_code": {
+        "title": "Neem nu de zeven-cijferige autorisatiecode over in het pop-upvenster.",
+        "authorize_button": "Autoriseer mijn Account",
+        "return_button": "Ga terug naar Inloggen"
+    },
+    "authorization_error": {
+        "title": "Sorry, er is iets misgegaan!",
+        "description": "Je account kon niet worden geautoriseerd."
+    },
+    "composer": {
+        "title": "Schrijf Tweet",
+        "placeholder": "Wat wil je kwijt?",
+        "settings_alt_text": "Open Instellingen",
+        "image_alt_text": "Voeg een afbeelding toe",
+        "tweet_button": "Tweet"
+    },
+    "image_dialog": {
+        "title": "Selecteer een afbeelding",
+        "add_button": "Voeg toe",
+        "file_type": "Afbeeldingen",
+        "warning_title": "Waarschuwing",
+        "warning_message": "Sorry, dat kan je niet doen",
+        "warning_detail_images": "Afbeeldingen moeten kleiner zijn dan 5mb.",
+        "warning_detail_gif": "GIFs moeten kleiner zijn dan 10mb.",
+        "warning_confirm_button": "OK"
+    },
+    "settings": {
+        "title": "Instellingen",
+        "night_mode_action": "Nachtmodus",
+        "launch_start_up_action": "Start Tweet Tray bij opstarten computer",
+        "read_faq_action": "Lees FAQ",
+        "report_issue_action": "Meld een probleem",
+        "quit_action": "Sluit Tweet Tray af",
+        "log_out_action": "Uitloggen"
+    }
+}
