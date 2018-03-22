@@ -117,6 +117,7 @@ const Settings = (props, context) => {
               }}
               state={launchOnStartUp}
               type="switch"
+              isLast
             />
           </ListViewSection>
           <ListViewSection
@@ -137,6 +138,7 @@ const Settings = (props, context) => {
                 e.stopPropagation();
                 shell.openExternal('https://github.com/jonathontoon/tweet-tray/issues');
               }}
+              isLast
             />
           </ListViewSection>
           <ListViewSection
@@ -159,6 +161,7 @@ const Settings = (props, context) => {
                 renderProcess.send('restartApplication');
               }}
               type="warning"
+              isLast
             />
           </ListViewSection>
         </ListView>
