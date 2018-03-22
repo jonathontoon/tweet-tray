@@ -7,7 +7,6 @@ const SystemNotification = (title, body, isSilent, callback = null) => {
     icon: process.platform !== 'darwin' ? NotificationIcon : null,
   });
   notification.onclick = () => {
-    console.log('hello');
     callback();
   };
 };
