@@ -1,89 +1,89 @@
+/* eslint indent: 0 */
 import React, { Component, } from 'react';
-import { connect, } from 'react-redux';
 import PropTypes from 'prop-types';
 import TwitterText from 'twitter-text';
 import Styled from 'styled-components';
-import Theme from 'styled-theming';
 
 import * as constants from '../constants';
 
-import { updateWeightedStatus, } from '../actions';
-
-const { ipcRenderer, } = window.require('electron');
-
 const StatusInputStyle = Styled.div`
-    width: auto;
-    user-select: auto;
-    margin-top: 5px;
-    margin-left: 66px;
-    margin-bottom: ${constants.SPACING}px;
+  width: auto;
+  user-select: auto;
+  margin-top: 5px;
+  margin-left: 66px;
+  margin-bottom: ${constants.SPACING}px;
+  background-color: transparent;
+
+  & > textarea {
+    line-height: 26px;
+    outline: 0;
+    border: 0;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: auto;
+    resize: none;
+    overflow-y: auto;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif !important;
+    font-size: ${constants.LARGE_FONT_SIZE}px;
+    font-weight: normal;
+    color:  ${(props) => {
+      return props.theme === 'day' ? constants.BLACK : constants.WHITE;
+    }};
     background-color: transparent;
 
-    .TextArea {
-        line-height: 26px;
-        outline: 0;
-        border: 0;
-        margin: 0;
-        padding: 0;
-        width: 100%;
-        height: auto;
-        resize: none;
-        overflow-y: auto;
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif !important;
-        font-size: ${constants.LARGE_FONT_SIZE}px;
-        font-weight: normal;
-        color:  ${Theme('mode', { day: constants.BLACK, night: constants.WHITE, })};
-        background-color: transparent;
-
-        &::placeholder {
-          color: ${constants.GREY};
-        }
+    &::placeholder {
+      color: ${constants.GREY};
     }
+  }
 `;
 
 class StatusInput extends Component {
   static propTypes = {
-    style: PropTypes.object,
-    weightedStatus: PropTypes.object,
-    onUpdateWeightedStatus: PropTypes.func.isRequired,
+    theme: PropTypes.string,
+    placeholder: PropTypes.string,
+    weightedStatusText: PropTypes.string,
+    updateWeightedStatus: PropTypes.func.isRequired,
   }
 
   static defaultProps = {
-    style: null,
-    weightedStatus: null,
+    theme: 'day',
+    placeholder: null,
+    weightedStatusText: null,
   }
 
   constructor(props) {
     super(props);
 
-    this._adjustTextarea = this._adjustTextarea.bind(this);
-    this._focusTextArea = this._focusTextArea.bind(this);
-    this._onTextAreaUpdate = this._onTextAreaUpdate.bind(this);
+    this.adjustTextarea = this.adjustTextarea.bind(this);
+    this.focusTextArea = this.focusTextArea.bind(this);
+    this.onTextAreaUpdate = this.onTextAreaUpdate.bind(this);
   }
 
   componentDidMount() {
-    this._adjustTextarea({});
-    this._focusTextArea({});
-
-    ipcRenderer.on('focus-textarea', () => {
-      this._focusTextArea({});
-    });
+    this.adjustTextarea({});
+    this.focusTextArea({});
   }
 
-  _adjustTextarea({ target = this.el, }) {
+  adjustTextarea({ target = this.el, }) {
     const textAreaRef = target;
-    textAreaRef.style.height = 0;
-    textAreaRef.style.height = `${target.scrollHeight}px`;
+    if (textAreaRef !== undefined && textAreaRef !== null) {
+      textAreaRef.style.height = 0;
+      textAreaRef.style.height = `${target.scrollHeight}px`;
+    }
   }
 
-  _focusTextArea({ target = this.el, }) {
+  focusTextArea({ target = this.el, }) {
     const textAreaRef = target;
-    textAreaRef.focus();
+
+    if (textAreaRef !== undefined && textAreaRef !== null) {
+      textAreaRef.focus();
+    }
   }
 
-  _onTextAreaUpdate(e) {
-    const { onUpdateWeightedStatus, } = this.props;
-    this._adjustTextarea(e);
+  onTextAreaUpdate(e) {
+    const { updateWeightedStatus, } = this.props;
+    this.adjustTextarea(e);
 
     const textValue = e.target.value;
     const parsedProperties = TwitterText.parseTweet(textValue);
@@ -99,55 +99,33 @@ class StatusInput extends Component {
       validDisplayRangeEnd: parsedProperties.validDisplayRangeEnd,
     };
 
-    if (status.text.length !== 0) {
-      onUpdateWeightedStatus(status);
-    } else {
-      onUpdateWeightedStatus(null);
-    }
+    updateWeightedStatus(status);
   }
 
   render() {
-    const { style, weightedStatus, } = this.props;
-
-    const defaultValue = weightedStatus === null ? '' : weightedStatus.text;
-
+    const { placeholder, weightedStatusText, theme, } = this.props;
     return (
       <StatusInputStyle
-        style={style}
+        theme={theme}
       >
         <textarea
           ref={(x) => { this.el = x; }}
-          className="TextArea"
+          className="textArea"
           autoCapitalize="sentences"
-          placeholder="What's happening?"
+          placeholder={placeholder}
           rows={1}
           style={{
             minHeight: 58,
           }}
-          onInput={this._onTextAreaUpdate}
-          onKeyUp={this._onTextAreaUpdate}
-          onChange={this._onTextAreaUpdate}
-          defaultValue={defaultValue}
+          onInput={this.onTextAreaUpdate}
+          onKeyUp={this.onTextAreaUpdate}
+          onChange={this.onTextAreaUpdate}
+          value={weightedStatusText === null ? '' : weightedStatusText}
         />
       </StatusInputStyle>
     );
   }
 }
 
-const mapStateToProps = (store, ownProps) => {
-  return {
-    weightedStatus: store.weightedStatus,
-    className: ownProps.className,
-  };
-};
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    onUpdateWeightedStatus: (weightedStatus) => {
-      dispatch(updateWeightedStatus(weightedStatus));
-    },
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(StatusInput);
+export default StatusInput;
 

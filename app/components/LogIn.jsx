@@ -1,40 +1,29 @@
 import React, { Component, } from 'react';
 import PropTypes from 'prop-types';
 import Styled from 'styled-components';
-import Theme from 'styled-theming';
-
-import Notifier from '../utils/Notifier';
 
 import InnerContent from './InnerContent';
+import Logo from './Logo';
 import RoundedButton from './RoundedButton';
 
 import * as constants from '../constants';
 
-import Logo from '../../resources/tweet-tray-logo.svg';
-import NotificationIcon from '../../resources/notification.jpg';
-
-const { ipcRenderer, } = window.require('electron');
+import SystemNotification from '../utils/SystemNotification';
+import Utilities from '../containers/Utilities';
 
 const LogInStyle = Styled.section`
   overflow: hidden;
   user-select: none;
   width: 100%;
   height: 100%;
-  background-color: ${Theme('mode', { day: constants.WHITE, night: constants.DARK_MODE_BACKGROUND, })};
+  background-color: ${constants.WHITE};
   position: relative;
-`;
-
-const TwitterLogoStyle = Styled.img`
-  width: 34px;
-  height: 28px;
-  position: relative;
-  top: 40px;
 `;
 
 const HeaderTextStyle = Styled.h1`
   padding: 0;
   margin: 0;
-  color: ${Theme('mode', { day: constants.BLACK, night: constants.WHITE, })};
+  color: ${constants.BLACK};
   text-align: left;
   font-size: ${constants.XTRA_LARGE_FONT_SIZE}px;
   font-weight: bold;
@@ -43,49 +32,91 @@ const HeaderTextStyle = Styled.h1`
   line-height: 30px;
 `;
 
+const ButtonContainerStyle = Styled.div`
+  position: absolute;
+  bottom: ${constants.SPACING}px;
+  width: 318px;
+  height: auto;
+`;
+
 class LogIn extends Component {
   static propTypes = {
     accessTokenPair: PropTypes.object,
-    userCredentials: PropTypes.object,
+    profileImageURL: PropTypes.string,
     onUpdateRequestTokenPair: PropTypes.func.isRequired,
+    renderProcess: PropTypes.object.isRequired,
+    localeManager: PropTypes.object.isRequired,
   };
 
   static defaultProps = {
     accessTokenPair: null,
-    userCredentials: null,
+    profileImageURL: null,
   };
 
   static contextTypes = {
     router: PropTypes.object,
   };
 
+  constructor(props) {
+    super(props);
+
+    this.onStartOAuth = this.onStartOAuth.bind(this);
+    this.onQuitApplication = this.onQuitApplication.bind(this);
+  }
+
   componentWillMount() {
-    const { accessTokenPair, userCredentials, } = this.props;
-    if (accessTokenPair !== null && userCredentials !== null) {
+    const { accessTokenPair, profileImageURL, } = this.props;
+    if (accessTokenPair !== null && profileImageURL !== null) {
       this.context.router.history.replace('/composer');
     }
   }
 
   componentDidMount() {
-    ipcRenderer.on('startOAuthError', () => {
-      Notifier('Oops, an error occured!', 'Your account could not be authorized', false, NotificationIcon, null);
+    const {
+      renderProcess,
+      localeManager,
+      onUpdateRequestTokenPair,
+    } = this.props;
+
+    renderProcess.on('startOAuthError', () => {
+      SystemNotification(
+        localeManager.authorization_error.title,
+        localeManager.authorization_error.description,
+        false,
+      );
     });
 
-    ipcRenderer.on('receivedRequestTokenPair', (event, requestTokenPair) => {
-      const { onUpdateRequestTokenPair, } = this.props;
+    renderProcess.on('receivedRequestTokenPair', (event, requestTokenPair) => {
       onUpdateRequestTokenPair(requestTokenPair);
     });
 
-    ipcRenderer.on('startedAuthorizationCode', () => {
+    renderProcess.on('startedAuthorizationCode', () => {
       this.context.router.history.replace('/authorization');
     });
 
-    ipcRenderer.on('canceledOAuth', () => {
+    renderProcess.on('canceledOAuth', () => {
       this.context.router.history.replace('/');
     });
   }
 
+  componentWillUnmount() {
+    const { renderProcess, } = this.props;
+    renderProcess.removeAllListeners(['startOAuthError', 'receivedRequestTokenPair', 'startedAuthorizationCode', 'canceledOAuth', ]);
+  }
+
+  onStartOAuth() {
+    const { renderProcess, } = this.props;
+    renderProcess.send('startOAuth');
+  }
+
+  onQuitApplication() {
+    const { renderProcess, } = this.props;
+    renderProcess.send('quitApplication');
+  }
+
   render() {
+    const { localeManager, } = this.props;
+
     return (
       <LogInStyle>
         <InnerContent
@@ -93,39 +124,30 @@ class LogIn extends Component {
             height: 'calc(100% - 30px)',
           }}
         >
-          <TwitterLogoStyle src={Logo} alt="Twitter Logo" />
+          <Logo />
           <HeaderTextStyle>
-            Tweet quickly from the desktop {process.platform === 'darwin' ? 'menu bar' : 'system tray'}, without any more distractions.
+            {process.platform === 'win32' ? localeManager.login.title_taskbar : localeManager.login.title_menubar }
           </HeaderTextStyle>
-          <RoundedButton
-            onClick={() => {
-              ipcRenderer.send('startOAuth');
-            }}
-            style={{
-              position: 'relative',
-              top: '264px',
-              height: '44px',
-            }}
-            fullWidth
-            title="Sign in with Twitter"
-          />
-          <RoundedButton
-            onClick={() => {
-              ipcRenderer.send('quitApplication');
-            }}
-            style={{
-              position: 'relative',
-              top: '280px',
-              height: '44px',
-            }}
-            fullWidth
-            borderButton
-            title="Quit Tweet Tray"
-          />
+          <ButtonContainerStyle>
+            <RoundedButton
+              onClick={this.onStartOAuth}
+              height={44}
+              fullWidth
+              title={localeManager.login.log_in_button}
+            />
+            <RoundedButton
+              onClick={this.onQuitApplication}
+              height={44}
+              marginTop={constants.SPACING}
+              fullWidth
+              borderButton
+              title={localeManager.login.quit_button}
+            />
+          </ButtonContainerStyle>
         </InnerContent>
       </LogInStyle>
     );
   }
 }
 
-export default LogIn;
+export default Utilities(LogIn);

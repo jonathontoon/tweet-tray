@@ -1,0 +1,23 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`StatusInput component should render textarea 1`] = `
+<textarea
+  autoCapitalize="sentences"
+  className="textArea"
+  onChange={[Function]}
+  onInput={[Function]}
+  onKeyUp={[Function]}
+  placeholder="What\\\\'s Happening?"
+  rows={1}
+  style={
+    Object {
+      "minHeight": 58,
+    }
+  }
+  value="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam non nisl facilisis, imperdiet ipsum sed, pretium metus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos."
+/>
+`;
+
+exports[`StatusInput component textarea should contain placeholder 1`] = `"What\\\\'s Happening?"`;
+
+exports[`StatusInput component textarea should contain textarea 1`] = `"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam non nisl facilisis, imperdiet ipsum sed, pretium metus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos."`;

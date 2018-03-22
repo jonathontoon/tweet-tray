@@ -1,12 +1,10 @@
 import React, { Component, } from 'react';
-import { connect, } from 'react-redux';
 import PropTypes from 'prop-types';
 import Styled from 'styled-components';
-import Theme from 'styled-theming';
-
-import * as constants from '../constants';
 
 import ProgressArc from './ProgressArc';
+
+import * as constants from '../constants';
 
 const UserProfilePhotoStyle = Styled.div`
     overflow: hidden;
@@ -18,14 +16,16 @@ const UserProfilePhotoStyle = Styled.div`
 `;
 
 const ProfilePhotoImageStyle = Styled.div`
-    position: relative;
-    top: 3px;
-    left: 3px;
-    border-radius: 50px;
-    overflow: hidden;
-    width: 52px;
-    height: 52px;
-    background-color: ${Theme('mode', { day: constants.LIGHT_GREY, night: constants.DARK_MODE_FOREGROUND, })};
+  position: relative;
+  top: 3px;
+  left: 3px;
+  border-radius: 50px;
+  overflow: hidden;
+  width: 52px;
+  height: 52px;
+  background-color: ${(props) => {
+    return props.theme === 'day' ? constants.LIGHT_GREY : constants.DARK_MODE_FOREGROUND;
+  }};
 `;
 
 const WordCounterStyle = Styled.div`
@@ -35,7 +35,7 @@ const WordCounterStyle = Styled.div`
     top: -1px;
     left: -1px;
 
-    .SVG {
+    .progressArc {
         height: 100%;
         width: 100%;
         margin: 0px;
@@ -50,85 +50,82 @@ const WordCounterStyle = Styled.div`
 
 class UserProfilePhoto extends Component {
   static propTypes = {
-    userCredentials: PropTypes.object,
-    weightedStatus: PropTypes.object,
+    theme: PropTypes.string,
+    profilePhotoURL: PropTypes.string,
+    arcColor: PropTypes.string,
+    weightedTextAmount: PropTypes.number,
   }
 
   static defaultProps = {
-    userCredentials: null,
-    weightedStatus: null,
+    theme: 'day',
+    profilePhotoURL: null,
+    arcColor: constants.BLUE,
+    weightedTextAmount: null,
   }
 
   constructor(props) {
     super(props);
 
-    this._profileImageURL = this._profileImageURL.bind(this);
-    this._calculateArcValue = this._calculateArcValue.bind(this);
-    this._calculateArcColor = this._calculateArcColor.bind(this);
+    this.calculateArcValue = this.calculateArcValue.bind(this);
+    this.calculateArcColor = this.calculateArcColor.bind(this);
   }
 
-  _calculateArcColor() {
-    const { weightedStatus, } = this.props;
+  calculateArcColor() {
+    const { arcColor, weightedTextAmount, } = this.props;
 
     let color = null;
 
-    if (weightedStatus !== null) {
-      if (weightedStatus.permillage > 1000) {
+    if (weightedTextAmount !== null) {
+      if (weightedTextAmount > 1000) {
         color = constants.RED;
       } else {
-        color = constants.BLUE;
+        color = arcColor;
 
-        if (weightedStatus.permillage >= 900) {
+        if (weightedTextAmount >= 900) {
           color = constants.YELLOW;
         }
       }
     } else {
-      color = constants.BLUE;
+      color = arcColor;
     }
 
     return color;
   }
 
-  _calculateArcValue() {
-    const { weightedStatus, } = this.props;
+  calculateArcValue() {
+    const { weightedTextAmount, } = this.props;
 
     let arcValue = 0;
 
-    if (weightedStatus !== null) {
-      if (weightedStatus.permillage > 1000) {
+    if (weightedTextAmount !== null) {
+      if (weightedTextAmount > 1000) {
         arcValue = parseInt(100, 10);
       } else {
-        arcValue = parseInt((weightedStatus.permillage / 10), 10);
+        arcValue = parseInt((weightedTextAmount / 10), 10);
       }
     }
 
     return arcValue;
   }
 
-  _profileImageURL() {
-    const { userCredentials, } = this.props;
-
-    if (userCredentials !== null) {
-      return userCredentials.profileImageURL.replace('_normal.jpg', '.jpg');
-    }
-
-    return null;
-  }
-
   render() {
+    const { profilePhotoURL, theme, } = this.props;
+
     return (
-      <UserProfilePhotoStyle>
+      <UserProfilePhotoStyle
+        theme={theme}
+      >
         <ProfilePhotoImageStyle>
-          <img src={this._profileImageURL()} alt="Profile" width="52" height="52" />
+          <img src={profilePhotoURL} alt="Profile" width="52" height="52" />
         </ProfilePhotoImageStyle>
         <WordCounterStyle>
           <ProgressArc
             textVisible={false}
-            arcColor={this._calculateArcColor()}
+            arcColor={this.calculateArcColor()}
             rounded
             arcBackgroundColor="transparent"
-            className="SVG"
-            value={this._calculateArcValue()}
+            className="progressArc"
+            value={this.calculateArcValue()}
           />
         </WordCounterStyle>
       </UserProfilePhotoStyle>
@@ -136,12 +133,5 @@ class UserProfilePhoto extends Component {
   }
 }
 
-const mapStateToProps = (store) => {
-  return {
-    weightedStatus: store.weightedStatus,
-    userCredentials: store.userCredentials,
-  };
-};
-
-export default connect(mapStateToProps, null)(UserProfilePhoto);
+export default UserProfilePhoto;
 

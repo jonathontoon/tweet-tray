@@ -40,7 +40,9 @@
     "arrow-body-style": ["error", "always"],
     "import/prefer-default-export": 0,
     "array-bracket-spacing": 0,
-    "no-underscore-dangle": 0
+    "no-underscore-dangle": 0,
+    "prefer-destructuring:": 0,
+    "global-require": 0
   },
   "plugins": [
     "import",

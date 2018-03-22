@@ -1,18 +1,16 @@
 import React, { Component, } from 'react';
 import PropTypes from 'prop-types';
 import Styled from 'styled-components';
-
 import PinInput from 'react-pin-input';
 
+import SystemNotification from '../utils/SystemNotification';
+import Utilities from '../containers/Utilities';
+
 import InnerContent from './InnerContent';
+import Logo from './Logo';
 import RoundedButton from './RoundedButton';
 
 import * as constants from '../constants';
-
-import Logo from '../../resources/tweet-tray-logo.svg';
-import NotificationIcon from '../../resources/notification.jpg';
-
-const { ipcRenderer, } = window.require('electron');
 
 const AuthorizationCodeStyle = Styled.section`
   overflow: hidden;
@@ -21,13 +19,6 @@ const AuthorizationCodeStyle = Styled.section`
   height: 100%;
   background-color: ${constants.WHITE};
   position: relative;
-`;
-
-const TwitterLogoStyle = Styled.img`
-    width: 34px;
-    height: 28px;
-    position: relative;
-    top: 40px;
 `;
 
 const HeaderTextStyle = Styled.h1`
@@ -42,11 +33,21 @@ const HeaderTextStyle = Styled.h1`
     line-height: 30px;
 `;
 
+const ButtonContainerStyle = Styled.div`
+  position: absolute;
+  bottom: ${constants.SPACING}px;
+  width: 318px;
+  height: auto;
+`;
+
 class AuthorizationCode extends Component {
   static propTypes = {
     requestTokenPair: PropTypes.object,
     onUpdateAccessTokenPair: PropTypes.func.isRequired,
-    onSetUserCredentials: PropTypes.func.isRequired,
+    onSetProfileImageURL: PropTypes.func.isRequired,
+    onSetProfileLinkColor: PropTypes.func.isRequired,
+    renderProcess: PropTypes.object.isRequired,
+    localeManager: PropTypes.object.isRequired,
   };
 
   static defaultProps = {
@@ -64,50 +65,74 @@ class AuthorizationCode extends Component {
       authorizeCode: '',
     };
 
-    this._onInputComplete = this._onInputComplete.bind(this);
-    this._onCodeEntered = this._onCodeEntered.bind(this);
-    this._onReturnToLogIn = this._onReturnToLogIn.bind(this);
+    this.onInputComplete = this.onInputComplete.bind(this);
+    this.onCodeEntered = this.onCodeEntered.bind(this);
+    this.onReturnToLogIn = this.onReturnToLogIn.bind(this);
   }
 
   componentDidMount() {
-    ipcRenderer.on('sendauthorizeCodeError', () => {
-      Notifier('Oops, an error occured!', 'Your account could not be authorized', false, NotificationIcon, null);
+    const {
+      renderProcess,
+      localeManager,
+      onUpdateAccessTokenPair,
+      onSetProfileImageURL,
+      onSetProfileLinkColor,
+    } = this.props;
+
+    renderProcess.on('sendauthorizeCodeError', () => {
+      SystemNotification(
+        localeManager.authorization_error.title,
+        localeManager.authorization_error.description,
+        false,
+      );
     });
 
-    ipcRenderer.on('verifyCredentialsError', () => {
-      Notifier('Oops, an error occured!', 'Your account could not be authorized', false, NotificationIcon, null);
+    renderProcess.on('verifyCredentialsError', () => {
+      SystemNotification(
+        localeManager.authorization_error.title,
+        localeManager.authorization_error.description,
+        false,
+      );
     });
 
-    ipcRenderer.on('completedOAuth', (event, response) => {
-      const { onUpdateAccessTokenPair, onSetUserCredentials, } = this.props;
-      onUpdateAccessTokenPair(response.accessTokenPair);
-      onSetUserCredentials(response.userCredentials);
+    renderProcess.on('completedOAuth', (event, response) => {
+      const { accessTokenPair, userCredentials, } = response;
+      onUpdateAccessTokenPair(accessTokenPair);
+      onSetProfileImageURL(userCredentials.profileImageURL);
+      onSetProfileLinkColor(userCredentials.profileLinkColor);
       this.context.router.history.replace('/composer');
     });
   }
 
-  _onInputComplete(value) {
+  componentWillUnmount() {
+    const { renderProcess, } = this.props;
+    renderProcess.removeAllListeners(['sendauthorizeCodeError', 'verifyCredentialsError', 'completedOAuth', ]);
+  }
+
+  onInputComplete(value) {
     this.setState({
       authorizeCode: value,
     });
   }
 
-  _onCodeEntered() {
+  onCodeEntered() {
     const { authorizeCode, } = this.state;
-    const { requestTokenPair, } = this.props;
-    ipcRenderer.send('sendAuthorizeCode', {
+    const { renderProcess, requestTokenPair, } = this.props;
+    renderProcess.send('sendAuthorizeCode', {
       authorizeCode,
       requestTokenPair,
     });
   }
 
-  _onReturnToLogIn() {
-    ipcRenderer.send('returnToLogin');
+  onReturnToLogIn() {
+    const { renderProcess, } = this.props;
+    renderProcess.send('returnToLogin');
     this.context.router.history.replace('/');
   }
 
   render() {
     const { authorizeCode, } = this.state;
+    const { localeManager, } = this.props;
 
     return (
       <AuthorizationCodeStyle>
@@ -116,9 +141,9 @@ class AuthorizationCode extends Component {
             height: 'calc(100% - 30px)',
           }}
         >
-          <TwitterLogoStyle src={Logo} alt="Twitter Logo" />
+          <Logo />
           <HeaderTextStyle>
-            Finish up by entering the 7 digit authorization PIN shown in the pop up window.
+            {localeManager.authorization_code.title}
           </HeaderTextStyle>
           <PinInput
             length={7}
@@ -146,34 +171,29 @@ class AuthorizationCode extends Component {
             inputFocusStyle={{
               border: `1px solid ${constants.BORDER_GREY}`,
             }}
-            onComplete={this._onInputComplete}
+            onComplete={this.onInputComplete}
           />
-          <RoundedButton
-            onClick={this._onCodeEntered}
-            style={{
-              position: 'relative',
-              top: '216px',
-              height: '44px',
-            }}
-            disabled={authorizeCode.length < 7}
-            fullWidth
-            title="Authorize my Account"
-          />
-          <RoundedButton
-            onClick={this._onReturnToLogIn}
-            style={{
-              position: 'relative',
-              top: '232px',
-              height: '44px',
-            }}
-            fullWidth
-            borderButton
-            title="Return to Log In"
-          />
+          <ButtonContainerStyle>
+            <RoundedButton
+              onClick={this.onCodeEntered}
+              height={44}
+              disabled={authorizeCode.length < 7}
+              fullWidth
+              title={localeManager.authorization_code.authorize_button}
+            />
+            <RoundedButton
+              onClick={this.onReturnToLogIn}
+              height={44}
+              marginTop={constants.SPACING}
+              fullWidth
+              borderButton
+              title={localeManager.authorization_code.return_button}
+            />
+          </ButtonContainerStyle>
         </InnerContent>
       </AuthorizationCodeStyle>
     );
   }
 }
 
-export default AuthorizationCode;
+export default Utilities(AuthorizationCode);

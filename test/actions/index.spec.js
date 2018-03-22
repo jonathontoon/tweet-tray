@@ -19,12 +19,20 @@ describe('actions', () => {
     expect(actions.updateRequestTokenPair(testData.requestTokenPair)).toEqual(expectedAction);
   });
 
-  it('should create an action to set the user credentials object', () => {
+  it('should create an action to set the profile image url', () => {
     const expectedAction = {
-      type: types.SET_USER_CREDENTIALS,
-      userCredentials: testData.userCredentials,
+      type: types.SET_PROFILE_IMAGE_URL,
+      profileImageURL: testData.profileImageURL,
     };
-    expect(actions.setUserCredentials(testData.userCredentials)).toEqual(expectedAction);
+    expect(actions.setProfileImageURL(testData.profileImageURL)).toEqual(expectedAction);
+  });
+
+  it('should create an action to set the profile link color', () => {
+    const expectedAction = {
+      type: types.SET_PROFILE_LINK_COLOR,
+      profileLinkColor: testData.profileLinkColor,
+    };
+    expect(actions.setProfileLinkColor(testData.profileLinkColor)).toEqual(expectedAction);
   });
 
   it('should create an action to update the weighted status object', () => {
@@ -35,20 +43,28 @@ describe('actions', () => {
     expect(actions.updateWeightedStatus(testData.weightedStatus)).toEqual(expectedAction);
   });
 
-  it('should create an action to toggle the status of whether settings are shown', () => {
+  it('should create an action to update the status image object', () => {
     const expectedAction = {
-      type: types.TOGGLE_SETTINGS_VISIBILITY,
-      settingsVisibility: testData.settingsVisibility,
+      type: types.SET_STATUS_IMAGE,
+      statusImage: testData.statusImage,
     };
-    expect(actions.toggleSettingsVisibility(testData.settingsVisibility)).toEqual(expectedAction);
+    expect(actions.setStatusImage(testData.statusImage)).toEqual(expectedAction);
+  });
+
+  it('should create an action to toggle whether the app launchs on system start', () => {
+    const expectedAction = {
+      type: types.TOGGLE_LAUNCH_ON_START_UP,
+      launchOnStartUp: testData.launchOnStartUp,
+    };
+    expect(actions.toggleLaunchOnStartUp(testData.launchOnStartUp)).toEqual(expectedAction);
   });
 
   it('should create an action to toggle between night and day mode', () => {
     const expectedAction = {
-      type: types.TOGGLE_COLOR_THEME,
-      colorTheme: testData.colorTheme,
+      type: types.TOGGLE_THEME,
+      theme: testData.theme,
     };
-    expect(actions.toggleColorTheme(testData.colorTheme)).toEqual(expectedAction);
+    expect(actions.toggleTheme(testData.theme)).toEqual(expectedAction);
   });
 
   it('should create an action to handle the user logging out', () => {

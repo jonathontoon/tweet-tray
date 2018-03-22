@@ -1,6 +1,6 @@
 import { connect, } from 'react-redux';
 import { withRouter, } from 'react-router-dom';
-import { updateAccessTokenPair, setUserCredentials, } from '../actions';
+import { updateAccessTokenPair, setProfileImageURL, setProfileLinkColor, } from '../actions';
 import AuthorizationCode from '../components/AuthorizationCode';
 
 const mapStateToProps = (store) => {
@@ -15,8 +15,11 @@ const mapDispatchToProps = (dispatch) => {
     onUpdateAccessTokenPair: (accessTokenPair) => {
       dispatch(updateAccessTokenPair(accessTokenPair));
     },
-    onSetUserCredentials: (userCredentials) => {
-      dispatch(setUserCredentials(userCredentials));
+    onSetProfileImageURL: (profileImageURL) => {
+      dispatch(setProfileImageURL(profileImageURL));
+    },
+    onSetProfileLinkColor: (profileLinkColor) => {
+      dispatch(setProfileLinkColor(profileLinkColor));
     },
   };
 };

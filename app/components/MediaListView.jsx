@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment, } from 'react';
 import PropTypes from 'prop-types';
 
 import MediaListViewItem from './MediaListViewItem';
@@ -6,7 +6,7 @@ import MediaListViewItem from './MediaListViewItem';
 const MediaListView = (props) => {
   const { dataSource, onRemoveImage, } = props;
   return (
-    <div>
+    <Fragment>
       {dataSource && dataSource.map((image) => {
           return (
             <MediaListViewItem
@@ -18,7 +18,7 @@ const MediaListView = (props) => {
             />
           );
         })}
-    </div>
+    </Fragment>
   );
 };
 
@@ -28,7 +28,7 @@ MediaListView.propTypes = {
 };
 
 MediaListView.defaultProps = {
-  dataSource: null,
+  dataSource: [],
 };
 
 export default MediaListView;

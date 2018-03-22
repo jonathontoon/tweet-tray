@@ -1,0 +1,51 @@
+{
+    "post_status_success": {
+        "title": "你的推文已發布!",
+        "description": "點擊這裡查看。"
+    },
+    "post_status_error": {
+        "title": "對不起，出錯了!",
+        "description": "你的推文發布失敗。"
+    },
+    "login": {
+        "title_taskbar": "不被分心，從桌面任務欄上快速發推文。",
+        "title_menubar": "不被分心，從桌面菜單欄上快速發推文。",
+        "log_in_button": "使用Twitter登錄",
+        "quit_button": "退出Tweet Tray"
+    },
+    "authorization_code": {
+        "title": "請輸入彈出窗口中顯示的7位數字的PIN來完成授權。",
+        "authorize_button": "授權我的帳號",
+        "return_button": "返回登錄"
+    },
+    "authorization_error": {
+        "title": "對不起，出錯了!",
+        "description": "你的帳號授權失敗。"
+    },
+    "composer": {
+        "title": "寫推文",
+        "placeholder": "有什麼新鮮事?",
+        "settings_alt_text": "打開設置",
+        "image_alt_text": "添加圖片",
+        "tweet_button": "推文"
+    },
+    "image_dialog": {
+        "title": "選擇圖片",
+        "add_button": "添加",
+        "file_type": "圖片",
+        "warning_title": "注意",
+        "warning_message": "對不起，您沒有執行此項操作的權限",
+        "warning_detail_images": "圖片必須小於5MB。",
+        "warning_detail_gif": "GIF必須小於10MB。",
+        "warning_confirm_button": "好"
+    },
+    "settings": {
+        "title": "設置",
+        "night_mode_action": "夜間模式",
+        "launch_start_up_action": "在系統啟動時啟動",
+        "read_faq_action": "閱讀FAQ",
+        "report_issue_action": "報告問題",
+        "quit_action": "退出Tweet Tray",
+        "log_out_action": "登出"
+    }
+}

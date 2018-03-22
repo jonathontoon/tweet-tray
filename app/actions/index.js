@@ -14,10 +14,17 @@ export const updateRequestTokenPair = (requestTokenPair) => {
   };
 };
 
-export const setUserCredentials = (userCredentials) => {
+export const setProfileImageURL = (profileImageURL) => {
   return {
-    type: types.SET_USER_CREDENTIALS,
-    userCredentials,
+    type: types.SET_PROFILE_IMAGE_URL,
+    profileImageURL,
+  };
+};
+
+export const setProfileLinkColor = (profileLinkColor) => {
+  return {
+    type: types.SET_PROFILE_LINK_COLOR,
+    profileLinkColor,
   };
 };
 
@@ -28,17 +35,24 @@ export const updateWeightedStatus = (weightedStatus) => {
   };
 };
 
-export const toggleSettingsVisibility = (settingsVisibility) => {
+export const setStatusImage = (statusImage) => {
   return {
-    type: types.TOGGLE_SETTINGS_VISIBILITY,
-    settingsVisibility,
+    type: types.SET_STATUS_IMAGE,
+    statusImage,
   };
 };
 
-export const toggleColorTheme = (colorTheme) => {
+export const toggleLaunchOnStartUp = (launchOnStartUp) => {
   return {
-    type: types.TOGGLE_COLOR_THEME,
-    colorTheme,
+    type: types.TOGGLE_LAUNCH_ON_START_UP,
+    launchOnStartUp,
+  };
+};
+
+export const toggleTheme = (theme) => {
+  return {
+    type: types.TOGGLE_THEME,
+    theme,
   };
 };
 

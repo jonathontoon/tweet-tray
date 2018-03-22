@@ -48,5 +48,5 @@ Included in this release are the basics to use the app. Look forward to more upd
 - Created React application, components and UI, using Redux and Styled Components.
 - Basic ability to add a single image, or GIF to a tweet.
 - Settings component with the ability to enable Night Mode, Log Out and Quit.
-- Notifications which create alerts whenever a tweet has sent successfully or any type of error has occured.
+- Notifications which create alerts whenever a tweet has sent successfully or any type of error has occurred.
 - Basic smoke testing for Windows 10 and OSX High Sierra.

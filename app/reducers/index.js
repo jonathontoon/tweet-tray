@@ -1,9 +1,11 @@
 import { combineReducers, } from 'redux';
 
-import colorTheme from './colorTheme';
-import settingsVisibility from './settingsVisibility';
-import userCredentials from './userCredentials';
+import theme from './theme';
+import launchOnStartUp from './launchOnStartUp';
+import profileImageURL from './profileImageURL';
+import profileLinkColor from './profileLinkColor';
 import weightedStatus from './weightedStatus';
+import statusImage from './statusImage';
 import requestTokenPair from './requestTokenPair';
 import accessTokenPair from './accessTokenPair';
 
@@ -12,10 +14,12 @@ import { ON_LOGOUT, } from '../actions/actionTypes';
 const appReducer = combineReducers({
   accessTokenPair,
   requestTokenPair,
-  userCredentials,
+  profileImageURL,
+  profileLinkColor,
   weightedStatus,
-  settingsVisibility,
-  colorTheme,
+  statusImage,
+  launchOnStartUp,
+  theme,
 });
 
 /* eslint no-param-reassign: 0 */

@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Styled from 'styled-components';
 
+import Icon from './Icon';
+
 const IconButtonStyle = Styled.button`
     -webkit-app-region: no-drag;
     user-select: none;
@@ -23,11 +25,11 @@ const IconButtonStyle = Styled.button`
     }
 `;
 
-const ImageStyle = Styled.img`
+const ImageContainerStyle = Styled.div`
     display: block;
     pointer-events: none;
-    width: 25px;
-    height: 25px;
+    width: 27px;
+    height: 27px;
 
     &:hover {
       cursor: pointer !important;
@@ -36,7 +38,7 @@ const ImageStyle = Styled.img`
 
 const IconButton = (props) => {
   const {
-    disabled, iconSrc, altText, onClick,
+    disabled, icon, theme, color, onClick,
   } = props;
 
   return (
@@ -44,22 +46,25 @@ const IconButton = (props) => {
       onClick={onClick}
       disabled={disabled}
     >
-      <ImageStyle
-        src={iconSrc}
-        alt={altText}
-      />
+      <ImageContainerStyle>
+        <Icon name={icon} theme={theme} color={color} />
+      </ImageContainerStyle>
     </IconButtonStyle>
   );
 };
 
 IconButton.propTypes = {
   disabled: PropTypes.bool,
-  altText: PropTypes.string.isRequired,
-  iconSrc: PropTypes.string.isRequired,
+  theme: PropTypes.string,
+  icon: PropTypes.string.isRequired,
+  color: PropTypes.string.isRequired,
   onClick: PropTypes.func.isRequired,
 };
 
 IconButton.defaultProps = {
+  theme: 'day',
   disabled: false,
 };
+
 export default IconButton;
+

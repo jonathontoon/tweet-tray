@@ -1,0 +1,51 @@
+{
+    "post_status_success": {
+        "title": "Votre Tweet a été envoyé!",
+        "description": "Cliquez ici pour voir le tweet."
+    },
+    "post_status_error": {
+        "title": "Désolé. Un problème est survenu!",
+        "description": "Votre tweet n'a pas pu être envoyé."
+    },
+    "login": {
+        "title_taskbar": "Tweeter rapidement depuis votre barre des menus, sans aucune distractions.",
+        "title_menubar": "Tweeter rapidement depuis votre barre des menus, sans aucune distractions.",
+        "log_in_button": "Se connecter avec Twitter",
+        "quit_button": "Quitter Tweet Tray"
+    },
+    "authorization_code": {
+        "title": "Veuillez entrer le code PIN à sept chiffres qui s'affiche dans la fenêtre popup.",
+        "authorize_button": "Autoriser mon compte",
+        "return_button": "Retourner"
+    },
+    "authorization_error": {
+        "title": "Désolé. Un problème est survenu!",
+        "description": "L'autorisation de votre compte a échoué."
+    },
+    "composer": {
+        "title": "Écrire un nouveau Tweet",
+        "placeholder": "Quoi de neuf?",
+        "settings_alt_text": "Afficher les Paramètres",
+        "image_alt_text": "Ajouter un photo",
+        "tweet_button": "Tweeter"
+    },
+    "image_dialog": {
+        "title": "Choisir un Photo",
+        "add_button": "Ajouter",
+        "file_type": "Photo",
+        "warning_title": "Erreur",
+        "warning_message": "Erreur. ",
+        "warning_detail_images": "Votre image doit faire moins de 5 Mo.",
+        "warning_detail_gif": "Votre GIF doit faire moins de 10 Mo.",
+        "warning_confirm_button": "OK"
+    },
+    "settings": {
+        "title": "Paramètres",
+        "night_mode_action": "Mode Nuit",
+        "launch_start_up_action": "Lancer au Démarrage",
+        "read_faq_action": "FAQ",
+        "report_issue_action": "Signaler un Problème",
+        "quit_action": "Quitter Tweet Tray",
+        "log_out_action": "Se Dèconnecter"
+    }
+}

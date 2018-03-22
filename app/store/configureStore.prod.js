@@ -22,7 +22,7 @@ const configureStore = (initialState) => {
 
   // Apply Middleware & Compose Enhancers
   enhancers.push(applyMiddleware(...middleware));
-  enhancers.push(persistState(['accessTokenPair', 'userCredentials', 'colorTheme', ]));
+  enhancers.push(persistState(['accessTokenPair', 'profileImageURL', 'profileLinkColor', 'theme', 'launchOnStartUp', ]));
   const enhancer = compose(...enhancers);
 
   // Create Store

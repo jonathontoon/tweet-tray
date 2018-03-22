@@ -1,47 +1,36 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
 import Styled from 'styled-components';
-import Theme from 'styled-theming';
-
-import ListViewItem from './ListViewItem';
 
 import * as constants from '../constants';
 
 const ListViewStyle = Styled.div`
-    overflow: hidden;
-    position: absolute;
-    left: 0px;
-    bottom: 0px;
-    min-width: 100%;
-    height: auto;
-    border-top-left-radius: 3px;
-    border-top-right-radius: 3px;
-    background-color: ${Theme('mode', { day: constants.WHITE, night: constants.DARK_MODE_FOREGROUND, })};
-    box-shadow: 0px -1px 25px rgba(0,0,0,0.1);
+  overflow: hidden;
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  min-width: 100%;
+  height: auto;
+  background-color: ${(props) => {
+    return props.theme === 'day' ? constants.LIGHT_GREY : constants.DARK_MODE_BACKGROUND;
+  }}
 `;
 
 const ListView = (props) => {
-  const { dataSource, } = props;
+  const { children, theme, } = props;
   return (
-    <ListViewStyle>
-      {dataSource.map((item) => {
-          return (
-            <ListViewItem
-              key={item.title}
-              title={item.title}
-              action={item.action}
-              type={item.type}
-              right={item.right}
-            />
-          );
-        })}
+    <ListViewStyle theme={theme}>
+      {children}
     </ListViewStyle>
   );
 };
 
 ListView.propTypes = {
-  dataSource: PropTypes.array.isRequired,
+  theme: PropTypes.string,
+};
+
+ListView.defaultProps = {
+  theme: 'day',
 };
 
 export default ListView;

@@ -1,0 +1,51 @@
+{
+    "post_status_success": {
+        "title": "트윗이 게시되었습니다!",
+        "description": "트윗을 보려면 여기를 클릭하십시오."
+    },
+    "post_status_error": {
+        "title": "죄송합니다. 오류가 발생했습니다!",
+        "description": "트윗을 보내지 못했습니다."
+    },
+    "login": {
+        "title_taskbar": "간편하고 빠르게 데스크톱 작업 표시줄에서 트윗을 보내세요.",
+        "title_menubar": "간편하고 빠르게 데스크톱 메뉴바에서 트윗을 보내세요.",
+        "log_in_button": "트위터로 로그인",
+        "quit_button": "트위트 트레이 종료하기"
+    },
+    "authorization_code": {
+        "title": "팝업 창에 표시된 7자리 PIN을 입력하여 승인을 완료하십시오.",
+        "authorize_button": "회원님의 계정 승인하기",
+        "return_button": "로그인 화면으로 돌아가기"
+    },
+    "authorization_error": {
+        "title": "죄송합니다. 오류가 발생했습니다!",
+        "description": "회원님의 계정이 승인되지 않았습니다."
+    },
+    "composer": {
+        "title": "트윗 작성",
+        "placeholder": "무슨 일이 일어나고 있나요?",
+        "settings_alt_text": "설정 열기",
+        "image_alt_text": "사진 추가하기",
+        "tweet_button": "트윗하기"
+    },
+    "image_dialog": {
+        "title": "사진 선택하기",
+        "add_button": "추가",
+        "file_type": "사진",
+        "warning_title": "주의",
+        "warning_message": "죄송합니다, 이 작업을 수행할 권한이 없습니다.",
+        "warning_detail_images": "사진 파일의 용량은 5MB 미만이어야 합니다.",
+        "warning_detail_gif": "GIF 파일의 용량은 10MB 미만이어야 합니다.",
+        "warning_confirm_button": "네"
+    },
+    "settings": {
+        "title": "설정",
+        "night_mode_action": "취침 모드",
+        "launch_start_up_action": "시스템 시작 시 실행",
+        "read_faq_action": "FAQ 읽기",
+        "report_issue_action": "문제 보고하기",
+        "quit_action": "트위트 트레이 종료하기",
+        "log_out_action": "로그아웃"
+    }
+}

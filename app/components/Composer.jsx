@@ -1,12 +1,9 @@
-import React, { Component, Fragment, } from 'react';
+import React, { Component, } from 'react';
 import PropTypes from 'prop-types';
 import Styled from 'styled-components';
-import Theme from 'styled-theming';
-
-import Notifier from '../utils/Notifier';
+import { connect, } from 'react-redux';
 
 import Header from './Header';
-import SettingsContainer from '../containers/SettingsContainer';
 import InnerContent from './InnerContent';
 import UserProfilePhoto from './UserProfilePhoto';
 import IconButton from './IconButton';
@@ -17,190 +14,246 @@ import Footer from './Footer';
 
 import * as constants from '../constants';
 
-import SettingsIcon from '../../resources/settings.svg';
-import PhotoIcon from '../../resources/photo.svg';
-import NotificationIcon from '../../resources/notification.jpg';
+import SystemNotification from '../utils/SystemNotification';
+import ImageDialog from '../utils/ImageDialog';
 
-const { ipcRenderer, shell, } = window.require('electron');
+import Utilities from '../containers/Utilities';
 
 const ComposerStyle = Styled.section`
   overflow: hidden;
   user-select: none;
   width: 100%;
   height: 100%;
-  background-color: ${Theme('mode', { day: constants.WHITE, night: constants.DARK_MODE_BACKGROUND, })};
+  background-color: ${(props) => {
+    return props.theme === 'day' ? constants.WHITE : constants.DARK_MODE_BACKGROUND;
+  }};
   position: relative;
 `;
 
 class Composer extends Component {
   static propTypes = {
-    weightedStatus: PropTypes.object,
+    theme: PropTypes.string.isRequired,
+    weightedStatus: PropTypes.object.isRequired,
+    statusImage: PropTypes.object,
+    profileImageURL: PropTypes.string,
+    profileLinkColor: PropTypes.string.isRequired,
     accessTokenPair: PropTypes.object,
-    onToggleSettingsVisibility: PropTypes.func.isRequired,
     onUpdateWeightedStatus: PropTypes.func.isRequired,
+    onSetStatusImage: PropTypes.func.isRequired,
+    renderProcess: PropTypes.object.isRequired,
+    shell: PropTypes.object.isRequired,
+    localeManager: PropTypes.object.isRequired,
   };
 
   static defaultProps = {
-    weightedStatus: null,
+    statusImage: null,
+    profileImageURL: null,
     accessTokenPair: null,
+  };
+
+  static contextTypes = {
+    router: PropTypes.object,
   };
 
   constructor(props) {
     super(props);
-    this.state = {
-      image: null,
-    };
 
-    this._addImage = this._addImage.bind(this);
-    this._removeImage = this._removeImage.bind(this);
-    this._postStatus = this._postStatus.bind(this);
+    this.addImage = this.addImage.bind(this);
+    this.removeImage = this.removeImage.bind(this);
+    this.startPostStatus = this.startPostStatus.bind(this);
+    this.goToSettings = this.goToSettings.bind(this);
   }
 
   componentDidMount() {
-    ipcRenderer.on('addImageComplete', (event, response) => {
-      this._addImage(response);
+    const {
+      renderProcess,
+      shell,
+      localeManager,
+    } = this.props;
+
+    renderProcess.on('uploadError', () => {
+      SystemNotification(
+        localeManager.post_status_error.title,
+        localeManager.post_status_error.description,
+        false,
+      );
     });
 
-    ipcRenderer.on('addGIFComplete', (event, response) => {
-      this._addImage(response);
+    renderProcess.on('postStatusError', () => {
+      SystemNotification(
+        localeManager.post_status_error.title,
+        localeManager.post_status_error.description,
+        false,
+      );
     });
 
-    ipcRenderer.on('postStatusError', (event, response) => {
-      if (response.length > 0) {
-        const parsedResponse = JSON.parse(response);
-        Notifier('Oops, an error occured!', parsedResponse.errors[0].message, false, NotificationIcon, null);
-      } else {
-        Notifier('Oops, an unknown error occured!', 'Sorry but your tweet wasn\'t sent', false, NotificationIcon, null);
-      }
+    renderProcess.on('postStatusComplete', (event, response) => {
+      const { id_str, user, } = response; /* eslint camelcase: 0 */
+
+      SystemNotification(
+        localeManager.post_status_success.title,
+        localeManager.post_status_success.description,
+        false,
+        () => {
+          shell.openExternal(`https://twitter.com/${user.screen_name}/status/${id_str}`);
+        }
+      );
     });
 
-    ipcRenderer.on('postStatusComplete', (event, response) => {
-      Notifier('Your Tweet was posted!', 'Click here to view it', false, NotificationIcon, () => {
-        shell.openExternal(`https://twitter.com/${response.user.screen_name}/status/${response.id_str}`);
-      });
-    });
-
-    ipcRenderer.on('send-tweet-shortcut', () => {
-      this._postStatus();
+    renderProcess.on('startPostStatusShortcut', () => {
+      this.startPostStatus();
     });
   }
 
-  _addImage(newImage) {
-    if (newImage !== null) {
-      this.setState({
-        image: newImage,
-      });
+  componentWillUnmount() {
+    const { renderProcess, } = this.props;
+    renderProcess.removeAllListeners(['uploadError', 'postStatusError', 'postStatusComplete', 'startPostStatusShortcut', ]);
+  }
+
+  addImage(e) {
+    const { onSetStatusImage, } = this.props;
+    if (e) {
+      e.preventDefault();
     }
-  }
-
-  _removeImage() {
-    this.setState({
-      image: null,
+    ImageDialog((newImage) => {
+      onSetStatusImage(newImage);
     });
   }
 
-  _postStatus(e) {
+  removeImage() {
+    const { onSetStatusImage, } = this.props;
+    onSetStatusImage(null);
+  }
+
+  startPostStatus(e) {
+    console.log('postStatus');
+
+    const {
+      renderProcess,
+      accessTokenPair,
+      weightedStatus,
+      statusImage,
+      onUpdateWeightedStatus,
+      onSetStatusImage,
+    } = this.props;
+
     if (e) {
       e.preventDefault();
     }
 
-    const { image, } = this.state;
-    const { accessTokenPair, weightedStatus, } = this.props;
-
-    const statusText = weightedStatus === null ? '' : weightedStatus.text;
-    const imageData = image ? image.data : null;
-
-    const statusData = {
+    renderProcess.send('postStatus', {
       accessTokenPair,
-      statusText,
-      imageData,
-    };
-
-    this.setState({
-      image: null,
+      statusText: weightedStatus.text,
+      imageData: statusImage ? statusImage.data : null,
     });
-    this.props.onUpdateWeightedStatus(null);
-    this._composerForm.reset();
-    ipcRenderer.send('postStatus', statusData);
-    this.forceUpdate();
+
+    onSetStatusImage(null);
+    onUpdateWeightedStatus({
+      text: '',
+      weightedLength: 0,
+      permillage: 0,
+      valid: true,
+      displayRangeStart: 0,
+      displayRangeEnd: 0,
+      validDisplayRangeStart: 0,
+      validDisplayRangeEnd: 0,
+    });
+  }
+
+  goToSettings() {
+    this.context.router.history.replace('/settings');
   }
 
   render() {
-    const { image, } = this.state;
-    const { weightedStatus, onToggleSettingsVisibility, } = this.props;
+    const {
+      theme,
+      profileImageURL,
+      profileLinkColor,
+      weightedStatus,
+      statusImage,
+      onUpdateWeightedStatus,
+      localeManager,
+    } = this.props;
 
-    const imageDataSource = image !== null ? [image, ] : null;
+    const imageDataSource = statusImage !== null ? [statusImage, ] : null;
 
     return (
-      <ComposerStyle>
+      <ComposerStyle
+        theme={theme}
+      >
         <Header
-          title="Compose Tweet"
-          right={
+          theme={theme}
+          title={
+            localeManager.composer.title
+          }
+          rightView={
             <IconButton
-              iconSrc={SettingsIcon}
-              altText="Open Settings"
-              onClick={() => {
-                onToggleSettingsVisibility(true);
-              }}
+              theme={theme}
+              icon="settings"
+              color={profileLinkColor}
+              onClick={this.goToSettings}
             />
           }
         />
-        <form
-          onSubmit={this._postStatus}
+        <InnerContent
+          theme={theme}
           style={{
-            display: 'inline',
-          }}
-          ref={(el) => {
-            this._composerForm = el;
+            position: 'relative',
+            top: '48px',
+            left: '0px',
+            minHeight: '180px',
+            height: 'calc(100% - 132px)',
           }}
         >
-          <InnerContent
-            style={{
-              position: 'relative',
-              top: '51px',
-              left: '0px',
-              minHeight: '180px',
-              height: 'calc(100% - 136px)',
-            }}
-          >
-            <UserProfilePhoto />
-            <StatusInput />
-            <MediaListView
-              dataSource={imageDataSource}
-              onRemoveImage={() => {
-                this._removeImage();
-              }}
-            />
-          </InnerContent>
-          <Footer
-            left={
-              <Fragment>
-                <IconButton
-                  disabled={image !== null}
-                  iconSrc={PhotoIcon}
-                  altText="Add Photo"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    ipcRenderer.send('addImage');
-                  }}
-                />
-              </Fragment>
-            }
-            right={
-              <RoundedButton
-                disabled={weightedStatus === null && image === null}
-                title="Tweet"
-                fullWidth={false}
-                type="submit"
-              />
-            }
+          <UserProfilePhoto
+            theme={theme}
+            profilePhotoURL={profileImageURL}
+            arcColor={profileLinkColor}
+            weightedTextAmount={weightedStatus.permillage}
           />
-        </form>
-        <SettingsContainer />
+          <StatusInput
+            theme={theme}
+            placeholder={localeManager.composer.placeholder}
+            weightedStatusText={weightedStatus.text}
+            updateWeightedStatus={onUpdateWeightedStatus}
+          />
+          <MediaListView
+            dataSource={imageDataSource}
+            onRemoveImage={this.removeImage}
+          />
+        </InnerContent>
+        <Footer
+          theme={theme}
+          leftView={
+            <IconButton
+              theme={theme}
+              disabled={imageDataSource !== null}
+              icon="photo"
+              color={profileLinkColor}
+              onClick={this.addImage}
+            />
+          }
+          rightView={
+            <RoundedButton
+              theme={theme}
+              disabled={weightedStatus.weightedLength === 0 && imageDataSource === null}
+              title={localeManager.composer.tweet_button}
+              color={profileLinkColor}
+              fullWidth={false}
+              type="submit"
+              onClick={this.startPostStatus}
+            />
+            }
+        />
       </ComposerStyle>
     );
   }
 }
 
-export default Composer;
+const mapStateToProps = (store) => {
+  return {
+    theme: store.theme,
+  };
+};
 
+export default connect(mapStateToProps, null)(Utilities(Composer));
