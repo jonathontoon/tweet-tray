@@ -1,5 +1,6 @@
 import LocalizedStrings from 'react-localization';
 
+import english from '../localizations/en.json';
 import englishAU from '../localizations/en-AU.json';
 import englishCA from '../localizations/en-CA.json';
 import englishGB from '../localizations/en-GB.json';
@@ -26,10 +27,13 @@ import frenchFR from '../localizations/fr-FR.json';
 
 import japanese from '../localizations/ja.json';
 
+import dutch from '../localizations/nl.json';
+
 
 class LocaleManager {
   constructor() {
     return new LocalizedStrings({
+      en: english,
       'en-AU': englishAU,
       'en-CA': englishCA,
       'en-GB': englishGB,
@@ -46,6 +50,7 @@ class LocaleManager {
       'fr-FR': frenchFR,
       ko: korean,
       sv: swedish,
+      nl: dutch,
       zh: chinese,
       'zh-CN': chineseCN,
       'zh-TW': chineseTW,
