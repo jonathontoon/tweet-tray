@@ -4,7 +4,7 @@ import * as testData from '../testData';
 
 describe('launchOnStartUp reducer', () => {
   it('should handle initial state', () => {
-    expect(launchOnStartUp(undefined, {})).toEqual(true);
+    expect(launchOnStartUp(undefined, {})).toEqual(false);
   });
 
   it('should handle TOGGLE_LAUNCH_ON_START_UP', () => {
