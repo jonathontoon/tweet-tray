@@ -1,5 +1,6 @@
 import LocalizedStrings from 'react-localization';
 
+import english from '../localizations/en.json';
 import englishAU from '../localizations/en-AU.json';
 import englishCA from '../localizations/en-CA.json';
 import englishGB from '../localizations/en-GB.json';
@@ -32,6 +33,7 @@ import dutch from '../localizations/nl.json';
 class LocaleManager {
   constructor() {
     return new LocalizedStrings({
+      en: english,
       'en-AU': englishAU,
       'en-CA': englishCA,
       'en-GB': englishGB,
