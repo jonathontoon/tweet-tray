@@ -166,7 +166,7 @@ const Settings = (props, context) => {
           </ListViewSection>
         </ListView>
         <AppVersionStyle>
-          Version {app.getVersion()}
+          {app.getVersion()}
         </AppVersionStyle>
       </InnerContent>
     </SettingsStyle>
