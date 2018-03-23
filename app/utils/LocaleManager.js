@@ -26,6 +26,8 @@ import frenchFR from '../localizations/fr-FR.json';
 
 import japanese from '../localizations/ja.json';
 
+import dutch from '../localizations/nl.json';
+
 
 class LocaleManager {
   constructor() {
@@ -46,6 +48,7 @@ class LocaleManager {
       'fr-FR': frenchFR,
       ko: korean,
       sv: swedish,
+      nl: dutch,
       zh: chinese,
       'zh-CN': chineseCN,
       'zh-TW': chineseTW,
