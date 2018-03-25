@@ -1,7 +1,8 @@
 
 # Tweet Tray 🐦
 
-[![CircleCI](https://img.shields.io/circleci/project/github/jonathontoon/tweet-tray.svg)](https://circleci.com/gh/jonathontoon/tweet-tray) [![Github Releases](https://img.shields.io/github/downloads/jonathontoon/tweet-tray/total.svg)](https://github.com/jonathontoon/tweet-tray/releases)
+[![CircleCI](https://img.shields.io/circleci/project/github/jonathontoon/tweet-tray.svg)](https://circleci.com/gh/jonathontoon/tweet-tray) [![Github Downloads](https://img.shields.io/github/downloads/jonathontoon/tweet-tray/total.svg)](https://github.com/jonathontoon/tweet-tray/releases)
+![GitHub Release](https://img.shields.io/github/release/qubyte/rubidium.svg)
 [![Project License](https://img.shields.io/github/license/jonathontoon/tweet-tray.svg)](https://github.com/jonathontoon/tweet-tray/blob/master/LICENSE.md)
 
 ### Table of Contents
