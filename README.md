@@ -1,7 +1,8 @@
 
 # Tweet Tray 🐦
 
-[![CircleCI](https://img.shields.io/circleci/project/github/jonathontoon/tweet-tray.svg)](https://circleci.com/gh/jonathontoon/tweet-tray) [![Github Releases](https://img.shields.io/github/downloads/jonathontoon/tweet-tray/total.svg)](https://github.com/jonathontoon/tweet-tray/releases)
+[![CircleCI](https://img.shields.io/circleci/project/github/jonathontoon/tweet-tray.svg)](https://circleci.com/gh/jonathontoon/tweet-tray) [![Github Downloads](https://img.shields.io/github/downloads/jonathontoon/tweet-tray/total.svg)](https://github.com/jonathontoon/tweet-tray/releases)
+![GitHub Release](https://img.shields.io/github/release/jonathontoon/tweet-tray.svg)
 [![Project License](https://img.shields.io/github/license/jonathontoon/tweet-tray.svg)](https://github.com/jonathontoon/tweet-tray/blob/master/LICENSE.md)
 
 ### Table of Contents
@@ -14,16 +15,16 @@
 - [Acknowledgements](#acknowledgements)
 
 ## Introduction
-<img alt="OSX Day" src="https://i.imgur.com/rL4jWFz.png" width="320"/>    <img alt="Windows Day" src="https://i.imgur.com/WWluLuq.png" width="320"/>
+<img alt="OSX Day" src="https://i.imgur.com/yIoD4Ss.png" width="320"/>    <img alt="Windows Day" src="https://i.imgur.com/6In36B7.png" width="320"/>
 
 Tweet Tray is a small application which allows you to tweet from your desktop system tray or status bar, without any further distractions. The core technology used consists of [Electron](https://github.com/electron/electron), [React](https://github.com/facebook/react) + [Redux](https://github.com/reactjs/redux) and [Styled Components](https://github.com/styled-components/styled-components). All transpiled from ES6 Javascript.
 
 ## Downloads
 
-#### 🍎 [MacOS](https://github.com/jonathontoon/tweet-tray/releases/download/v1.0.3/tweet-tray-v103.dmg) 
-#### 🏨 [Windows](https://github.com/jonathontoon/tweet-tray/releases/download/v1.0.3/tweet-tray-v103.exe)
-#### 🐧 [Linux (AppImage)](https://github.com/jonathontoon/tweet-tray/releases/download/v1.0.3/tweet-tray-v103.AppImage) 
-#### 🐧 [Linux (DEB File)](https://github.com/jonathontoon/tweet-tray/releases/download/v1.0.3/tweet-tray-v103.deb)
+#### 🍎 [MacOS](https://github.com/jonathontoon/tweet-tray/releases/download/v1.1.0/tweet-tray-1.1.0.dmg) 
+#### 🏨 [Windows](https://github.com/jonathontoon/tweet-tray/releases/download/v1.1.0/tweet-tray-1.1.0.exe)
+#### 🐧 [Linux (AppImage)](https://github.com/jonathontoon/tweet-tray/releases/download/v1.1.0/tweet-tray-1.1.0.AppImage) 
+#### 🐧 [Linux (DEB File)](https://github.com/jonathontoon/tweet-tray/releases/download/v1.1.0/tweet-tray-1.1.0.deb)
 
 See [releases](https://github.com/jonathontoon/tweet-tray/releases) for more information.
 
