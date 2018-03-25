@@ -1,5 +1,22 @@
 # Change Log
 
+## [v1.1.0](https://github.com/jonathontoon/tweet-tray/releases/tag/v1.1.0)
+
+It's been awhile since our last release, but hopefully this one is well worth it. Along with a number of small features and improvements we now have support for 7 languages!
+
+- Fix global shortcut issue interfering with other applications (#121)
+- Add option to launch app on OS launch (#111)
+- Fix Linux bug for window positioning (#107)
+- Separate out composer window logic (#105)
+- Use profile color from API to tint Tweet Tray (#102)
+- Fix window positioning on OSX and Windows (#90, #82)
+- Add support for 7 languages (#30) (Thanks to @riotherio, @aauldy, @harleo, @juanbuis and Shiping Toohey)
+- Add tests for React components (#9)
+- Redesigned Settings view
+- Added current application version number to Settings view
+- Add CircleCI and Github badges to README.md
+- Added support for Tweet Tray to [Homebrew Cask](https://caskroom.github.io/) (#86) (Thanks @riotherio!)
+
 ## [v1.0.3](https://github.com/jonathontoon/tweet-tray/releases/tag/v1.0.3)
 
 Includes a number of bug fixes, keyboard shortcuts and a great new icon thanks to @riotherio.
