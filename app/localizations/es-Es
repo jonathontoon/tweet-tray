@@ -1,0 +1,51 @@
+{
+    "post_status_success": {
+        "title": “Tu tweet se ha publicado!”,
+        "description": “Clica aquí para verlo.“
+    },
+    "post_status_error": {
+        "title": “Lo siento, un error ha ocurrido!“,
+        "description": “Tu tweet no se pudo enviar.”
+    },
+    "login": {
+        "title_taskbar": “Envía tweets rápido desde la barra de menus, sin distracciones.“,
+        "title_menubar": "Envía tweets rápido desde la barra de menus, sin distracciones.",
+        "log_in_button": “Iniciar sesión con Twitter",
+        "quit_button": “Salir de Tweet Tray"
+    },
+    "authorization_code": {
+        "title": “Entra los 7 dígitos del PIN de autorización que se muestra en la ventana emergente.”,
+        "authorize_button": “Autoriza my Cuenta”,
+        "return_button": “Volver a iniciar sesión“
+    },
+    "authorization_error": {
+        "title": "Lo siento, un error ha ocurrido!",
+        "description": “Tu cuenta no ha podido ser autorizada.”
+    },
+    "composer": {
+        "title": “Compón Tweet",
+        "placeholder": “¿Qué está pasando?”,
+        "settings_alt_text": “Abrir configuración“,
+        "image_alt_text": “Añadir una imagen”,
+        "tweet_button": “Twittear”
+    },
+    "image_dialog": {
+        "title": “Seleccionar una imagen“,
+        "add_button": “Añadir”,
+        "file_type": “Imagenes”,
+        "warning_title": “Atención”,
+        "warning_message": “Lo siento, no puedes hacer esto“,
+        "warning_detail_images": “Las imágenes tienen que ser menores de 5mb.",
+        "warning_detail_gif": “Los GIFs tienen que ser menores de 10mb.",
+        "warning_confirm_button": "OK"
+    },
+    "settings": {
+        "title": “Configuración”,
+        "night_mode_action": “Modo nocturno“,
+        "launch_start_up_action": “Ejecutar al iniciar”,
+        "read_faq_action": “Lee FAQ",
+        "report_issue_action": "Reportar un fallo“,
+        "quit_action": “Salir de Tweet Tray",
+        "log_out_action": “Cerrar sesión”
+    }
+}
