@@ -4,6 +4,8 @@ import { app, BrowserWindow, Tray, screen, nativeImage, Menu, globalShortcut, } 
 
 import { SelectionMenu, InputMenu, ApplicationMenu, } from './utils/Menu';
 
+import * as constants from './constants';
+
 class MenuBarManager {
   constructor() {
     this.window = null;
@@ -56,8 +58,8 @@ class MenuBarManager {
 
   _createWindow() {
     this.window = new BrowserWindow({
-      width: 348,
-      height: 520,
+      width: constants.WINDOW_WIDTH,
+      height: constants.WINDOW_HEIGHT,
       resizable: false,
       frame: false,
       show: false,
@@ -152,7 +154,7 @@ class MenuBarManager {
       // Vertical or Horizontal Taskbar
 
       // Vertical Taskbar, small icon mode isn't applicable
-      if (trayBounds.height === 32) {
+      if (trayBounds.height === 32 || trayBounds.height === 33) {
         if (trayBounds.x <= halfScreenWidth && trayBounds.y >= halfScreenHeight) {
           // Vertical Left Bottom
 
@@ -169,7 +171,7 @@ class MenuBarManager {
 
         // Horizontal Taskbar
         // Supporting small or regular sized icons
-      } else if (trayBounds.height === 30 || trayBounds.height === 40) {
+      } else if (trayBounds.height === 30 || trayBounds.height === 31 || trayBounds.height === 40) {
         // Is bottom or top
         if (trayBounds.x >= halfScreenWidth && trayBounds.y >= halfScreenHeight) {
           // Horizontal Bottom Left
