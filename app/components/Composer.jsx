@@ -126,8 +126,6 @@ class Composer extends Component {
   }
 
   startPostStatus(e) {
-    console.log('postStatus');
-
     const {
       renderProcess,
       accessTokenPair,

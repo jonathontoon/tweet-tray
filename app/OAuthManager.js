@@ -4,6 +4,8 @@ import electron, { BrowserWindow, nativeImage, } from 'electron';
 
 import { selectionMenu, inputMenu, } from './utils/Menu';
 
+import * as constants from './constants';
+
 class OAuthManager {
   constructor(config, mainWindow) {
     this.consumerKey = config.OAUTH_CONSUMER_KEY;
@@ -56,7 +58,7 @@ class OAuthManager {
 
     const window = new BrowserWindow({
       width: 380,
-      height: 520,
+      height: constants.WINDOW_HEIGHT,
       x,
       y,
       show: false,
@@ -84,6 +86,7 @@ class OAuthManager {
       this.isOAuthActive = false;
       window == null;
     });
+
     return window;
   }
 

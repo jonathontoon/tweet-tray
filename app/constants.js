@@ -1,3 +1,5 @@
+export const WINDOW_WIDTH = 348;
+export const WINDOW_HEIGHT = 520;
 export const XTRA_LARGE_FONT_SIZE = process.platform === 'darwin' ? 24 : 22;
 export const LARGE_FONT_SIZE = 16;
 export const REGULAR_FONT_SIZE = 15;
