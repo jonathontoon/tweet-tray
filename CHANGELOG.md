@@ -1,5 +1,12 @@
 # Change Log
 
+## [v1.1.1](https://github.com/jonathontoon/tweet-tray/releases/tag/v1.1.1)
+
+A few quick improvements
+
+- Fix an null error for window positioning at specific screen scales (#156)
+- Added support for Spanish (#158) (Thanks @nil!)
+
 ## [v1.1.0](https://github.com/jonathontoon/tweet-tray/releases/tag/v1.1.0)
 
 It's been awhile since our last release, but hopefully this one is well worth it. Along with a number of small features and improvements we now have support for 7 languages!
