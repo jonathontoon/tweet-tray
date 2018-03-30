@@ -57,7 +57,7 @@ class OAuthManager {
     const y = screenBounds.y + ((screenBounds.height - 580) / 2);
 
     const window = new BrowserWindow({
-      width: constants.WINDOW_WIDTH,
+      width: 380,
       height: constants.WINDOW_HEIGHT,
       x,
       y,
