@@ -4,7 +4,7 @@
 
 A few quick improvements
 
-- Fix an null error for window positioning at specific screen scales (#156)
+- Fix a null error for window positioning at specific screen scales (#156)
 - Added support for Spanish (#158) (Thanks @nil!)
 
 ## [v1.1.0](https://github.com/jonathontoon/tweet-tray/releases/tag/v1.1.0)
