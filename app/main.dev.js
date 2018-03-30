@@ -170,8 +170,6 @@ ipcMain.on('postStatus', (postStatusEvent, response) => {
         media_ids: uploadResponse.media_id_string,
       }, accessToken, accessTokenSecret, (updateStatusError, statusResponse) => {
         if (updateStatusError) {
-          console.log('with image');
-          console.log(updateStatusError);
           postStatusEvent.sender.send('postStatusError', statusResponse);
           return;
         }
@@ -183,8 +181,6 @@ ipcMain.on('postStatus', (postStatusEvent, response) => {
       status: response.statusText,
     }, accessToken, accessTokenSecret, (updateStatusError, statusResponse) => {
       if (updateStatusError) {
-        console.log('no image');
-        console.log(updateStatusError);
         postStatusEvent.sender.send('postStatusError', statusResponse);
         return;
       }
