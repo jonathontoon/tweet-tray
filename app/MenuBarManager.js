@@ -184,7 +184,7 @@ class MenuBarManager {
 
           trayPosition = 'trayCenter';
           windowPosition = this._windowPositioner.calculate(trayPosition, trayBounds);
-          positionToSet = { x: windowPosition.x, y: windowPosition.y + 11, };
+          positionToSet = { x: windowPosition.x, y: windowPosition.y + 8, };
         }
       }
 
