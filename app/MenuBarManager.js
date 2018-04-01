@@ -116,6 +116,18 @@ class MenuBarManager {
     this._tray = new Tray(MenuBarManager._getTrayIcon());
     this._tray.setToolTip(`Tweet Tray ${app.getVersion()}`);
 
+    if (process.platform === 'linux') {
+      const contextMenu = Menu.buildFromTemplate([
+        {
+          label: 'Compose Tweet',
+          click: () => {
+            this.showWindow();
+          },
+        },
+      ]);
+
+      this._tray.setContextMenu(contextMenu);
+    }
 
     this._tray.on('click' || 'right-click', () => {
       if (this.window !== null && !this.window.isVisible()) {
