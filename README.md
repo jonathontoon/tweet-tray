@@ -9,6 +9,7 @@
 
 - [Introduction](#introduction)
 - [Downloads](#downloads)
+- [Settings](#settings)
 - [Report Bugs](#report-bugs)
 - [Development](#development)
 - [Deployment](#deployment)
@@ -27,6 +28,11 @@ Tweet Tray is a small application which allows you to tweet from your desktop ta
 #### 🐧 [Linux (DEB File)](https://github.com/jonathontoon/tweet-tray/releases/download/v1.1.2/tweet-tray-1.1.2.deb)
 
 See [releases](https://github.com/jonathontoon/tweet-tray/releases) for more information.
+
+## Settings
+Some application settings can be passed via commandline arguments. For a full list, run the executable from the commandline with the  `--help` argument. 
+- `--proxy` You can configure Tweet Tray to use a HTTP [proxy server](https://en.wikipedia.org/wiki/Proxy_server), by setting the `--proxy` argument.  This takes a string value of the proxy server address and port, in the form of `--proxy address:port`.  This also supports [SOCKS5](https://en.wikipedia.org/wiki/SOCKS) by using the `socks5` protocol prefix, eg `--proxy socks5://address:port`. 
+
 
 ## Report Bugs
 Please create a Github [issue](https://github.com/jonathontoon/tweet-tray/issues) and provide as much information as possible regarding the bug, including images or error codes. To make things as uniform as possible please follow the guidelines set out in `ISSUE_TEMPLATE.md`.
