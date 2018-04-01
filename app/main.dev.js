@@ -6,11 +6,36 @@
 
 import url from 'url';
 import path from 'path';
+import yargs from 'yargs';
 import { app, ipcMain, globalShortcut, } from 'electron';
 
 import config from './Config';
 import MenuBarManager from './MenuBarManager';
 import OAuthManager from './OAuthManager';
+
+/*
+  Commandline settings
+ */
+const conf = yargs
+  .option('p', {
+    alias: 'proxy',
+    describe: 'Proxy server (address:port, socks5://address:port)',
+    type: 'string',
+  })
+  .parse(process.argv.slice(1));
+
+
+/*
+  Configure Proxy settings
+ */
+if (conf.proxy) {
+  const proxyURL = url.parse(conf.proxy);
+
+  app.commandLine.appendSwitch('proxy-server', proxyURL.href);
+  if (proxyURL.protocol === 'socks5:') {
+    app.commandLine.appendSwitch('host-resolver-rules', `MAP * ~NOTFOUND , EXCLUDE ${proxyURL.hostname}`);
+  }
+}
 
 /*
   Variables
