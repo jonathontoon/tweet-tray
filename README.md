@@ -43,8 +43,6 @@ Please create a Github [issue](https://github.com/jonathontoon/tweet-tray/issues
 
 5. After everything has been installed simply call `yarn dev` to run the development build. To run the production build you can call `yarn prestart` followed by `yarn start`.
 
-## Development
-
 For all new features or bug fixes please create an issue in the main repository first (so we can track what goes into each release) then simply submit a pull request from your own fork into the original `develop` branch. To make sure the changes are easily reviewable please repect the format set out in `PULL_REQUEST_TEMPLATE.md`.
 
 ## Deployment
