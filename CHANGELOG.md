@@ -1,5 +1,9 @@
 # Change Log
 
+## [v1.1.2](https://github.com/jonathontoon/tweet-tray/releases/tag/v1.1.2)
+
+- Set English to be the default locale (#167)
+
 ## [v1.1.1](https://github.com/jonathontoon/tweet-tray/releases/tag/v1.1.1)
 
 A few quick improvements
