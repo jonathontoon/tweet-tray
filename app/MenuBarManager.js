@@ -1,5 +1,6 @@
 import Positioner from 'electron-positioner';
 import path from 'path';
+import fs from 'fs';
 import { app, BrowserWindow, Tray, screen, nativeImage, Menu, globalShortcut, } from 'electron';
 
 import { SelectionMenu, InputMenu, ApplicationMenu, } from './utils/Menu';
@@ -116,17 +117,44 @@ class MenuBarManager {
     this._tray = new Tray(MenuBarManager._getTrayIcon());
     this._tray.setToolTip(`Tweet Tray ${app.getVersion()}`);
 
+    /*
+      On Linux, create context menu as the icon click may not work.
+     */
     if (process.platform === 'linux') {
-      const contextMenu = Menu.buildFromTemplate([
-        {
-          label: 'Compose Tweet',
-          click: () => {
-            this.showWindow();
-          },
-        },
-      ]);
+      const localDataFile = path.resolve(
+        process.env.NODE_ENV === 'production' ? app.getAppPath() : __dirname,
+        `localizations/${app.getLocale()}.json`
+      );
 
-      this._tray.setContextMenu(contextMenu);
+      // # Load localisation file
+      fs.readFile(
+        localDataFile,
+        'utf8',
+        (err, localeStringData) => {
+          if (err) {
+            console.error(err);
+          } else {
+            const localeData = JSON.parse(localeStringData);
+
+            // # Create context menu
+            const contextMenu = Menu.buildFromTemplate([
+              {
+                label: localeData.composer.title,
+                click: () => {
+                  this.showWindow();
+                },
+              },
+              { type: 'separator', },
+              {
+                label: localeData.settings.quit_action,
+                role: 'quit',
+              },
+            ]);
+
+            this._tray.setContextMenu(contextMenu);
+          }
+        }
+      );
     }
 
     this._tray.on('click' || 'right-click', () => {
