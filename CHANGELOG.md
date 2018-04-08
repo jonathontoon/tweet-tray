@@ -1,5 +1,10 @@
 # Change Log
 
+## [v1.1.3](https://github.com/jonathontoon/tweet-tray/releases/tag/v1.1.3)
+
+- Add CLI option for running the executable with a proxy (#57)
+- Add fix for Linux platforms where clicking menubar icon wouldnt display window (#172)
+
 ## [v1.1.2](https://github.com/jonathontoon/tweet-tray/releases/tag/v1.1.2)
 
 - Set English to be the default locale (#167)
