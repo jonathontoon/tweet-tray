@@ -29,6 +29,10 @@ Tweet Tray is a small application which allows you to tweet from your desktop ta
 
 See [releases](https://github.com/jonathontoon/tweet-tray/releases) for more information.
 
+## Install with Homebrew
+
+You can also do `brew cask install tweet-tray`, if [Homebrew](https://brew.sh) is installed.
+
 ## Settings
 Some application settings can be passed via commandline arguments. For a full list, run the executable from the commandline with the  `--help` argument. 
 - `--proxy` You can configure Tweet Tray to use a HTTP [proxy server](https://en.wikipedia.org/wiki/Proxy_server), by setting the `--proxy` argument.  This takes a string value of the proxy server address and port, in the form of `--proxy address:port`.  This also supports [SOCKS5](https://en.wikipedia.org/wiki/SOCKS) by using the `socks5` protocol prefix, eg `--proxy socks5://address:port`. 
