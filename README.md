@@ -9,6 +9,7 @@
 
 - [Introduction](#introduction)
 - [Downloads](#downloads)
+- [Install with Homebrew](#install-with-homebrew)
 - [Settings](#settings)
 - [Report Bugs](#report-bugs)
 - [Development](#development)
@@ -28,6 +29,10 @@ Tweet Tray is a small application which allows you to tweet from your desktop ta
 #### 🐧 [Linux (DEB File)](https://github.com/jonathontoon/tweet-tray/releases/download/v1.1.3/tweet-tray-1.1.3.deb)
 
 See [releases](https://github.com/jonathontoon/tweet-tray/releases) for more information.
+
+## Install with Homebrew
+
+You can also do `brew cask install tweet-tray`, if [Homebrew](https://brew.sh) is installed.
 
 ## Settings
 Some application settings can be passed via commandline arguments. For a full list, run the executable from the commandline with the  `--help` argument. 
