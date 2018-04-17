@@ -32,7 +32,7 @@ See [releases](https://github.com/jonathontoon/tweet-tray/releases) for more inf
 
 ## Install with Homebrew
 
-You can also do `brew cask install tweet-tray`, if [Homebrew](https://brew.sh) is installed.
+You can also install Tweet Tray with [Homebrew Cask](https://caskroom.github.io/), `brew cask install tweet-tray`.
 
 ## Settings
 Some application settings can be passed via commandline arguments. For a full list, run the executable from the commandline with the  `--help` argument. 
