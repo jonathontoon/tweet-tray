@@ -9,12 +9,12 @@
 
 - [Introduction](#introduction)
 - [Downloads](#downloads)
+- [Install with Homebrew](#install-with-homebrew)
 - [Settings](#settings)
 - [Report Bugs](#report-bugs)
 - [Development](#development)
 - [Deployment](#deployment)
 - [Acknowledgements](#acknowledgements)
-- [Install with Homebrew](#install-with-homebrew)
 
 ## Introduction
 <img alt="OSX Day" src="https://i.imgur.com/yIoD4Ss.png" width="320"/>    <img alt="Windows Day" src="https://i.imgur.com/6In36B7.png" width="320"/>
