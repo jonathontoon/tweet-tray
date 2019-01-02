@@ -192,39 +192,21 @@ class MenuBarManager {
 
     if (process.platform === 'win32') {
       // Vertical or Horizontal Taskbar
-
-      // Vertical Taskbar, small icon mode isn't applicable
-      if (trayBounds.height === 32 || trayBounds.height === 33) {
-        if (trayBounds.x <= halfScreenWidth && trayBounds.y >= halfScreenHeight) {
-          // Vertical Left Bottom
-
-          trayPosition = 'trayBottomLeft';
-          windowPosition = this._windowPositioner.calculate(trayPosition, trayBounds);
-          positionToSet = { x: windowPosition.x + 78, y: windowPosition.y - 10, };
-        } else if (trayBounds.x >= halfScreenWidth && trayBounds.y >= halfScreenHeight) {
-          // Vertical Right Bottom
-
-          trayPosition = 'trayBottomRight';
-          windowPosition = this._windowPositioner.calculate(trayPosition, trayBounds);
-          positionToSet = { x: windowPosition.x - 8, y: windowPosition.y - 10, };
-        }
-
-        // Horizontal Taskbar
-        // Supporting small or regular sized icons
-      } else if (trayBounds.height === 30 || trayBounds.height === 31 || trayBounds.height === 40) {
-        // Is bottom or top
-        if (trayBounds.x >= halfScreenWidth && trayBounds.y >= halfScreenHeight) {
-          // Horizontal Bottom Left
-
-          trayPosition = 'trayBottomCenter';
-          windowPosition = this._windowPositioner.calculate(trayPosition, trayBounds);
-          positionToSet = { x: windowPosition.x, y: windowPosition.y - 6, };
-        } else if (trayBounds.x >= halfScreenWidth && trayBounds.y === 0) {
-          // Horizontal Top Left
-
+      console.log(trayBounds, halfScreenWidth, halfScreenHeight, trayBounds.x >= halfScreenWidth, (trayBounds.y >= 30 || trayBounds.y <= 110));
+      
+      if ((trayBounds.x + trayBounds.width) <= halfScreenWidth) {
+        trayPosition = 'trayBottomLeft';
+        windowPosition = this._windowPositioner.calculate(trayPosition, trayBounds);
+        positionToSet = { x: windowPosition.x + 78, y: windowPosition.y - 10, };
+      } else if ((trayBounds.x + trayBounds.width) >= halfScreenWidth) {
+        if ((trayBounds.y + trayBounds.height) <= halfScreenHeight) {
           trayPosition = 'trayCenter';
           windowPosition = this._windowPositioner.calculate(trayPosition, trayBounds);
           positionToSet = { x: windowPosition.x, y: windowPosition.y + 8, };
+        } else if ((trayBounds.y + trayBounds.height) >= halfScreenHeight) {
+          trayPosition = 'trayBottomCenter';
+          windowPosition = this._windowPositioner.calculate(trayPosition, trayBounds);
+          positionToSet = { x: windowPosition.x, y: windowPosition.y - 6, };
         }
       }
 
