@@ -196,14 +196,12 @@ class MenuBarManager {
       // Vertical Taskbar, small icon mode isn't applicable
       if (trayBounds.height === 32 || trayBounds.height === 33) {
         if (trayBounds.x <= halfScreenWidth && trayBounds.y >= halfScreenHeight) {
-          // Vertical Left Bottom
-
+          // Vertical Left Bottom Docked
           trayPosition = 'trayBottomLeft';
           windowPosition = this._windowPositioner.calculate(trayPosition, trayBounds);
           positionToSet = { x: windowPosition.x + 78, y: windowPosition.y - 10, };
         } else if (trayBounds.x >= halfScreenWidth && trayBounds.y >= halfScreenHeight) {
-          // Vertical Right Bottom
-
+          // Vertical Right Bottom Docked
           trayPosition = 'trayBottomRight';
           windowPosition = this._windowPositioner.calculate(trayPosition, trayBounds);
           positionToSet = { x: windowPosition.x - 8, y: windowPosition.y - 10, };
@@ -214,17 +212,21 @@ class MenuBarManager {
       } else if (trayBounds.height === 30 || trayBounds.height === 31 || trayBounds.height === 40) {
         // Is bottom or top
         if (trayBounds.x >= halfScreenWidth && trayBounds.y >= halfScreenHeight) {
-          // Horizontal Bottom Left
-
+          // Horizontal Bottom Right Docked
           trayPosition = 'trayBottomCenter';
           windowPosition = this._windowPositioner.calculate(trayPosition, trayBounds);
           positionToSet = { x: windowPosition.x, y: windowPosition.y - 6, };
         } else if (trayBounds.x >= halfScreenWidth && trayBounds.y === 0) {
-          // Horizontal Top Left
-
+          // Horizontal Top Right Docked
           trayPosition = 'trayCenter';
           windowPosition = this._windowPositioner.calculate(trayPosition, trayBounds);
           positionToSet = { x: windowPosition.x, y: windowPosition.y + 8, };
+        } else if (trayBounds.x >= halfScreenWidth && (trayBounds.y >= 30 || trayBounds.y <= 110)) {
+          // Horizontal Top Left Hidden
+
+          trayPosition = 'trayCenter';
+          windowPosition = this._windowPositioner.calculate(trayPosition, trayBounds);
+          positionToSet = { x: windowPosition.x - 7, y: windowPosition.y + trayBounds.y + 8, };
         }
       }
 
