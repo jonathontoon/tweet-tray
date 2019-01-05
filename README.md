@@ -61,4 +61,4 @@ To create an installable build simply call `yarn package`, which will create an 
 
 ## Acknowledgements
 
-This project is based off [electron-react-boilerplate](https://github.com/chentsulin/electron-react-boilerplate), all methodloligies still apply, except for the removal of Flow and SASS. Issue and pull request templates based on formats by [yoshuawyts](https://raw.githubusercontent.com/yoshuawuyts/templates/master/github/).
+This project is based off [electron-react-boilerplate](https://github.com/chentsulin/electron-react-boilerplate), all methodologies still apply, except for the removal of Flow and SASS. Issue and pull request templates based on formats by [yoshuawyts](https://raw.githubusercontent.com/yoshuawuyts/templates/master/github/).
