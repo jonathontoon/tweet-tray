@@ -192,8 +192,7 @@ class MenuBarManager {
 
     if (process.platform === 'win32') {
       // Vertical or Horizontal Taskbar
-      console.log(trayBounds, halfScreenWidth, halfScreenHeight, trayBounds.x >= halfScreenWidth, (trayBounds.y >= 30 || trayBounds.y <= 110));
-      
+
       if ((trayBounds.x + trayBounds.width) <= halfScreenWidth) {
         trayPosition = 'trayBottomLeft';
         windowPosition = this._windowPositioner.calculate(trayPosition, trayBounds);
