@@ -44,7 +44,7 @@
         "night_mode_action": "夜間モード",
         "launch_start_up_action": "システム起動時に開く",
         "read_faq_action": "FAQを読む",
-        "report_issue_action": "問題やハグを報告する",
+        "report_issue_action": "問題やバグを報告する",
         "quit_action": "Tweet Trayを終了",
         "log_out_action": "ログアウト"
     }
