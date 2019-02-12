@@ -1,5 +1,9 @@
 # Change Log
 
+## [v1.1.4](https://github.com/jonathontoon/tweet-tray/releases/tag/v1.1.4)
+
+- Simplify position logic on Windows.
+
 ## [v1.1.3](https://github.com/jonathontoon/tweet-tray/releases/tag/v1.1.3)
 
 - Add CLI option for running the executable with a proxy (#57)
