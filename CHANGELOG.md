@@ -1,5 +1,9 @@
 # Change Log
 
+## [v1.1.5](https://github.com/jonathontoon/tweet-tray/releases/tag/v1.1.5)
+
+- Fixed a Japanese translation for 'report_issue_action' (Thanks to @hashedhyphen!)
+
 ## [v1.1.4](https://github.com/jonathontoon/tweet-tray/releases/tag/v1.1.4)
 
 - Simplify position logic on Windows.
