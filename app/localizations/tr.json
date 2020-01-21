@@ -1,0 +1,51 @@
+{
+    "post_status_success": {
+        "title": "Tweetin gönderildi!",
+        "description": "Görüntülemek için tıkla."
+    },
+    "post_status_error": {
+        "title": "Üzgünüm, bir hata oluştu!",
+        "description": "Tweetin gönderilemedi."
+    },
+    "login": {
+        "title_taskbar": "Tweetlerini dikkatin dağılmadan masaüstü görev çubuğundan hızlıca gönder",
+        "title_menubar": "Tweetlerini dikkatin dağılmadan masaüstü görev çubuğundan hızlıca gönder",
+        "log_in_button": "Giriş yap",
+        "quit_button": "Tweet Tray'i kapat"
+    },
+    "authorization_code": {
+        "title": "Popup ekranında görünen 7 haneli yetkilendirme PIN bilgisini girin",
+        "authorize_button": "Yetkilendir",
+        "return_button": "Giriş ekranına geri dön"
+    },
+    "authorization_error": {
+        "title": "Üzgünüm, bir hata oluştu!",
+        "description": "Hesabınız yetkilendirilemedi."
+    },
+    "composer": {
+        "title": "Tweet at",
+        "placeholder": "Neler oluyor?",
+        "settings_alt_text": "Ayarlar",
+        "image_alt_text": "Görsel ekle",
+        "tweet_button": "Gönder"
+    },
+    "image_dialog": {
+        "title": "Bir görsel seç",
+        "add_button": "Ekle",
+        "file_type": "Görsel",
+        "warning_title": "Hata",
+        "warning_message": "Üzgünüm, bunu yapamazsın",
+        "warning_detail_images": "Görseller 5 mb boyutundan küçük olmalıdır",
+        "warning_detail_gif": "GIFler 10 mb boyutundan küçük olmalıdır",
+        "warning_confirm_button": "Tamam"
+    },
+    "settings": {
+        "title": "Ayarlar",
+        "night_mode_action": "Gece Mode",
+        "launch_start_up_action": "Sistem başlarken çalıştır",
+        "read_faq_action": "SSS",
+        "report_issue_action": "Hata bildir",
+        "quit_action": "Tweet Tray'i kapat",
+        "log_out_action": "Çıkış yap"
+    }
+}
