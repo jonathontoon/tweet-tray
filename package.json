@@ -175,7 +175,7 @@
     "style-loader": "^0.20.3",
     "stylefmt": "^6.0.0",
     "stylelint": "^9.1.3",
-    "stylelint-config-standard": "^18.0.0",
+    "stylelint-config-standard": "^20.0.0",
     "uglifyjs-webpack-plugin": "1.2.3",
     "url-loader": "^1.0.1",
     "webpack": "^3.10.0",
