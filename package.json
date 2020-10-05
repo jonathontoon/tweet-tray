@@ -164,7 +164,7 @@
     "fbjs-scripts": "^0.8.1",
     "file-loader": "^1.1.6",
     "identity-obj-proxy": "^3.0.0",
-    "jest": "^22.2.1",
+    "jest": "^26.5.0",
     "minimist": "^1.2.0",
     "npm-logical-tree": "^1.2.1",
     "react-test-renderer": "^16.2.0",
