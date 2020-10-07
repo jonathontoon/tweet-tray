@@ -196,7 +196,7 @@
     "react-localization": "^0.1.7",
     "react-pin-input": "^0.6.5",
     "react-redux": "^5.0.6",
-    "react-router": "^4.2.0",
+    "react-router": "^5.2.0",
     "react-router-dom": "^5.1.2",
     "react-router-redux": "^5.0.0-alpha.6",
     "react-switch": "^2.3.0",
